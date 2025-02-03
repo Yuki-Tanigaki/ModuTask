@@ -6,16 +6,21 @@ import numpy as np
 
 # モジュールの状態表現
 class ModuleState(Enum):
-    ACTIVE = (0, 'green') # 何れかのロボットの一部
-    SPARE = (1, 'limegreen') # 何れかのロボットの一部
+    ACTIVE = (0, 'green') # 使用中
+    SPARE = (1, 'limegreen') # 予備
     MALFUNCTION = (2, 'gray') # 故障中
+
+    # プロパティで色を取得
+    @property
+    def color(self):
+        return self.value[1]
 
 # ロボットの状態表現
 class RobotState(Enum):
     IDLE = (0, 'green') # 待機中
     MOVE = (1, 'blue') # 移動中
     CHARGE = (2, 'orange') # 充電中
-    READY = (3, 'pink')
+    READY = (3, 'pink') # 仕事待機
     WORK = (4, 'red') # 仕事中
     INACTIVE = (5, 'gray') # 部品不足
 
@@ -35,7 +40,8 @@ class RobotPerformanceAttributes(Enum):
 class Task:
     name: str # 名前
     coordinate: Tuple[float, float]  # タスクの座標
-    workload: Tuple[float, float]  # 仕事量[全体, 完了済み]
+    total_workload: float # 全体仕事量
+    completed_workload: float # 完了済み仕事量
     task_dependency: List["Task"]  # 依存するタスクのリスト
     required_abilities: Dict[RobotPerformanceAttributes, int] # タスクを実行するために必要な合計パフォーマンス
     other_attrs: Dict[str, Any] # 任意の追加情報
@@ -74,7 +80,7 @@ class Transport(Task):
 class Manufacture(Task):
     # 完了済み仕事量の更新: 呼び出されるたびに+1
     def update(self):
-        self.workload[1] += 1
+        self.completed_workload += 1
 
 # モジュールのタイプ
 @dataclass
