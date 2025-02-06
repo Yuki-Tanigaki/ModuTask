@@ -4,7 +4,7 @@ import copy, sys, math
 import numpy as np
 import pandas as pd
 
-from robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes
+from src.robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes
 
 prob = 0.005
 
