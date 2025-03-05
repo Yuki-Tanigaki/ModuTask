@@ -1,0 +1,34 @@
+# resultDirectory: ./results/dummy
+taskConfigFile: ./properties/test_configs/task.yaml
+moduleTypeConfigFile: ./properties/test_configs/module_type.yaml
+moduleConfigFile: ./properties/test_configs/module.yaml
+robotTypeConfigFile: ./properties/test_configs/robot_type.yaml
+robotConfigFile: ./properties/test_configs/robot.yaml
+simulation:
+  seed: 1234
+  maxSimulationStep: 50
+  batteryLimit: 10
+  chargeStation:
+    base_00: # 基地
+      name: base_00
+      coordinate: [0.0, 0.0]
+      chargingSpeed: 10
+framework:
+  totalIteration: 3
+architecture:
+  populationSize: 20
+  seed: 1234
+  totalTrials: 2000
+  maxRobot: 20
+  miminalActive: 2
+  miminalSpare: 0.1
+  objective: ['WeightedPerformance', 'TotalRedundancy', 'ModuleMovement']
+  constraint: ['ActiveRobot']
+schedule:
+  populationSize: 10
+  eliteSize: 1
+  generations: 100
+  seed: 1234
+  totalTrials: 500
+  
+  

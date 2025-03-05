@@ -1,0 +1,66 @@
+TWSH:
+  required_modules:
+    Body: 1
+    Limb: 4
+    EndE: 1
+    Wheel: 3
+  ability:
+    TRANSPORT: 3 # transport
+    MANUFACTURE: 3 # manufacture
+    MOBILITY: 3 # mobility
+  redundancy:
+TWDH:
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 2
+    Wheel: 3
+  ability:
+    TRANSPORT: 3 # transport
+    MANUFACTURE: 5 # manufacture
+    MOBILITY: 3 # mobility
+  redundancy:
+QWSH:
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 1
+    Wheel: 4
+  ability:
+    TRANSPORT: 4 # transport
+    MANUFACTURE: 3 # manufacture
+    MOBILITY: 3 # mobility
+  redundancy:
+QWDH:
+  required_modules:
+    Body: 1
+    Limb: 6
+    EndE: 2
+    Wheel: 4
+  ability:
+    TRANSPORT: 4 # transport
+    MANUFACTURE: 5 # manufacture
+    MOBILITY: 3 # mobility
+  redundancy:
+Dragon:
+  required_modules:
+    Body: 0
+    Limb: 2
+    EndE: 1
+    Wheel: 2
+  ability:
+    TRANSPORT: 1 # transport
+    MANUFACTURE: 3 # manufacture
+    MOBILITY: 2 # mobility
+  redundancy:
+Minimal:
+  required_modules:
+    Body: 0
+    Limb: 1
+    EndE: 1
+    Wheel: 1
+  ability:
+    TRANSPORT: 1 # transport
+    MANUFACTURE: 3 # manufacture
+    MOBILITY: 1 # mobility
+  redundancy:
