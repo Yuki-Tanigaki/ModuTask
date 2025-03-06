@@ -22,8 +22,19 @@ class TestManager(unittest.TestCase):
                     "coordinate": [0, 0],
                     "workload": [100, 0],
                     "task_dependency": [],
-                    "required_abilities": {"TRANSPORT": 10},
-                    "other_attrs": {}
+                    "required_performance": {"TRANSPORT": 10},
+                    "deployed_robot": [],
+                    "other_attrs": {"category": "Inflatable"},
+                    "origin_destination": [[0.0, 0.0], [5.0, 5.0], 0.5]
+                },
+                "task2": {
+                    "class": "Manufacture",
+                    "coordinate": [0, 0],
+                    "workload": [100, 0],
+                    "task_dependency": [],
+                    "required_performance": {"MANUFACTURE": 10},
+                    "deployed_robot": [],
+                    "other_attrs": {"category": "Inflatable"}
                 }
             },
             "module_type.yaml": {
@@ -94,6 +105,25 @@ class TestManager(unittest.TestCase):
         np.testing.assert_array_equal(robots["rob1"].coordinate, np.array([2, 2]))
         self.assertEqual(len(robots["rob1"].component), 1)
         self.assertEqual(robots["rob1"].component[0].name, "mod1")
+
+    def test_read_task(self):
+        """ `read_task` が Task インスタンスを正しく読み込むかをテスト """
+        module_types = self.manager.read_module_type()
+        robot_types = self.manager.read_robot_type(module_types)
+        modules = self.manager.read_module(module_types)
+        robots = self.manager.read_robot(robot_types, modules)
+        tasks = self.manager.read_task(robots)
+        
+        self.assertIn("task1", tasks)
+        task = tasks["task1"]
+
+        self.assertIsInstance(task, Transport)
+        self.assertEqual(task.name, "task1")
+        np.testing.assert_array_equal(task.coordinate, np.array([0, 0]))
+        self.assertEqual(task.total_workload, 100)
+        self.assertEqual(task.completed_workload, 0)
+        self.assertEqual(task.required_performance[RobotPerformanceAttributes.TRANSPORT], 10)
+        self.assertEqual(task.deployed_robot, [])
 
 if __name__ == '__main__':
     unittest.main()

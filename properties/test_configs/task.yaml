@@ -3,9 +3,10 @@ i_t_000: # インフレータブル構造物の運搬
   coordinate: [0.0, 0.0]
   workload: [10, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 12 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Inflatable
   origin_destination: [[0.0, 0.0], [5.0, 5.0], 0.5]
@@ -14,9 +15,10 @@ i_m_000: # インフレータブル構造物の展開準備
   coordinate: [5.0, 5.0]
   workload: [5, 0]
   task_dependency: [i_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 6 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Inflatable
 i_m_001: # インフレータブル構造物の展開補助
@@ -24,9 +26,10 @@ i_m_001: # インフレータブル構造物の展開補助
   coordinate: [5.0, 5.0]
   workload: [8, 0]
   task_dependency: [i_t_000, i_m_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 10 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Inflatable
 s_t_000: # 太陽光発電パネルの運搬
@@ -34,9 +37,10 @@ s_t_000: # 太陽光発電パネルの運搬
   coordinate: [0.0, 0.0]
   workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
   origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
@@ -45,9 +49,10 @@ s_t_001: # 太陽光発電パネルの運搬
   coordinate: [0.0, 0.0]
   workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
   origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
@@ -56,9 +61,10 @@ s_t_002: # 太陽光発電パネルの運搬
   coordinate: [0.0, 0.0]
   workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
   origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
@@ -67,9 +73,10 @@ s_t_003: # 太陽光発電パネルの運搬
   coordinate: [0.0, 0.0]
   workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
   origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
@@ -78,9 +85,10 @@ s_m_000: # 太陽光発電パネルの展開
   coordinate: [0.0, 5.0]
   workload: [5, 0]
   task_dependency: [s_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 s_m_001: # 太陽光発電パネルの展開
@@ -88,9 +96,10 @@ s_m_001: # 太陽光発電パネルの展開
   coordinate: [0.0, 5.0]
   workload: [5, 0]
   task_dependency: [s_t_001]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 s_m_002: # 太陽光発電パネルの展開
@@ -98,9 +107,10 @@ s_m_002: # 太陽光発電パネルの展開
   coordinate: [0.0, 5.0]
   workload: [5, 0]
   task_dependency: [s_t_002]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 s_m_003: # 太陽光発電パネルの展開
@@ -108,9 +118,10 @@ s_m_003: # 太陽光発電パネルの展開
   coordinate: [0.0, 5.0]
   workload: [5, 0]
   task_dependency: [s_t_003]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 s_m_004: # 電源ラインの設置
@@ -118,9 +129,10 @@ s_m_004: # 電源ラインの設置
   coordinate: [0.0, 5.0]
   workload: [10, 0]
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 s_m_005: # 電源ラインの設置
@@ -128,9 +140,10 @@ s_m_005: # 電源ラインの設置
   coordinate: [0.0, 5.0]
   workload: [10, 0]
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 t_t_000: # 通信設備の運搬
@@ -138,9 +151,10 @@ t_t_000: # 通信設備の運搬
   coordinate: [0.0, 0.0]
   workload: [5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 4 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Telecom
   origin_destination: [[0.0, 0.0], [-5.0, -5.0], 0.8]
@@ -149,9 +163,10 @@ t_t_001: # 通信設備の運搬
   coordinate: [0.0, 0.0]
   workload: [5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 4 # transport
     MANUFACTURE: 0 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Telecom
   origin_destination: [[0.0, 0.0], [-5.0, -5.0], 0.8]
@@ -160,9 +175,10 @@ t_m_000: # 通信設備の組み立て
   coordinate: [-5.0, -5.0]
   workload: [10, 0]
   task_dependency: [t_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar
 t_m_001: # 通信設備の組み立て
@@ -170,8 +186,9 @@ t_m_001: # 通信設備の組み立て
   coordinate: [-5.0, -5.0]
   workload: [10, 0]
   task_dependency: [t_t_001]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 8 # manufacture
+  deployed_robot: []
   other_attrs:
     category: Solar

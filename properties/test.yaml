@@ -4,6 +4,7 @@ moduleTypeConfigFile: ./properties/test_configs/module_type.yaml
 moduleConfigFile: ./properties/test_configs/module.yaml
 robotTypeConfigFile: ./properties/test_configs/robot_type.yaml
 robotConfigFile: ./properties/test_configs/robot.yaml
+
 simulation:
   seed: 1234
   maxSimulationStep: 50

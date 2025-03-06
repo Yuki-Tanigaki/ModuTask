@@ -4,7 +4,7 @@ TWSH:
     Limb: 4
     EndE: 1
     Wheel: 3
-  ability:
+  performance:
     TRANSPORT: 3 # transport
     MANUFACTURE: 3 # manufacture
     MOBILITY: 3 # mobility
@@ -15,7 +15,7 @@ TWDH:
     Limb: 5
     EndE: 2
     Wheel: 3
-  ability:
+  performance:
     TRANSPORT: 3 # transport
     MANUFACTURE: 5 # manufacture
     MOBILITY: 3 # mobility
@@ -26,7 +26,7 @@ QWSH:
     Limb: 5
     EndE: 1
     Wheel: 4
-  ability:
+  performance:
     TRANSPORT: 4 # transport
     MANUFACTURE: 3 # manufacture
     MOBILITY: 3 # mobility
@@ -37,7 +37,7 @@ QWDH:
     Limb: 6
     EndE: 2
     Wheel: 4
-  ability:
+  performance:
     TRANSPORT: 4 # transport
     MANUFACTURE: 5 # manufacture
     MOBILITY: 3 # mobility
@@ -48,7 +48,7 @@ Dragon:
     Limb: 2
     EndE: 1
     Wheel: 2
-  ability:
+  performance:
     TRANSPORT: 1 # transport
     MANUFACTURE: 3 # manufacture
     MOBILITY: 2 # mobility
@@ -59,7 +59,7 @@ Minimal:
     Limb: 1
     EndE: 1
     Wheel: 1
-  ability:
+  performance:
     TRANSPORT: 1 # transport
     MANUFACTURE: 3 # manufacture
     MOBILITY: 1 # mobility
