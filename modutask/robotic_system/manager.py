@@ -49,7 +49,7 @@ class Manager:
         self._module_config = OmegaConf.load(self._properties.moduleConfigFile) # モジュール設定を読み込む
         self._robot_config = OmegaConf.load(self._properties.robotConfigFile) # ロボット設定を読み込む
 
-    def read_task(self, robots) -> Dict[str, Task]:
+    def read_task(self) -> Dict[str, Task]:
         """
         タスク情報を読み込み、Task オブジェクトを作成する。
 
@@ -77,8 +77,8 @@ class Manager:
                 if str_to_enum(RobotPerformanceAttributes, name) is not None
             }
 
-            # 待機ロボットを取得
-            deployed_robot = [robots[robot_name] for robot_name in task_data['deployed_robot']]
+            # 待機ロボットを初期化
+            deployed_robot = []
 
             # タスククラスのインスタンスを生成
             task = task_class(
@@ -164,7 +164,7 @@ class Manager:
 
         return modules
 
-    def read_robot(self, robot_types, modules) -> Dict[str, Robot]:
+    def read_robot(self, robot_types, modules, tasks) -> Dict[str, Robot]:
         """
         ロボット情報を読み込み、Robot オブジェクトを作成する。
 
@@ -181,12 +181,14 @@ class Manager:
                 raise ValueError(f"Unknown robot category: {robot_data['robot_type']}")
 
             component = [modules[module_name] for module_name in robot_data['component']]
+            task_priority = [tasks[task_name] for task_name in robot_data['task_priority']]
 
             robots[robot_id] = Robot(
                 type=robot_type,
                 name=robot_id,
                 coordinate=np.array(tuple(robot_data['coordinate'])),
-                component=component
+                component=component,
+                task_priority=task_priority
             )
 
         return robots

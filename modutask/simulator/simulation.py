@@ -18,7 +18,7 @@ class Simulator:
         self.tasks = self.manager.read_task(self.robots)
         
         # シミュレーション設定
-        self.seed = properties.simulation.seed # シミュレーション内で使う乱数生成器用
+        self.seed = properties.simulation.seed  # シミュレーション内で使う乱数生成器用
         self.max_step = properties.simulation.maxSimulationStep # 
         self.battery_limit = properties.simulation.batteryLimit
         self.charge_station = properties.simulation.chargeStation
@@ -43,7 +43,7 @@ def main():
     args = parser.parse_args()
 
     simulator = Simulator(args.property_file)
-    simulator.run_simulation()
+    # simulator.run_simulation()
 
 if __name__ == '__main__':
     main()

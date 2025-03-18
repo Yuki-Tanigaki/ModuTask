@@ -5,120 +5,37 @@ from enum import Enum
 import math, copy
 import numpy as np
 
-# モジュールの状態表現
 class ModuleState(Enum):
     """ モジュールの状態を表す列挙型 """
-    ACTIVE = (0, 'green')  # 使用中
-    SPARE = (1, 'limegreen')  # 予備
-    MALFUNCTION = (2, 'gray')  # 故障中
+    FUNCTIONAL = (0, 'green')  # 正常
+    MALFUNCTION = (2, 'gray')  # 故障
 
     @property
     def color(self):
         """ モジュールの状態に対応する色を取得 """
         return self.value[1]
 
-# ロボットの状態表現
 class RobotState(Enum):
     """ ロボットの状態を表す列挙型 """
     IDLE = (0, 'green')  # 待機中
     MOVE = (1, 'blue')  # 移動中
     CHARGE = (2, 'orange')  # 充電中
-    DEPLOYED = (3, 'pink')  # 待機中
+    ASSIGNED = (3, 'pink')  # 配置中
     WORK = (4, 'red')  # 仕事中
-    INACTIVE = (5, 'gray')  # 部品不足
+    NO_ENERGY = (5, 'gray')  # バッテリー不足で稼働不可
+    DISABLED = (6, 'purple')  # 部品不足で稼働不可
 
     @property
     def color(self):
         """ ロボットの状態に対応する色を取得 """
         return self.value[1]
 
-# ロボットの能力カテゴリ
 class RobotPerformanceAttributes(Enum):
     """ ロボットの能力カテゴリを表す列挙型 """
     TRANSPORT = 0  # 運搬能力
     MANUFACTURE = 1  # 加工能力
     MOBILITY = 2  # 移動能力
 
-# タスクの基底クラス
-@dataclass
-class Task(ABC):
-    """ タスクを表す抽象基底クラス """
-    name: str  # タスク名
-    coordinate: Tuple[float, float]  # タスクの座標
-    total_workload: float  # タスクの総仕事量
-    completed_workload: float  # 完了済み仕事量
-    task_dependency: List["Task"]  # 依存するタスクのリスト
-    required_performance: Dict[RobotPerformanceAttributes, int]  # タスク実行に必要なロボット能力
-    deployed_robot: List["Robot"]  # タスク実行に参加しているロボット
-    other_attrs: Dict[str, Any]  # その他の属性
-
-    def check_dependencies_completed(self) -> bool:
-        """ 依存するタスクがすべて完了しているかを確認する """
-        return all(dep.completed_workload >= dep.total_workload for dep in self.task_dependency)
-
-    def check_deployed_performance(self) -> bool:
-        """ 配置されたロボットが必要なパフォーマンスを満たしているか確認 """
-        deployed_performance = {attr: 0 for attr in RobotPerformanceAttributes}
-        for robot in self.deployed_robot:
-            for attr, value in robot.type.performance.items():
-                deployed_performance[attr] += value
-
-        return all(deployed_performance[attr] >= req for attr, req in self.required_performance.items())
-
-    @abstractmethod
-    def update(self) -> float:
-        """ タスクが実行されたときの仕事量の増加を計算 """
-        pass
-
-# 運搬タスク
-@dataclass
-class Transport(Task):
-    """ 運搬タスクのクラス """
-    origin_destination: Tuple[Tuple[float, float], Tuple[float, float], float]  # (出発地点, 目的地, 移動補正値)
-
-    def _calculate_distance(self, point1: Tuple[float, float], point2: Tuple[float, float]) -> float:
-        """ 2点間の距離を計算する """
-        return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
-
-    def _travel(self, mobility: float):
-        """ ロボットの移動処理 """
-        target_coordinate = np.array(self.origin_destination[1])
-        v = target_coordinate - np.array(self.coordinate)
-        if np.linalg.norm(v) < mobility:
-            self.coordinate = copy.deepcopy(target_coordinate)
-        else:
-            self.coordinate = np.copy(self.coordinate + mobility * v / np.linalg.norm(v))
-
-    def update(self):
-        """ タスクの進捗を更新 """
-        if not self.deployed_robot or not self.check_dependencies_completed():
-            return 0.0  # 実行不可
-
-        mobility_values = [robot.type.performance.get(RobotPerformanceAttributes.MOBILITY, 0) for robot in self.deployed_robot]
-        if not mobility_values or max(mobility_values) == 0:
-            return 0.0  # 移動能力なし
-
-        min_mobility = min(mobility_values)
-        adjusted_mobility = min_mobility * self.origin_destination[2]
-        
-        before_position = np.array(self.coordinate)
-        self._travel(adjusted_mobility)
-        after_position = np.array(self.coordinate)
-
-        distance_traveled = np.linalg.norm(after_position - before_position)
-        self.completed_workload += distance_traveled
-
-# 加工タスク
-@dataclass
-class Manufacture(Task):
-    """ 加工タスクのクラス """
-    def update(self):
-        """ タスクの進捗を更新（呼び出されるごとに+1） """
-        if not self.deployed_robot or not self.check_dependencies_completed():
-            return
-        self.completed_workload += 1
-
-# モジュールのタイプ
 @dataclass
 class ModuleType:
     """ モジュールの種類 """
@@ -128,44 +45,355 @@ class ModuleType:
     def __hash__(self):
         return hash(self.name)
 
-    def __eq__(self, other):
-        return isinstance(other, ModuleType) and self.name == other.name
+    def __eq__(self, other: 'ModuleType') -> bool:
+        return self.name == other.name
 
-# モジュール
-@dataclass
-class Module:
-    """ モジュールのクラス """
-    type: ModuleType
-    name: str
-    coordinate: Tuple[float, float]
-    battery: Tuple[float, float] = field(init=False)
-    state: ModuleState = ModuleState.SPARE
-
-    def __post_init__(self):
-        """ 初期化時にバッテリーを設定 """
-        self.battery = (self.type.max_battery, self.type.max_battery)
-
-# ロボットのタイプ
 @dataclass
 class RobotType:
     """ ロボットの種類 """
-    name: str
-    required_modules: Dict[ModuleType, int]
-    performance: Dict[RobotPerformanceAttributes, int]
-    redundancy: Dict[Tuple[ModuleType, int], Dict[RobotPerformanceAttributes, int]]
+    name: str  # ロボット名
+    required_modules: Dict[ModuleType, int]  # 構成に必要なモジュール数
+    performance: Dict[RobotPerformanceAttributes, int]  # ロボットの各能力値
+    power_consumption: float  # ロボットの消費電力
 
-# ロボット
+class Task(ABC):
+    """ タスクを表す抽象基底クラス """
+    def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
+                 completed_workload: float, task_dependency: List["Task"], 
+                 required_performance: Dict["RobotPerformanceAttributes", int], 
+                 assigned_robot: List["Robot"] = None):
+        self._name = name  # タスク名
+        self._coordinate = coordinate  # タスクの座標
+        self._total_workload = total_workload  # タスクの総仕事量
+        self._completed_workload = completed_workload  # 完了済み仕事量
+        self._task_dependency = task_dependency  # 依存するタスクのリスト
+        """
+        タスクは複数のロボットの共同作業により実行される
+        ロボットの合計能力値がrequired_performance以上の時、タスクは実行される
+        """
+        self._required_performance = required_performance  # タスク実行に要求される能力値
+        self._assigned_robot = assigned_robot if assigned_robot is not None else [] # タスクに配置済みのロボットのリスト
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def coordinate(self):
+        return self._coordinate
+    
+    @property
+    def total_workload(self):
+        return self._total_workload
+    
+    @property
+    def completed_workload(self):
+        return self._completed_workload
+    
+    @property
+    def task_dependency(self):
+        return self._task_dependency
+
+    @property
+    def required_performance(self):
+        return self._required_performance
+    
+    @property
+    def assigned_robot(self):
+        return self._assigned_robot
+
+    def __str__(self):
+        """ タスクを文字列として表示（例: "タスク名[10/100]"）"""
+        return f"{self.name}[{self.completed_workload}/{self.total_workload}]"
+
+    def __repr__(self):
+        """ デバッグ用の表現 """
+        return f"Task(name={self.name}, completed={self.completed_workload}, total={self.total_workload})"
+
+    def check_dependencies_completed(self) -> bool:
+        """ 依存するタスクがすべて完了しているかを確認する """
+        return all(dep.completed_workload >= dep.total_workload for dep in self.task_dependency)
+
+    def check_assigned_performance(self) -> bool:
+        """ 配置されたロボットが必要なパフォーマンスを満たしているか確認 """
+        total_assigned_performance = {attr: 0 for attr in RobotPerformanceAttributes}
+        for robot in self.assigned_robot:
+            # ロボットの座標とタスクの座標が一致しているかチェック
+            if robot.coordinate != self.coordinate:
+                raise ValueError("Robot is not at the task location.")
+            for attr, value in robot.type.performance.items():
+                total_assigned_performance[attr] += value
+
+        return all(total_assigned_performance[attr] >= req for attr, req in self.required_performance.items())
+
+    def try_release_robot(self, robot: "Robot") -> bool:
+        """ もしロボットが配置されているなら、リリース """
+        if robot in self._assigned_robot:
+            self._assigned_robot.remove(robot)
+            return True
+        return False
+
+    def try_assign_robot(self, robot: "Robot") -> bool:
+        """ ロボットを配置 """
+        # RobotStateがDISABLEDでないことを確認
+        if robot.state == RobotState.DISABLED:
+            return False
+        # RobotStateがNO_ENERGYでないことを確認
+        if robot.state == RobotState.NO_ENERGY:
+            return False
+        
+        # ロボットの座標とタスクの座標が一致しているかチェック
+        if robot.coordinate != self.coordinate:
+            return False
+        self._assigned_robot.append(robot)
+        return True
+
+    @abstractmethod
+    def update(self) -> float:
+        """ タスクが実行されたときの仕事量の増加を計算 """
+        pass
+
+class Transport(Task):
+    """ 運搬タスクのクラス """
+    def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
+                 completed_workload: float, task_dependency: List["Task"], 
+                 required_performance: Dict["RobotPerformanceAttributes", int], 
+                 assigned_robot: List["Robot"], 
+                 origin_coordinate: Tuple[float, float], destination_coordinate: Tuple[float, float],
+                 transportability: float):
+        super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
+                         required_performance, assigned_robot,)
+        self._origin_coordinate = origin_coordinate  # 出発地点座標
+        self._destination_coordinate = destination_coordinate  # 目的地座標
+        self._transportability = transportability  # 荷物の運搬のために低下する移動性能
+    
+    @property
+    def origin_coordinate(self):
+        return self._origin_coordinate
+    
+    @property
+    def destination_coordinate(self):
+        return self._destination_coordinate
+    
+    @property
+    def transportability(self):
+        return self._transportability
+
+    def _travel(self, mobility: float) -> None:
+        """ 荷物の移動処理 """
+        target_coordinate = np.array(self.destination_coordinate)
+        v = target_coordinate - np.array(self.coordinate)
+        if np.linalg.norm(v) < mobility:
+            self._coordinate = copy.deepcopy(target_coordinate)
+        else:
+            self._coordinate = np.copy(self.coordinate + mobility * v / np.linalg.norm(v))
+
+    def update(self) -> float:
+        """ タスクの進捗を更新 """
+        if not self.check_assigned_performance() or not self.check_dependencies_completed():
+            return 0.0  # 実行不可
+
+        mobility_values = [robot.type.performance.get(RobotPerformanceAttributes.MOBILITY, 0) for robot in self.assigned_robot]
+        if not mobility_values or max(mobility_values) == 0:
+            return 0.0  # 移動能力なし
+
+        min_mobility = min(mobility_values)
+        adjusted_mobility = min_mobility * self.transportability
+        
+        before_position = np.array(self.coordinate)
+        self._travel(adjusted_mobility)
+        after_position = np.array(self.coordinate)
+        # ロボットもタスクと同時に移動
+        for robot in self.assigned_robot:
+            robot.update_coordinate(after_position)
+
+        distance_traveled = np.linalg.norm(after_position - before_position)
+        self._completed_workload += distance_traveled
+        return distance_traveled
+
 @dataclass
-class Robot:
-    """ ロボットのクラス """
-    type: RobotType
-    name: str
-    coordinate: Tuple[float, float]
-    component: List[Module]
-    state: RobotState = RobotState.INACTIVE
+class Manufacture(Task):
+    """ 加工タスクのクラス """
+    def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
+                 completed_workload: float, task_dependency: List["Task"], 
+                 required_performance: Dict["RobotPerformanceAttributes", int], 
+                 assigned_robots: List["Robot"] = None):
+        super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
+                         required_performance, assigned_robots)
+
+    def update(self) -> float:
+        """ タスクの進捗を更新（呼び出されるごとに+1） """
+        if not self.check_assigned_performance() or not self.check_dependencies_completed():
+            return 0.0  # 実行不可
+
+        self._completed_workload += 1.0
+        return 1.0  # 進捗量を1増加
+
+class Module:
+    """ モジュールのクラス """
+    def __init__(self, module_type: "ModuleType", name: str, coordinate: Tuple[float, float], 
+                 battery: float, state: ModuleState = ModuleState.FUNCTIONAL):
+        self._type = module_type  # モジュールの種類
+        self._name = name  # モジュール名
+        self._coordinate = coordinate  # モジュールの座標
+        if battery > module_type.max_battery:
+            raise ValueError("Battery exceeds the maximum capacity.")
+        self._battery = battery  # 現在のバッテリー残量
+        self._state = state  # モジュールの状態
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def coordinate(self):
+        return self._coordinate
+    
+    @property
+    def battery(self):
+        return self._battery
+    
+    @property
+    def state(self):
+        return self._state
 
     def update_coordinate(self, coordinate: Tuple[float, float]):
-        """ ロボットの座標を更新し、構成モジュールの座標も同期 """
+        """ モジュールの座標を更新 """
+        self._coordinate = copy.deepcopy(coordinate)
+    
+    def update_battery(self, battery_variation: float):
+        """ モジュールのバッテリーを更新 """
+        if self.state == ModuleState.MALFUNCTION:
+            raise ValueError("Cannot update battery of malfunctioning module.")
+        battery = self.battery + battery_variation
+        if battery > self.type.max_battery:
+            battery = self.type.max_battery
+        elif battery < 0:
+            battery = 0
+        self._battery = battery
+    
+    def update_state(self, state: ModuleState):
+        """ モジュールの状態を更新 """
+        self._state = state
+
+    def __str__(self):
+        """ モジュールの簡単な情報を文字列として表示 """
+        return f"Module({self.name}, {self.state.name}, Battery: {self.battery[0]}/{self.battery[1]})"
+
+    def __repr__(self):
+        """ デバッグ用の詳細な表現 """
+        return f"Module(name={self.name}, type={self.type.name}, state={self.state.name}, battery={self.battery})"
+
+class Robot:
+    """ ロボットのクラス """
+    def __init__(self, robot_type: "RobotType", name: str, coordinate: Tuple[float, float], 
+                 component: List["Module"] = None, state: "RobotState" = RobotState.IDLE, 
+                 task_priority: List["Task"] = None):
+        self._type = robot_type  # ロボットの種類
+        self._name = name  # ロボット名
+        self._coordinate = coordinate  # 現在の座標
+        self._component = component if component is not None else []  # 搭載モジュール
+        self._state = state # ロボットの状態
+
+        # MALFUNCTIONな搭載モジュールはリストから除外
+        self._component = [module for module in self._component if module.state != ModuleState.MALFUNCTION]
+        # 座標の異なるモジュールをリストから除外
+        self._component = [module for module in self._component if module.coordinate == self.coordinate]
+        # 構成に必要なモジュール数を満たしているかチェック
+        if self._check_component_shortage():
+            self._state = RobotState.DISABLED
+        # バッテリーが使用電力以上かチェック
+        if self._check_battery():
+            self._state = RobotState.NO_ENERGY
+        
+        self._task_priority = task_priority if task_priority is not None else []  # タスクの優先順位リスト
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def coordinate(self):
+        return self._coordinate
+    
+    @property
+    def component(self):
+        return self._component
+    
+    @property
+    def state(self):
+        return self._state
+    
+    def _check_component_shortage(self) -> bool:
+        """ 構成に必要なモジュール数を満たしているかチェック """
+        for module_type, required_num in self.type.required_modules.items():
+            num = len([module for module in self._component if module.type == module_type])
+            if num >= required_num:
+                continue
+            else:
+                return True
+        return False
+
+    def _total_battery(self):
+        sum = 0
+        for module in self._component:
+            sum += module.battery
+        return sum
+
+    def _check_battery(self) -> bool:
+        """ バッテリーが使用電力以上かチェック """
+        return self._total_battery() >= self.type.power_consumption
+
+    def update_coordinate(self, coordinate: Tuple[float, float]):
+        """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
         self.coordinate = copy.deepcopy(coordinate)
-        for module in self.component:
+        for module in self._component:
             module.coordinate = copy.deepcopy(coordinate)
+    
+    def try_assign_module(self, module: "Module"):
+        """ モジュールを搭載 """
+        # ModuleStateがMALFUNCTIONでないことを確認
+        if module.state == ModuleState.MALFUNCTION:
+            return False
+        # ロボットの座標とモジュールの座標が一致しているかチェック
+        if module.coordinate != self.coordinate:
+            return False
+        self._component.append(module)
+        return True
+    
+    def malfunction(self, module: "Module"):
+        """ モジュールの故障 """
+        module.update_state(ModuleState.MALFUNCTION)
+        self._component.remove(module)
+    
+    def update_state(self, state: RobotState):
+        """ ロボットの状態を更新 """
+        self._state = state
+        # 構成に必要なモジュール数を満たしているかチェック
+        if self._check_component_shortage():
+            self._state = RobotState.DISABLED
+        # バッテリーが使用電力以上かチェック
+        if self._check_battery():
+            self._state = RobotState.NO_ENERGY
+
+    def update_task_priority(self, task_priority: List["Task"]):
+        """ タスクの優先順位リストを更新 """
+        self._task_priority = task_priority
+
+    def __str__(self):
+        """ ロボットの簡単な情報を文字列として表示 """
+        return f"Robot({self.name}, {self._state.name}, Pos: {self.coordinate})"
+
+    def __repr__(self):
+        """ デバッグ用の詳細な表現 """
+        return (f"Robot(name={self.name}, type={self.type.name}, state={self._state.name}, "
+                f"coordinate={self.coordinate}, modules={len(self._component)}, "
+                f"task_priority={len(self._task_priority)})")
