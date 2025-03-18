@@ -5,18 +5,21 @@ i_t_000:  # タスクの名前（任意）
   total_workload: 10  # タスクの総作業量
   completed_workload: 0  # タスクの完了作業量
   task_dependency: []  # タスクの依存関係 (このファイル内でこのタスクより前に書いてあること)
-  required_abilities:  # タスクの必要能力(RobotPerformanceAttributesの属性名のみ)
+  required_performance:  # タスクの必要能力(RobotPerformanceAttributesの属性名のみ)
     TRANSPORT: 12 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Inflatable
-  origin_destination: [[0.0, 0.0], [5.0, 5.0], 0.5]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [5.0, 5.0]  # タスクの終点座標
+  transportability: 0.5  # タスクの運搬難度（0.0~1.0）
 i_m_000: # インフレータブル構造物の展開準備
   class: Manufacture
   coordinate: [5.0, 5.0]
-  workload: [5, 0]
+  total_workload: 5
+  completed_workload: 0
   task_dependency: [i_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 6 # manufacture
   other_attrs:
@@ -24,9 +27,10 @@ i_m_000: # インフレータブル構造物の展開準備
 i_m_001: # インフレータブル構造物の展開補助
   class: Manufacture
   coordinate: [5.0, 5.0]
-  workload: [8, 0]
+  total_workload: 8
+  completed_workload: 0
   task_dependency: [i_t_000, i_m_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 10 # manufacture
   other_attrs:
@@ -34,53 +38,66 @@ i_m_001: # インフレータブル構造物の展開補助
 s_t_000: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 2.5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Solar
-  origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [0.0, 5.0]  # タスクの終点座標
+  transportability: 1.0  # タスクの運搬難度（0.0~1.0）
 s_t_001: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 2.5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Solar
-  origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [0.0, 5.0]  # タスクの終点座標
+  transportability: 1.0  # タスクの運搬難度（0.0~1.0）
 s_t_002: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 2.5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Solar
-  origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [0.0, 5.0]  # タスクの終点座標
+  transportability: 1.0  # タスクの運搬難度（0.0~1.0）
 s_t_003: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [2.5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 2.5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 3 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Solar
-  origin_destination: [[0.0, 0.0], [0.0, 5.0], 1.0]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [0.0, 5.0]  # タスクの終点座標
+  transportability: 1.0  # タスクの運搬難度（0.0~1.0）
 s_m_000: # 太陽光発電パネルの展開
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [5, 0]
+  total_workload: 5
+  completed_workload: 0
   task_dependency: [s_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
   other_attrs:
@@ -88,9 +105,10 @@ s_m_000: # 太陽光発電パネルの展開
 s_m_001: # 太陽光発電パネルの展開
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [5, 0]
+  total_workload: 5
+  completed_workload: 0
   task_dependency: [s_t_001]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
   other_attrs:
@@ -98,9 +116,10 @@ s_m_001: # 太陽光発電パネルの展開
 s_m_002: # 太陽光発電パネルの展開
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [5, 0]
+  total_workload: 5
+  completed_workload: 0
   task_dependency: [s_t_002]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
   other_attrs:
@@ -108,9 +127,10 @@ s_m_002: # 太陽光発電パネルの展開
 s_m_003: # 太陽光発電パネルの展開
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [5, 0]
+  total_workload: 5
+  completed_workload: 0
   task_dependency: [s_t_003]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 3 # manufacture
   other_attrs:
@@ -118,9 +138,10 @@ s_m_003: # 太陽光発電パネルの展開
 s_m_004: # 電源ラインの設置
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [10, 0]
+  total_workload: 10
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
   other_attrs:
@@ -128,9 +149,10 @@ s_m_004: # 電源ラインの設置
 s_m_005: # 電源ラインの設置
   class: Manufacture
   coordinate: [0.0, 5.0]
-  workload: [10, 0]
+  total_workload: 10
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
   other_attrs:
@@ -138,31 +160,38 @@ s_m_005: # 電源ラインの設置
 t_t_000: # 通信設備の運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 4 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Telecom
-  origin_destination: [[0.0, 0.0], [-5.0, -5.0], 0.8]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [-5.0, -5.0]  # タスクの終点座標
+  transportability: 0.8  # タスクの運搬難度（0.0~1.0）
 t_t_001: # 通信設備の運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  workload: [5, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
+  total_workload: 5
+  completed_workload: 0
   task_dependency: []
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 4 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:
     category: Telecom
-  origin_destination: [[0.0, 0.0], [-5.0, -5.0], 0.8]
+  origin_coordinate: [0.0, 0.0]  # タスクの始点座標
+  destination_coordinate: [-5.0, -5.0]  # タスクの終点座標
+  transportability: 0.8  # タスクの運搬難度（0.0~1.0）
 t_m_000: # 通信設備の組み立て
   class: Manufacture
   coordinate: [-5.0, -5.0]
-  workload: [10, 0]
+  total_workload: 10
+  completed_workload: 0
   task_dependency: [t_t_000]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 5 # manufacture
   other_attrs:
@@ -170,9 +199,10 @@ t_m_000: # 通信設備の組み立て
 t_m_001: # 通信設備の組み立て
   class: Manufacture
   coordinate: [-5.0, -5.0]
-  workload: [10, 0]
+  total_workload: 10
+  completed_workload: 0
   task_dependency: [t_t_001]
-  required_abilities: 
+  required_performance: 
     TRANSPORT: 0 # transport
     MANUFACTURE: 8 # manufacture
   other_attrs:

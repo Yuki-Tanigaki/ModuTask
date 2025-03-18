@@ -1,9 +1,9 @@
 # resultDirectory: ./results/dummy
-taskConfigFile: ./properties/test_configs/task.yaml
-moduleTypeConfigFile: ./properties/test_configs/module_type.yaml
-moduleConfigFile: ./properties/test_configs/module.yaml
-robotTypeConfigFile: ./properties/test_configs/robot_type.yaml
-robotConfigFile: ./properties/test_configs/robot.yaml
+module_type: ./configs/sample001/module_type.yaml
+robot_type: ./configs/sample001/robot_type.yaml
+task: ./configs/sample001/task.yaml
+module: ./configs/sample001/module.yaml
+robot: ./configs/sample001/robot.yaml
 
 simulation:
   seed: 1234
