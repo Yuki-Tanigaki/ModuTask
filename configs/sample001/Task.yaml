@@ -1,9 +1,11 @@
-i_t_000: # インフレータブル構造物の運搬
-  class: Transport
-  coordinate: [0.0, 0.0]
-  workload: [10, 0] # Transportのworkloadは表示用なので，同category内の比重程度の意味しかない
-  task_dependency: []
-  required_abilities: 
+i_t_000:  # タスクの名前（任意）
+  # インフレータブル構造物の運搬
+  class: Transport  # タスクのクラス (Transport, Manufacture, or Assemble)
+  coordinate: [0.0, 0.0]  # タスクの座標
+  total_workload: 10  # タスクの総作業量
+  completed_workload: 0  # タスクの完了作業量
+  task_dependency: []  # タスクの依存関係 (このファイル内でこのタスクより前に書いてあること)
+  required_abilities:  # タスクの必要能力(RobotPerformanceAttributesの属性名のみ)
     TRANSPORT: 12 # transport
     MANUFACTURE: 0 # manufacture
   other_attrs:

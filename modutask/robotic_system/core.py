@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Union
 from enum import Enum
 import math, copy
 import numpy as np
@@ -56,12 +56,18 @@ class RobotType:
     performance: Dict[RobotPerformanceAttributes, int]  # ロボットの各能力値
     power_consumption: float  # ロボットの消費電力
 
+    def __hash__(self):
+        return hash(self.name)
+
+    def __eq__(self, other: 'ModuleType') -> bool:
+        return self.name == other.name
+
 class Task(ABC):
     """ タスクを表す抽象基底クラス """
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
                  completed_workload: float, task_dependency: List["Task"], 
                  required_performance: Dict["RobotPerformanceAttributes", int], 
-                 assigned_robot: List["Robot"] = None):
+                 other_attrs: Dict[str, Any] = None):
         self._name = name  # タスク名
         self._coordinate = coordinate  # タスクの座標
         self._total_workload = total_workload  # タスクの総仕事量
@@ -72,7 +78,9 @@ class Task(ABC):
         ロボットの合計能力値がrequired_performance以上の時、タスクは実行される
         """
         self._required_performance = required_performance  # タスク実行に要求される能力値
-        self._assigned_robot = assigned_robot if assigned_robot is not None else [] # タスクに配置済みのロボットのリスト
+        self._assigned_robot = [] # タスクに配置済みのロボットのリスト（空で初期化）
+
+        self._other_attrs = other_attrs if other_attrs is not None else {}  # 可視化用のタスク分類
 
     @property
     def name(self):
@@ -101,6 +109,10 @@ class Task(ABC):
     @property
     def assigned_robot(self):
         return self._assigned_robot
+    
+    @property
+    def other_attrs(self):
+        return self._other_attrs
 
     def __str__(self):
         """ タスクを文字列として表示（例: "タスク名[10/100]"）"""
@@ -158,11 +170,10 @@ class Transport(Task):
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
                  completed_workload: float, task_dependency: List["Task"], 
                  required_performance: Dict["RobotPerformanceAttributes", int], 
-                 assigned_robot: List["Robot"], 
                  origin_coordinate: Tuple[float, float], destination_coordinate: Tuple[float, float],
-                 transportability: float):
+                 transportability: float, other_attrs = None):
         super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
-                         required_performance, assigned_robot,)
+                         required_performance, other_attrs)
         self._origin_coordinate = origin_coordinate  # 出発地点座標
         self._destination_coordinate = destination_coordinate  # 目的地座標
         self._transportability = transportability  # 荷物の運搬のために低下する移動性能
@@ -184,9 +195,9 @@ class Transport(Task):
         target_coordinate = np.array(self.destination_coordinate)
         v = target_coordinate - np.array(self.coordinate)
         if np.linalg.norm(v) < mobility:
-            self._coordinate = copy.deepcopy(target_coordinate)
+            self._coordinate = copy.deepcopy(self.destination_coordinate)
         else:
-            self._coordinate = np.copy(self.coordinate + mobility * v / np.linalg.norm(v))
+            self._coordinate = tuple(float(x) for x in np.copy(self.coordinate + mobility * v / np.linalg.norm(v)))
 
     def update(self) -> float:
         """ タスクの進捗を更新 """
@@ -217,9 +228,9 @@ class Manufacture(Task):
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
                  completed_workload: float, task_dependency: List["Task"], 
                  required_performance: Dict["RobotPerformanceAttributes", int], 
-                 assigned_robots: List["Robot"] = None):
+                 other_attrs = None):
         super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
-                         required_performance, assigned_robots)
+                         required_performance, other_attrs)
 
     def update(self) -> float:
         """ タスクの進捗を更新（呼び出されるごとに+1） """
@@ -261,7 +272,31 @@ class Module:
     def state(self):
         return self._state
 
-    def update_coordinate(self, coordinate: Tuple[float, float]):
+    def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+        # NumPyの配列ならタプルに変換
+        if isinstance(coordinate, np.ndarray):
+            if coordinate.shape == (2,):  # 2要素の1次元配列か確認
+                coordinate = tuple(map(float, coordinate))  # float に変換
+            else:
+                raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
+
+        # リストの場合もタプルに変換
+        elif isinstance(coordinate, list):
+            if len(coordinate) == 2:
+                coordinate = tuple(map(float, coordinate))
+            else:
+                raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
+
+        # NumPyのfloat64が含まれているタプルを処理
+        elif isinstance(coordinate, tuple):
+            if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
+                coordinate = tuple(map(float, coordinate))  # floatに変換
+            else:
+                raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
+
+        else:
+            raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
+        
         """ モジュールの座標を更新 """
         self._coordinate = copy.deepcopy(coordinate)
     
@@ -291,13 +326,12 @@ class Module:
 class Robot:
     """ ロボットのクラス """
     def __init__(self, robot_type: "RobotType", name: str, coordinate: Tuple[float, float], 
-                 component: List["Module"] = None, state: "RobotState" = RobotState.IDLE, 
-                 task_priority: List["Task"] = None):
+                 component: List["Module"], task_priority: List["Task"]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
         self._coordinate = coordinate  # 現在の座標
-        self._component = component if component is not None else []  # 搭載モジュール
-        self._state = state # ロボットの状態
+        self._component = component  # 搭載モジュール
+        self._state = RobotState.IDLE # ロボットの状態（IDLEで初期化）
 
         # MALFUNCTIONな搭載モジュールはリストから除外
         self._component = [module for module in self._component if module.state != ModuleState.MALFUNCTION]
@@ -307,10 +341,10 @@ class Robot:
         if self._check_component_shortage():
             self._state = RobotState.DISABLED
         # バッテリーが使用電力以上かチェック
-        if self._check_battery():
+        if self._check_battery_shortage():
             self._state = RobotState.NO_ENERGY
         
-        self._task_priority = task_priority if task_priority is not None else []  # タスクの優先順位リスト
+        self._task_priority = task_priority  # タスクの優先順位リスト
 
     @property
     def type(self):
@@ -348,15 +382,38 @@ class Robot:
             sum += module.battery
         return sum
 
-    def _check_battery(self) -> bool:
+    def _check_battery_shortage(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
-        return self._total_battery() >= self.type.power_consumption
+        return self._total_battery() < self.type.power_consumption
 
-    def update_coordinate(self, coordinate: Tuple[float, float]):
+    def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+        # NumPyの配列ならタプルに変換
+        if isinstance(coordinate, np.ndarray):
+            if coordinate.shape == (2,):  # 2要素の1次元配列か確認
+                coordinate = tuple(map(float, coordinate))  # float に変換
+            else:
+                raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
+
+        # リストの場合もタプルに変換
+        elif isinstance(coordinate, list):
+            if len(coordinate) == 2:
+                coordinate = tuple(map(float, coordinate))
+            else:
+                raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
+
+        # NumPyのfloat64が含まれているタプルを処理
+        elif isinstance(coordinate, tuple):
+            if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
+                coordinate = tuple(map(float, coordinate))  # floatに変換
+            else:
+                raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
+
+        else:
+            raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
         """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
-        self.coordinate = copy.deepcopy(coordinate)
+        self._coordinate = copy.deepcopy(coordinate)
         for module in self._component:
-            module.coordinate = copy.deepcopy(coordinate)
+            module.update_coordinate(copy.deepcopy(coordinate))
     
     def try_assign_module(self, module: "Module"):
         """ モジュールを搭載 """

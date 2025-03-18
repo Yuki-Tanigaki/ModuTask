@@ -1,0 +1,8 @@
+Body:  # モジュール型名（任意）
+  max_battery: 1  # 型ごとに決まる最大バッテリー容量
+Limb:
+  max_battery: 5
+EndE:
+  max_battery: 1
+Wheel:
+  max_battery: 15

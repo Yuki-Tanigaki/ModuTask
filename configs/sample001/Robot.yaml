@@ -2,6 +2,7 @@ twsh_000:
   robot_type: TWSH
   coordinate: [0.0, 0.0]
   component: [body_00, limb_00, limb_01, limb_02, limb_03, ende_00, wheel_00, wheel_01, wheel_02]
+  task_priority: []
 twdh_000:
   robot_type: TWDH
   coordinate: [0.0, 0.0]

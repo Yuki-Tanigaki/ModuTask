@@ -1,7 +1,8 @@
-body_00:
-  module_type: Body
-  coordinate: [0.0, 0.0]
-  battery: 3
+body_00:  # モジュール名（任意）
+  module_type: Body  # モジュール型名 Module_type.yamlに記載されているもののみ
+  coordinate: [0.0, 0.0]  # モジュールの座標
+  battery: 3  # モジュールのバッテリー残量
+  state: 0  # モジュールの状態 0: 正常 1: 異常
 body_01:
   module_type: Body
   coordinate: [0.0, 0.0]
