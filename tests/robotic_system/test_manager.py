@@ -47,14 +47,14 @@ def config_files(tmp_path: Path):
                 "module_type": "battery",
                 "coordinate": [0, 0],
                 "battery": 100,
-                "state": "FUNCTIONAL"
+                "state": 0
             }
         },
         "robot.yaml": {
             "robot1": {
                 "robot_type": "worker",
                 "coordinate": [0, 0],
-                "components": ["battery1"],
+                "component": ["battery1"],
                 "task_priority": ["task2", "task1"]
             }
         }

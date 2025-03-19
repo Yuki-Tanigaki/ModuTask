@@ -119,7 +119,7 @@ class DataManager:
                 name=module_id,
                 coordinate=tuple(module_data["coordinate"]),
                 battery=module_data["battery"],
-                state=ModuleState[module_data["state"]]
+                state=ModuleState.from_value(module_data["state"])
             )
         return modules
 
@@ -132,7 +132,7 @@ class DataManager:
             if robot_type is None:
                 raise ValueError(f"Unknown robot type: {robot_data['robot_type']}")
             component = []
-            for module_name in robot_data["components"]:
+            for module_name in robot_data["component"]:
                 if module_name not in modules:  # 存在しないモジュールはエラーを発生させる
                     raise ValueError(f"Unknown module: {module_name}")
                 component.append(modules[module_name])
@@ -143,7 +143,7 @@ class DataManager:
                 task_priority.append(tasks[task_name])
             """ 配列の順列が正しく作成されているかチェックする """
             if sorted(task.name for task in task_priority) != sorted(task.name for task in tasks.values()):
-                raise ValueError(f"Invalid task priority: {robot_data['task_priority']}")
+                raise ValueError(f"Invalid task priority: {robot_id} {robot_data['task_priority']}")
             
             robots[robot_id] = Robot(
                 robot_type=robot_type,

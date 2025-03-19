@@ -19,26 +19,26 @@ def test_simulator_initialization(simulator):
     assert isinstance(simulator.robots, dict)
     assert isinstance(simulator.tasks, dict)
 
-# def test_module_loading(simulator):
-#     """ モジュールのロードが正しく行われるか確認 """
-#     assert len(simulator.module_types) > 0, "モジュールタイプがロードされていません"
-#     for module in simulator.modules.values():
-#         assert isinstance(module, Module)
-#         assert module.state in [ModuleState.FUNCTIONAL, ModuleState.MALFUNCTION]
+def test_module_loading(simulator):
+    """ モジュールのロードが正しく行われるか確認 """
+    assert len(simulator.module_types) > 0, "モジュールタイプがロードされていません"
+    for module in simulator.modules.values():
+        assert isinstance(module, Module)
+        assert module.state in [ModuleState.ACTIVE, ModuleState.ERROR]
 
-# def test_robot_loading(simulator):
-#     """ ロボットのロードが正しく行われるか確認 """
-#     assert len(simulator.robots) > 0, "ロボットがロードされていません"
-#     for robot in simulator.robots.values():
-#         assert isinstance(robot, Robot)
-#         assert robot.state in RobotState
+def test_robot_loading(simulator):
+    """ ロボットのロードが正しく行われるか確認 """
+    assert len(simulator.robots) > 0, "ロボットがロードされていません"
+    for robot in simulator.robots.values():
+        assert isinstance(robot, Robot)
+        assert robot.state in RobotState
 
-# def test_task_loading(simulator):
-#     """ タスクのロードが正しく行われるか確認 """
-#     assert len(simulator.tasks) > 0, "タスクがロードされていません"
-#     for task in simulator.tasks.values():
-#         assert isinstance(task, Task)
-#         assert isinstance(task.coordinate, np.ndarray)
+def test_task_loading(simulator):
+    """ タスクのロードが正しく行われるか確認 """
+    assert len(simulator.tasks) > 0, "タスクがロードされていません"
+    for task in simulator.tasks.values():
+        assert isinstance(task, Task)
+        assert isinstance(task.coordinate, np.ndarray)
 
 # def test_simulation_run(simulator):
 #     """ シミュレーションが正常に動作するか確認 """

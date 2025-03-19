@@ -8,7 +8,7 @@ robot: ./configs/sample001/robot.yaml
 simulation:
   seed: 1234
   maxSimulationStep: 50
-  batteryLimit: 10
+  batteryLevel2Recharge: 10
   chargeStation:
     base_00: # 基地
       name: base_00

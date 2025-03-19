@@ -4,7 +4,7 @@ i_t_000:  # タスクの名前（任意）
   coordinate: [0.0, 0.0]  # タスクの座標
   total_workload: 10  # タスクの総作業量
   completed_workload: 0  # タスクの完了作業量
-  task_dependency: []  # タスクの依存関係 (このファイル内でこのタスクより前に書いてあること)
+  task_dependency: []  # タスクの依存関係 (依存先タスクこのファイル内のより前に書いてあること)
   required_performance:  # タスクの必要能力(RobotPerformanceAttributesの属性名のみ)
     TRANSPORT: 12 # transport
     MANUFACTURE: 0 # manufacture
@@ -38,7 +38,7 @@ i_m_001: # インフレータブル構造物の展開補助
 s_t_000: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 2.5
+  total_workload: 5
   completed_workload: 0
   task_dependency: []
   required_performance: 
@@ -52,7 +52,7 @@ s_t_000: # 太陽光発電パネルの運搬
 s_t_001: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 2.5
+  total_workload: 5
   completed_workload: 0
   task_dependency: []
   required_performance: 
@@ -66,7 +66,7 @@ s_t_001: # 太陽光発電パネルの運搬
 s_t_002: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 2.5
+  total_workload: 5
   completed_workload: 0
   task_dependency: []
   required_performance: 
@@ -80,7 +80,7 @@ s_t_002: # 太陽光発電パネルの運搬
 s_t_003: # 太陽光発電パネルの運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 2.5
+  total_workload: 5
   completed_workload: 0
   task_dependency: []
   required_performance: 
@@ -160,7 +160,7 @@ s_m_005: # 電源ラインの設置
 t_t_000: # 通信設備の運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 5
+  total_workload: 10
   completed_workload: 0
   task_dependency: []
   required_performance: 
@@ -174,7 +174,7 @@ t_t_000: # 通信設備の運搬
 t_t_001: # 通信設備の運搬
   class: Transport
   coordinate: [0.0, 0.0]
-  total_workload: 5
+  total_workload: 10
   completed_workload: 0
   task_dependency: []
   required_performance: 

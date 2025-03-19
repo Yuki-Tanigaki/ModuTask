@@ -4,18 +4,48 @@ import copy, sys, math
 import numpy as np
 import pandas as pd
 
-from robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes
+from modutask.robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes
 
-prob = 0.005
-
-class SimulationAgent:
-    def __init__(self, robot, battery_limit):
+class RobotAgent:
+    def __init__(self, robot, battery_level_to_recharge):
         self.robot = robot
-        self.battery_limit = battery_limit
+        self.battery_level_to_recharge = battery_level_to_recharge
         self.target_coordinate = None
         self.assigned_task = None
         self.to_be_charged = None
         self.movement = 0  # 移動量積算
+
+    def decide_recharge(self, charge_station):
+        # 充電中ならスキップ
+        if self.assigned_task == "Charge":
+            return
+        # バッテリーが設定以下なら充電に向かう
+        if self.robot.total_battery() < self.battery_level_to_recharge:
+            # 現在地から最も近くの充電スペースを探す
+            min_dist = sys.float_info.max
+            min_station = None
+            for _, station in charge_station.items():
+                dist = math.sqrt(sum((x - y) ** 2 for x, y in zip(station.coordinate, self.robot.coordinate)))
+                if min_dist > dist:
+                    min_dist = dist
+                    min_station = station
+            self.target_coordinate = copy.deepcopy(tuple(map(float, min_station.coordinate)))
+            self.assigned_task = "Charge"
+
+    def update_task(self, task_priority, tasks):
+        # すでにタスクが割り当てられている場合はスキップ
+        if self.assigned_task is not None:
+            return
+        for task_name in self.robot.task_priority:
+            task = tasks[task_name]
+            # タスクが完了済みなら次のタスクに
+            if task.completed_workload >= task.total_workload:
+                continue
+            # 依存タスクが完了していなければ次のタスクに
+            tasks[task_name].check_dependencies_completed()
+            if tasks[task_name].check_dependencies_completed():
+                self.assigned_task = task
+                return
 
     def _calc_battery(self):
         sum = 0
@@ -51,38 +81,12 @@ class SimulationAgent:
                 module.battery = (module.battery[0], module.battery[1]-1) # バッテリー消耗
                 break
 
-    def update_active(self):
-        # 各モジュールの位置をチェック
-        coordinate_list= []
-        state_list = []
-        for module in self.robot.component:
-            coordinate_list.append(module.coordinate)
-            state_list.append(module.state)
-        # すべてのパーツがロボットの現在位置にあるかチェック
-        assembe = all(all(x == y for x, y in zip(t, self.robot.coordinate)) for t in coordinate_list)
-        # 全てのパーツが壊れていないかチェック
-        malf = all(state != ModuleState.MALFUNCTION for state in state_list)
-        # 全てのパーツが揃い，かつ壊れていない
-        if assembe and malf:
-            self.robot.state = RobotState.IDLE
-        else:
-            self.robot.state = RobotState.INACTIVE
-
-    def check_battery(self, charge_station):
-        # バッテリーが設定以下なら充電に向かう
-        if self._calc_battery() < self.battery_limit:
-            # 現在地から最も近くの充電スペースまでの距離を計算
-            min_dist = sys.float_info.max
-            for _, station_data in charge_station.items():
-                dist = math.sqrt(sum((x - y) ** 2 for x, y in zip(station_data.coordinate, self.robot.coordinate)))
-                if min_dist > dist:
-                    min_dist = dist
-                    self.to_be_charged = station_data
-            self.target_coordinate = copy.deepcopy(np.array(self.to_be_charged.coordinate))
-            self.assigned_task = None
-            return False
-        else:
+    def check_inactive(self):
+        """ ロボットの稼働状態を確認 """
+        if self.robot.state == RobotState.NO_ENERGY or self.robot.state == RobotState.DEFECTIVE:
             return True
+        else:
+            return False
     
     def check_travel(self, simulation_rng):
         # 目的地と現在地が一致しないなら移動
@@ -113,13 +117,3 @@ class SimulationAgent:
         if self.robot.component[-1].battery[0] == self.robot.component[-1].battery[1]:
             self.to_be_charged = None
             self.target_coordinate = None
-
-    def update_task(self, task_priority, tasks):
-        self.assigned_task = None
-        self.target_coordinate = None
-        # タスクを更新
-        for task_name in task_priority:
-            if task_name in tasks: # 実行不可能タスクは除去済み
-                self.assigned_task = tasks[task_name]
-                self.target_coordinate = copy.deepcopy(self.assigned_task.coordinate)
-                return 

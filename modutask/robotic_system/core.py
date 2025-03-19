@@ -7,9 +7,16 @@ import numpy as np
 
 class ModuleState(Enum):
     """ モジュールの状態を表す列挙型 """
-    FUNCTIONAL = (0, 'green')  # 正常
-    MALFUNCTION = (2, 'gray')  # 故障
-
+    ACTIVE = (0, 'green')  # 正常
+    ERROR = (1, 'gray')  # 故障
+    
+    @classmethod
+    def from_value(cls, value):
+        for state in cls:
+            if state.value[0] == value:
+                return state
+        raise ValueError(f"{value} is not a valid ModuleState")
+    
     @property
     def color(self):
         """ モジュールの状態に対応する色を取得 """
@@ -23,7 +30,7 @@ class RobotState(Enum):
     ASSIGNED = (3, 'pink')  # 配置中
     WORK = (4, 'red')  # 仕事中
     NO_ENERGY = (5, 'gray')  # バッテリー不足で稼働不可
-    DISABLED = (6, 'purple')  # 部品不足で稼働不可
+    DEFECTIVE = (6, 'purple')  # 部品不足で稼働不可
 
     @property
     def color(self):
@@ -147,8 +154,8 @@ class Task(ABC):
 
     def try_assign_robot(self, robot: "Robot") -> bool:
         """ ロボットを配置 """
-        # RobotStateがDISABLEDでないことを確認
-        if robot.state == RobotState.DISABLED:
+        # RobotStateがDEFECTIVEでないことを確認
+        if robot.state == RobotState.DEFECTIVE:
             return False
         # RobotStateがNO_ENERGYでないことを確認
         if robot.state == RobotState.NO_ENERGY:
@@ -222,7 +229,6 @@ class Transport(Task):
         self._completed_workload += distance_traveled
         return distance_traveled
 
-@dataclass
 class Manufacture(Task):
     """ 加工タスクのクラス """
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
@@ -240,10 +246,18 @@ class Manufacture(Task):
         self._completed_workload += 1.0
         return 1.0  # 進捗量を1増加
 
+class Charge(Task):
+    """ 充電タスク """
+    def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
+                 completed_workload: float, task_dependency: List["Task"], 
+                 required_performance: Dict["RobotPerformanceAttributes", int], other_attrs = None):
+        super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
+                         required_performance, other_attrs)
+
 class Module:
     """ モジュールのクラス """
     def __init__(self, module_type: "ModuleType", name: str, coordinate: Tuple[float, float], 
-                 battery: float, state: ModuleState = ModuleState.FUNCTIONAL):
+                 battery: float, state: ModuleState = ModuleState.ACTIVE):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
         self._coordinate = coordinate  # モジュールの座標
@@ -302,7 +316,7 @@ class Module:
     
     def update_battery(self, battery_variation: float):
         """ モジュールのバッテリーを更新 """
-        if self.state == ModuleState.MALFUNCTION:
+        if self.state == ModuleState.ERROR:
             raise ValueError("Cannot update battery of malfunctioning module.")
         battery = self.battery + battery_variation
         if battery > self.type.max_battery:
@@ -317,7 +331,7 @@ class Module:
 
     def __str__(self):
         """ モジュールの簡単な情報を文字列として表示 """
-        return f"Module({self.name}, {self.state.name}, Battery: {self.battery[0]}/{self.battery[1]})"
+        return f"Module({self.name}, {self.state.name}, Battery: {self.battery}/{self.type.max_battery})"
 
     def __repr__(self):
         """ デバッグ用の詳細な表現 """
@@ -333,13 +347,13 @@ class Robot:
         self._component = component  # 搭載モジュール
         self._state = RobotState.IDLE # ロボットの状態（IDLEで初期化）
 
-        # MALFUNCTIONな搭載モジュールはリストから除外
-        self._component = [module for module in self._component if module.state != ModuleState.MALFUNCTION]
+        # ERRORな搭載モジュールはリストから除外
+        self._component = [module for module in self._component if module.state != ModuleState.ERROR]
         # 座標の異なるモジュールをリストから除外
         self._component = [module for module in self._component if module.coordinate == self.coordinate]
         # 構成に必要なモジュール数を満たしているかチェック
         if self._check_component_shortage():
-            self._state = RobotState.DISABLED
+            self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
         if self._check_battery_shortage():
             self._state = RobotState.NO_ENERGY
@@ -376,7 +390,7 @@ class Robot:
                 return True
         return False
 
-    def _total_battery(self):
+    def total_battery(self):
         sum = 0
         for module in self._component:
             sum += module.battery
@@ -384,7 +398,7 @@ class Robot:
 
     def _check_battery_shortage(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
-        return self._total_battery() < self.type.power_consumption
+        return self.total_battery() < self.type.power_consumption
 
     def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
         # NumPyの配列ならタプルに変換
@@ -417,8 +431,8 @@ class Robot:
     
     def try_assign_module(self, module: "Module"):
         """ モジュールを搭載 """
-        # ModuleStateがMALFUNCTIONでないことを確認
-        if module.state == ModuleState.MALFUNCTION:
+        # ModuleStateがERRORでないことを確認
+        if module.state == ModuleState.ERROR:
             return False
         # ロボットの座標とモジュールの座標が一致しているかチェック
         if module.coordinate != self.coordinate:
@@ -428,7 +442,7 @@ class Robot:
     
     def malfunction(self, module: "Module"):
         """ モジュールの故障 """
-        module.update_state(ModuleState.MALFUNCTION)
+        module.update_state(ModuleState.ERROR)
         self._component.remove(module)
     
     def update_state(self, state: RobotState):
@@ -436,9 +450,9 @@ class Robot:
         self._state = state
         # 構成に必要なモジュール数を満たしているかチェック
         if self._check_component_shortage():
-            self._state = RobotState.DISABLED
+            self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self._check_battery():
+        if self._check_battery_shortage():
             self._state = RobotState.NO_ENERGY
 
     def update_task_priority(self, task_priority: List["Task"]):

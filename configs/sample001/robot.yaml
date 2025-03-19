@@ -2,56 +2,69 @@ twsh_000:
   robot_type: TWSH
   coordinate: [0.0, 0.0]
   component: [body_00, limb_00, limb_01, limb_02, limb_03, ende_00, wheel_00, wheel_01, wheel_02]
-  task_priority: []
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 twdh_000:
   robot_type: TWDH
   coordinate: [0.0, 0.0]
   component: [body_01, limb_04, limb_05, limb_06, limb_07, limb_08, ende_01, ende_02, wheel_03, wheel_04, wheel_05]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 twdh_001:
   robot_type: TWDH
   coordinate: [0.0, 0.0]
   component: [body_02, limb_09, limb_10, limb_11, limb_12, limb_13, ende_03, ende_04, wheel_06, wheel_07, wheel_08]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 qwsh_000:
   robot_type: QWSH
   coordinate: [0.0, 0.0]
   component: [body_03, limb_14, limb_15, limb_16, limb_17, limb_18, ende_05, wheel_09, wheel_10, wheel_11, wheel_12]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 qwsh_001:
   robot_type: QWSH
   coordinate: [0.0, 0.0]
   component: [body_04, limb_19, limb_20, limb_21, limb_22, limb_23, ende_06, wheel_13, wheel_14, wheel_15, wheel_16]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 qwdh_000:
   robot_type: QWDH
   coordinate: [0.0, 0.0]
   component: [body_05, limb_24, limb_25, limb_26, limb_27, limb_28, limb_29, ende_07, ende_08, wheel_17, wheel_18, wheel_19, wheel_20]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 dragon_000:
   robot_type: Dragon
   coordinate: [0.0, 0.0]
   component: [limb_30, limb_31, ende_09, wheel_21, wheel_22]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_000:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_32, ende_10, wheel_23]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_001:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_33, ende_11, wheel_24]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_002:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_34, ende_12, wheel_25]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_003:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_35, ende_13, wheel_26]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_004:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_36, ende_14, wheel_27]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_005:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_37, ende_15, wheel_28]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
 minimal_006:
   robot_type: Minimal
   coordinate: [0.0, 0.0]
   component: [limb_38, ende_16, wheel_29]
+  task_priority: [i_t_000, i_m_000, i_m_001, s_t_000, s_t_001, s_t_002, s_t_003, s_m_000, s_m_001, s_m_002, s_m_003, s_m_004, s_m_005, t_t_000, t_t_001, t_m_000, t_m_001]
