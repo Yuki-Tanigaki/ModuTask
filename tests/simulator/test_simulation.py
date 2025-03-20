@@ -38,7 +38,7 @@ def test_task_loading(simulator):
     assert len(simulator.tasks) > 0, "タスクがロードされていません"
     for task in simulator.tasks.values():
         assert isinstance(task, Task)
-        assert isinstance(task.coordinate, np.ndarray)
+        assert isinstance(task.coordinate, tuple)
 
 # def test_simulation_run(simulator):
 #     """ シミュレーションが正常に動作するか確認 """

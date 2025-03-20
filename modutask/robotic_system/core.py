@@ -2,8 +2,38 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Any, Union
 from enum import Enum
+from omegaconf import ListConfig
 import math, copy
 import numpy as np
+
+def make_coodinate_to_tuple(coordinate: Union[Tuple[float, float], np.ndarray, list, ListConfig]) -> Tuple[float, float]:
+    # `ListConfig` を `list` に変換
+    if isinstance(coordinate, ListConfig):
+        coordinate = list(coordinate)
+
+    # NumPyの配列ならタプルに変換
+    if isinstance(coordinate, np.ndarray):
+        if coordinate.shape == (2,):  # 2要素の1次元配列か確認
+            return tuple(map(float, coordinate))
+        else:
+            raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
+
+    # リストの場合もタプルに変換
+    elif isinstance(coordinate, list):
+        if len(coordinate) == 2:
+            return tuple(map(float, coordinate))
+        else:
+            raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
+
+    # NumPyのfloat64が含まれているタプルを処理
+    elif isinstance(coordinate, tuple):
+        if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
+            return tuple(map(float, coordinate))  # floatに変換
+        else:
+            raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
+
+    else:
+        raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
 
 class ModuleState(Enum):
     """ モジュールの状態を表す列挙型 """
@@ -24,13 +54,9 @@ class ModuleState(Enum):
 
 class RobotState(Enum):
     """ ロボットの状態を表す列挙型 """
-    IDLE = (0, 'green')  # 待機中
-    MOVE = (1, 'blue')  # 移動中
-    CHARGE = (2, 'orange')  # 充電中
-    ASSIGNED = (3, 'pink')  # 配置中
-    WORK = (4, 'red')  # 仕事中
-    NO_ENERGY = (5, 'gray')  # バッテリー不足で稼働不可
-    DEFECTIVE = (6, 'purple')  # 部品不足で稼働不可
+    ACTIVE = (0, 'green')  # 正常
+    NO_ENERGY = (1, 'yellow')  # バッテリー不足で稼働不可
+    DEFECTIVE = (2, 'purple')  # 部品不足で稼働不可
 
     @property
     def color(self):
@@ -76,7 +102,7 @@ class Task(ABC):
                  required_performance: Dict["RobotPerformanceAttributes", int], 
                  other_attrs: Dict[str, Any] = None):
         self._name = name  # タスク名
-        self._coordinate = coordinate  # タスクの座標
+        self._coordinate = make_coodinate_to_tuple(coordinate)  # タスクの座標
         self._total_workload = total_workload  # タスクの総仕事量
         self._completed_workload = completed_workload  # 完了済み仕事量
         self._task_dependency = task_dependency  # 依存するタスクのリスト
@@ -145,12 +171,9 @@ class Task(ABC):
 
         return all(total_assigned_performance[attr] >= req for attr, req in self.required_performance.items())
 
-    def try_release_robot(self, robot: "Robot") -> bool:
-        """ もしロボットが配置されているなら、リリース """
-        if robot in self._assigned_robot:
-            self._assigned_robot.remove(robot)
-            return True
-        return False
+    def release_robot(self) -> None:
+        """ 配置されているロボットをリリース """
+        self._assigned_robot = []
 
     def try_assign_robot(self, robot: "Robot") -> bool:
         """ ロボットを配置 """
@@ -168,7 +191,7 @@ class Task(ABC):
         return True
 
     @abstractmethod
-    def update(self) -> float:
+    def update(self) -> bool:
         """ タスクが実行されたときの仕事量の増加を計算 """
         pass
 
@@ -181,8 +204,8 @@ class Transport(Task):
                  transportability: float, other_attrs = None):
         super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
                          required_performance, other_attrs)
-        self._origin_coordinate = origin_coordinate  # 出発地点座標
-        self._destination_coordinate = destination_coordinate  # 目的地座標
+        self._origin_coordinate = make_coodinate_to_tuple(origin_coordinate)  # 出発地点座標
+        self._destination_coordinate = make_coodinate_to_tuple(destination_coordinate)  # 目的地座標
         self._transportability = transportability  # 荷物の運搬のために低下する移動性能
     
     @property
@@ -206,14 +229,14 @@ class Transport(Task):
         else:
             self._coordinate = tuple(float(x) for x in np.copy(self.coordinate + mobility * v / np.linalg.norm(v)))
 
-    def update(self) -> float:
+    def update(self) -> bool:
         """ タスクの進捗を更新 """
         if not self.check_assigned_performance() or not self.check_dependencies_completed():
-            return 0.0  # 実行不可
+            return False  # 実行不可
 
         mobility_values = [robot.type.performance.get(RobotPerformanceAttributes.MOBILITY, 0) for robot in self.assigned_robot]
         if not mobility_values or max(mobility_values) == 0:
-            return 0.0  # 移動能力なし
+            return False  # 移動能力なし
 
         min_mobility = min(mobility_values)
         adjusted_mobility = min_mobility * self.transportability
@@ -224,10 +247,11 @@ class Transport(Task):
         # ロボットもタスクと同時に移動
         for robot in self.assigned_robot:
             robot.update_coordinate(after_position)
+            robot.draw_battery_power()
 
         distance_traveled = np.linalg.norm(after_position - before_position)
         self._completed_workload += distance_traveled
-        return distance_traveled
+        return True
 
 class Manufacture(Task):
     """ 加工タスクのクラス """
@@ -238,21 +262,35 @@ class Manufacture(Task):
         super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
                          required_performance, other_attrs)
 
-    def update(self) -> float:
+    def update(self) -> bool:
         """ タスクの進捗を更新（呼び出されるごとに+1） """
         if not self.check_assigned_performance() or not self.check_dependencies_completed():
-            return 0.0  # 実行不可
-
+            return False # 実行不可
+        # ロボットのバッテリーを消費
+        for robot in self.assigned_robot:
+            robot.draw_battery_power()
         self._completed_workload += 1.0
-        return 1.0  # 進捗量を1増加
+        return True  # 進捗量を1増加
 
 class Charge(Task):
     """ 充電タスク """
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
                  completed_workload: float, task_dependency: List["Task"], 
-                 required_performance: Dict["RobotPerformanceAttributes", int], other_attrs = None):
+                 required_performance: Dict["RobotPerformanceAttributes", int], 
+                 charging_speed: float, other_attrs = None):
         super().__init__(name, coordinate, total_workload, completed_workload, task_dependency, 
                          required_performance, other_attrs)
+        self._charging_speed = charging_speed  # 充電速度
+
+    @property
+    def charging_speed(self):
+        return self._charging_speed
+
+    def update(self) -> bool:
+        """ 割り当てられたロボットを充電 """
+        for robot in self._assigned_robot:
+            robot.charge_battery_power(self._charging_speed)
+        return True
 
 class Module:
     """ モジュールのクラス """
@@ -260,7 +298,7 @@ class Module:
                  battery: float, state: ModuleState = ModuleState.ACTIVE):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
-        self._coordinate = coordinate  # モジュールの座標
+        self._coordinate = make_coodinate_to_tuple(coordinate)  # モジュールの座標
         if battery > module_type.max_battery:
             raise ValueError("Battery exceeds the maximum capacity.")
         self._battery = battery  # 現在のバッテリー残量
@@ -287,32 +325,8 @@ class Module:
         return self._state
 
     def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
-        # NumPyの配列ならタプルに変換
-        if isinstance(coordinate, np.ndarray):
-            if coordinate.shape == (2,):  # 2要素の1次元配列か確認
-                coordinate = tuple(map(float, coordinate))  # float に変換
-            else:
-                raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
-
-        # リストの場合もタプルに変換
-        elif isinstance(coordinate, list):
-            if len(coordinate) == 2:
-                coordinate = tuple(map(float, coordinate))
-            else:
-                raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
-
-        # NumPyのfloat64が含まれているタプルを処理
-        elif isinstance(coordinate, tuple):
-            if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
-                coordinate = tuple(map(float, coordinate))  # floatに変換
-            else:
-                raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
-
-        else:
-            raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
-        
         """ モジュールの座標を更新 """
-        self._coordinate = copy.deepcopy(coordinate)
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
     
     def update_battery(self, battery_variation: float):
         """ モジュールのバッテリーを更新 """
@@ -340,12 +354,12 @@ class Module:
 class Robot:
     """ ロボットのクラス """
     def __init__(self, robot_type: "RobotType", name: str, coordinate: Tuple[float, float], 
-                 component: List["Module"], task_priority: List["Task"]):
+                 component: List["Module"], task_priority: List[str]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
-        self._coordinate = coordinate  # 現在の座標
+        self._coordinate = make_coodinate_to_tuple(coordinate)  # 現在の座標
         self._component = component  # 搭載モジュール
-        self._state = RobotState.IDLE # ロボットの状態（IDLEで初期化）
+        self._state = RobotState.ACTIVE # ロボットの状態（ACTIVEで初期化）
 
         # ERRORな搭載モジュールはリストから除外
         self._component = [module for module in self._component if module.state != ModuleState.ERROR]
@@ -355,7 +369,7 @@ class Robot:
         if self._check_component_shortage():
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self._check_battery_shortage():
+        if self.check_battery_shortage():
             self._state = RobotState.NO_ENERGY
         
         self._task_priority = task_priority  # タスクの優先順位リスト
@@ -379,7 +393,23 @@ class Robot:
     @property
     def state(self):
         return self._state
+
+    @property
+    def task_priority(self):
+        return self._task_priority
+
+    def total_battery(self):
+        sum = 0
+        for module in self._component:
+            sum += module.battery
+        return sum
     
+    def total_max_battery(self):
+        sum = 0
+        for module in self._component:
+            sum += module.type.max_battery
+        return sum
+
     def _check_component_shortage(self) -> bool:
         """ 構成に必要なモジュール数を満たしているかチェック """
         for module_type, required_num in self.type.required_modules.items():
@@ -390,44 +420,54 @@ class Robot:
                 return True
         return False
 
-    def total_battery(self):
-        sum = 0
-        for module in self._component:
-            sum += module.battery
-        return sum
-
-    def _check_battery_shortage(self) -> bool:
+    def check_battery_shortage(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
         return self.total_battery() < self.type.power_consumption
+    
+    def check_battery_full(self) -> bool:
+        """ バッテリーが満タンかチェック """
+        return self.total_battery() == self.total_max_battery()
+
+    def draw_battery_power(self):
+        if self.check_battery_shortage():
+            raise ValueError("Battery level is less than the amount needed for action.")
+        left = self.type.power_consumption
+        for module in reversed(self.component):
+            if left <=  module.battery:
+                module.update_battery(battery_variation=-left)
+                return
+            else:
+                module.update_battery(battery_variation=-module.battery)
+                left -= module.battery
+
+    def charge_battery_power(self, charging_speed):
+        left_charge_power = charging_speed
+        # モジュールを順番に充電
+        for module in self.component:
+            remaining_capacity = module.type.max_battery - module.battery
+            if remaining_capacity < left_charge_power:
+                module.update_battery(battery_variation=remaining_capacity)  # フル充電
+                left_charge_power -= remaining_capacity
+            else:
+                module.update_battery(battery_variation=left_charge_power)
+                return
+
+    def travel(self, target_coordinate): # 移動
+        self.draw_battery_power()
+        v = np.array(target_coordinate) - np.array(self.coordinate)
+        mob = self.type.performance[RobotPerformanceAttributes.MOBILITY]
+        if np.linalg.norm(v) < mob:  # 距離が移動能力以下
+            self.update_coordinate(target_coordinate)
+            return np.linalg.norm(v)
+        else:
+            self.update_coordinate(self.coordinate + mob*v/np.linalg.norm(v))
+            return mob
 
     def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
-        # NumPyの配列ならタプルに変換
-        if isinstance(coordinate, np.ndarray):
-            if coordinate.shape == (2,):  # 2要素の1次元配列か確認
-                coordinate = tuple(map(float, coordinate))  # float に変換
-            else:
-                raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
-
-        # リストの場合もタプルに変換
-        elif isinstance(coordinate, list):
-            if len(coordinate) == 2:
-                coordinate = tuple(map(float, coordinate))
-            else:
-                raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
-
-        # NumPyのfloat64が含まれているタプルを処理
-        elif isinstance(coordinate, tuple):
-            if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
-                coordinate = tuple(map(float, coordinate))  # floatに変換
-            else:
-                raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
-
-        else:
-            raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
         """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
-        self._coordinate = copy.deepcopy(coordinate)
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
         for module in self._component:
-            module.update_coordinate(copy.deepcopy(coordinate))
+            module.update_coordinate(copy.deepcopy(self._coordinate))
     
     def try_assign_module(self, module: "Module"):
         """ モジュールを搭載 """
@@ -445,17 +485,16 @@ class Robot:
         module.update_state(ModuleState.ERROR)
         self._component.remove(module)
     
-    def update_state(self, state: RobotState):
+    def update_state(self):
         """ ロボットの状態を更新 """
-        self._state = state
         # 構成に必要なモジュール数を満たしているかチェック
         if self._check_component_shortage():
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self._check_battery_shortage():
+        if self.check_battery_shortage():
             self._state = RobotState.NO_ENERGY
 
-    def update_task_priority(self, task_priority: List["Task"]):
+    def update_task_priority(self, task_priority: List[str]):
         """ タスクの優先順位リストを更新 """
         self._task_priority = task_priority
 

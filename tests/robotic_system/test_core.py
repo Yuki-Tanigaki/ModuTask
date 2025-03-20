@@ -40,19 +40,6 @@ class TestTask(unittest.TestCase):
         self.assertTrue(following_task1.check_dependencies_completed())
         self.assertFalse(following_task2.check_dependencies_completed())
 
-    def test_try_release_assign_robot(self):
-        robot_type=RobotType(name='Worker', required_modules={}, performance={RobotPerformanceAttributes.MANUFACTURE: 2}, 
-                             power_consumption=0)
-        robot1 = Robot(robot_type=robot_type, name='Robo1', coordinate=(0, 0), component=[], task_priority=[])
-        robot2 = Robot(robot_type=robot_type, name='Robo2', coordinate=(0, 0), component=[], task_priority=[])
-        task = Manufacture(name='Welding1', coordinate=(0, 0), total_workload=10, completed_workload=5,
-                            task_dependency=[], required_performance={RobotPerformanceAttributes.MANUFACTURE: 2})
-
-        self.assertTrue(task.try_assign_robot(robot1))
-        self.assertIn(robot1, task.assigned_robot)
-        self.assertTrue(task.try_release_robot(robot1))
-        self.assertFalse(task.try_release_robot(robot2))
-
     def test_check_assigned_performance(self):
         weak_robot_type=RobotType(name='Worker1', required_modules={}, performance={RobotPerformanceAttributes.MANUFACTURE: 1}, 
                                   power_consumption=0)
@@ -64,7 +51,7 @@ class TestTask(unittest.TestCase):
                             task_dependency=[], required_performance={RobotPerformanceAttributes.MANUFACTURE: 2})
         task.try_assign_robot(weak_robot)
         self.assertFalse(task.check_assigned_performance())
-        task.try_release_robot(weak_robot)
+        task.release_robot()
         task.try_assign_robot(good_robot)
         self.assertTrue(task.check_assigned_performance())
 
@@ -129,10 +116,6 @@ class TestTransport(unittest.TestCase):
         """ タスクが完了するかテスト """
         while self.transport_task.completed_workload < self.transport_task.total_workload:
             self.transport_task.update()
-        import sys
-        print(f"\n{self.transport_task.coordinate}")
-        print(f"\n{self.destination_coordinate}")
-        sys.stdout.flush()
         self.assertEqual(self.transport_task.coordinate, self.destination_coordinate)
         self.assertGreaterEqual(self.transport_task.completed_workload, self.transport_task.total_workload)
 
@@ -177,7 +160,7 @@ class TestManufacture(unittest.TestCase):
                 RobotPerformanceAttributes.MOBILITY: 6,     # 移動性能
                 RobotPerformanceAttributes.MANUFACTURE: 4   # 加工性能
             },
-            power_consumption=10.0
+            power_consumption=1.0
         )
         
         # ロボットの設定
@@ -320,7 +303,7 @@ class TestRobot(unittest.TestCase):
     def test_initial_conditions(self):
         """ 初期状態のテスト """
         self.assertEqual(self.robot.coordinate, (0.0, 0.0))
-        self.assertEqual(self.robot.state, RobotState.IDLE)
+        self.assertEqual(self.robot.state, RobotState.ACTIVE)
         self.assertIn(self.module, self.robot.component)
 
     def test_update_coordinate(self):
@@ -346,8 +329,8 @@ class TestRobot(unittest.TestCase):
 
     def test_update_state(self):
         """ ロボットの状態更新が正しく処理されるかテスト """
-        self.robot.update_state(RobotState.MOVE)
-        self.assertEqual(self.robot.state, RobotState.MOVE)
+        self.robot.update_state()
+        self.assertEqual(self.robot.state, RobotState.ACTIVE)
 
     def test_update_task_priority(self):
         """ タスクの優先順位リストの更新が正しく処理されるかテスト """

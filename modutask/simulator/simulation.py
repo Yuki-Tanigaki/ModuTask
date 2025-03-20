@@ -1,8 +1,6 @@
 import argparse
-from collections import defaultdict
 from omegaconf import OmegaConf
 import numpy as np
-import copy
 from modutask.robotic_system.core import *
 from modutask.robotic_system.manager import *
 from modutask.simulator.agent import RobotAgent
@@ -18,13 +16,20 @@ class Simulator:
         self.modules = self.manager.load_modules(self.module_types)
         self.robots = self.manager.load_robots(self.robot_types, self.modules, self.tasks)
         
-        
         # シミュレーション設定
         self.seed = properties.simulation.seed  # シミュレーション内で使う乱数生成器用
         self.max_step = properties.simulation.maxSimulationStep  # シミュレーションの最大ステップ
         self.battery_level_to_recharge = properties.simulation.batteryLevel2Recharge  # バッテリー切れ防止に充電に戻る基準となるバッテリー残量
-        self.charge_station = properties.simulation.chargeStation  # 充電ステーションの情報
-        
+        self.charge_stations = []  # 充電タスク
+        for _, station in properties.simulation.chargeStation.items():
+            charge = Charge(name=station.name, coordinate=station.coordinate,
+                            total_workload=0, completed_workload=0,
+                            task_dependency=[],
+                            required_performance={},
+                            other_attrs={},
+                            charging_speed=station.chargingSpeed)
+            self.charge_stations.append(charge)
+
         # シミュレーションの結果保存用
         self.agent_history = []
         self.task_history = []
@@ -33,69 +38,39 @@ class Simulator:
         simulation_rng = np.random.default_rng(self.seed)  # 乱数器にシード値を設定
         
         # シミュレーションエージェントの生成
-        agents = [RobotAgent(robot, self.battery_level_to_recharge) for _, robot in self.robots.items()]
+        agents = {robot.name: RobotAgent(robot, self.battery_level_to_recharge) for _, robot in self.robots.items()}
 
         for current_step in range(self.max_step):
             # 各エージェントのループ
-            # ready_task = {} # 1ターンの仕事リスト
-            for r, agent in enumerate(agents):
+            for _, agent in agents.items():
                 # 稼働不可ならスキップ
                 if agent.check_inactive():
                     continue
                 # 充電が必要かチェック
-                agent.decide_recharge(self.charge_station)
+                agent.decide_recharge(self.charge_stations)
                 # タスクの割り当て
                 agent.update_task(self.tasks)
-                
-    #                 if agent.check_travel(simulation_rng):
-    #                     agent.travel()
-    #                 else:
-    #                     agent.charge()
-    #                 continue
-                
-    #             agent.assigned_task
-    #             # 既に充電に割り当てられている場合
-    #             if agent.to_be_charged is not None:
-    #                 if agent.check_travel(simulation_rng):
-    #                     agent.travel()
-    #                 else:
-    #                     agent.charge()
-    #                 continue
-    #             # 充電が必要かチェック
-    #             if not agent.check_battery(charge_station):
-    #                 if agent.check_travel(simulation_rng):
-    #                     agent.travel()
-    #                 else:
-    #                     agent.charge()
-    #                 continue
-    #             # タスクの割り当て
-    #             agent.update_task(task_priority[r], filtered_tasks)
-    #             if agent.assigned_task is None:
-    #                 continue
-    #             # タスク地点に到着していないなら移動
-    #             if agent.check_travel(simulation_rng):
-    #                 agent.travel()
-    #                 continue
-    #             if agent.assigned_task.name not in ready_task:
-    #                 ready_task[agent.assigned_task.name] = []
-    #             ready_task[agent.assigned_task.name].append(agent)
-    #             agent.set_work()
-
+                # 移動が必要なエージェントは移動
+                agent.try_travel()
+            # 各タスクを一斉に実行
+            for t, task in self.tasks.items():
+                if task.update():
+                    for robot in task.assigned_robot:
+                        agents[robot.name].set_state_work()  # タスクを実行したエージェントのみ
+                task.release_robot()
+            # 充電を実行
+            for station in self.charge_stations:
+                station.update()
             
-    # def check_task_finish(self, task):
-    #     if task.total_workload <= task.completed_workload:
-    #         return True
-    #     return False
+            # TODO: 故障を実装
 
-def main():
-    parser = argparse.ArgumentParser(description="Run the robotic system simulator.")
-    parser.add_argument("property_file", type=str, help="Path to the property file")
-    args = parser.parse_args()
 
-    simulator = Simulator(args.property_file)
-    # simulator.run_simulation()
+            # タスクをエージェントの目標から消す
+            # 充電以外
+            for _, agent in agents.items():
+                agent.reset_task()
+                agent.set_state_idle()
+                agent.robot.update_state()
 
-if __name__ == '__main__':
-    main()
 
 

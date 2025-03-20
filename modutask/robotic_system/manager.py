@@ -140,9 +140,9 @@ class DataManager:
             for task_name in robot_data["task_priority"]:
                 if task_name not in tasks:  # 存在しないタスクはエラーを発生させる
                     raise ValueError(f"Unknown task: {task_name}")
-                task_priority.append(tasks[task_name])
+                task_priority.append(task_name)
             """ 配列の順列が正しく作成されているかチェックする """
-            if sorted(task.name for task in task_priority) != sorted(task.name for task in tasks.values()):
+            if sorted(task_priority) != sorted(task.name for task in tasks.values()):
                 raise ValueError(f"Invalid task priority: {robot_id} {robot_data['task_priority']}")
             
             robots[robot_id] = Robot(

@@ -4,116 +4,95 @@ import copy, sys, math
 import numpy as np
 import pandas as pd
 
-from modutask.robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes
+from modutask.robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes, Charge
+
+class AgentState(Enum):
+    """ エージェントの状態を表す列挙型 """
+    IDLE = (0, 'green')  # 待機中
+    MOVE = (1, 'blue')  # 移動中
+    CHARGE = (2, 'orange')  # 充電中
+    ASSIGNED = (3, 'pink')  # 配置中
+    WORK = (4, 'red')  # 仕事中
+    NO_ENERGY = (5, 'gray')  # バッテリー不足で稼働不可
+    DEFECTIVE = (6, 'purple')  # 部品不足で稼働不可
+
+    @property
+    def color(self):
+        """ ロボットの状態に対応する色を取得 """
+        return self.value[1]
 
 class RobotAgent:
     def __init__(self, robot, battery_level_to_recharge):
         self.robot = robot
         self.battery_level_to_recharge = battery_level_to_recharge
-        self.target_coordinate = None
         self.assigned_task = None
-        self.to_be_charged = None
-        self.movement = 0  # 移動量積算
+        self.state = AgentState.IDLE
 
-    def decide_recharge(self, charge_station):
-        # 充電中ならスキップ
-        if self.assigned_task == "Charge":
+    def check_inactive(self):
+        """ ロボットの稼働状態を確認 """
+        if self.robot.state == RobotState.NO_ENERGY:
+            self.state = AgentState.NO_ENERGY
+            return True
+        elif self.robot.state == RobotState.DEFECTIVE:
+            self.state = AgentState.DEFECTIVE
+            return True
+        else:
+            return False
+
+    def decide_recharge(self, charge_stations):
+        # 充電タスクが既に割り当て済みならスキップ
+        if isinstance(self.assigned_task, Charge):
             return
         # バッテリーが設定以下なら充電に向かう
         if self.robot.total_battery() < self.battery_level_to_recharge:
             # 現在地から最も近くの充電スペースを探す
             min_dist = sys.float_info.max
             min_station = None
-            for _, station in charge_station.items():
+            for station in charge_stations:
                 dist = math.sqrt(sum((x - y) ** 2 for x, y in zip(station.coordinate, self.robot.coordinate)))
                 if min_dist > dist:
                     min_dist = dist
                     min_station = station
-            self.target_coordinate = copy.deepcopy(tuple(map(float, min_station.coordinate)))
-            self.assigned_task = "Charge"
+            self.assigned_task = min_station
 
-    def update_task(self, task_priority, tasks):
+    def update_task(self, tasks):
         # すでにタスクが割り当てられている場合はスキップ
         if self.assigned_task is not None:
             return
+        # 優先順位で目標タスクを決定
         for task_name in self.robot.task_priority:
             task = tasks[task_name]
             # タスクが完了済みなら次のタスクに
             if task.completed_workload >= task.total_workload:
                 continue
-            # 依存タスクが完了していなければ次のタスクに
-            tasks[task_name].check_dependencies_completed()
-            if tasks[task_name].check_dependencies_completed():
-                self.assigned_task = task
-                return
+            self.assigned_task = task
+            return
 
-    def _calc_battery(self):
-        sum = 0
-        for module in self.robot.component:
-            sum += module.battery[1] # バッテリー[最大量, 残量]
-        return sum
-
-    def break_limb(self):
-        for module in self.robot.component:
-            if module.type.name == 'Limb':
-                module.state = ModuleState.MALFUNCTION
-                break
-
-    def travel(self): # 移動
-        v = np.array(self.target_coordinate) - np.array(self.robot.coordinate)
-        mob = self.robot.type.ability[RobotPerformanceAttributes.MOBILITY]
-        if np.linalg.norm(v) < mob:  # 距離が移動能力以下
-            self.robot.update_coordinate(self.target_coordinate)
-            self.movement += np.linalg.norm(v)
+    def try_travel(self):
+        if self.assigned_task.coordinate != self.robot.coordinate:
+            # 目的地と現在の座標が異なるならエージェントを移動
+            self.state = AgentState.MOVE
+            self.robot.travel(self.assigned_task.coordinate)
         else:
-            self.robot.update_coordinate(self.robot.coordinate + mob*v/np.linalg.norm(v))
-            self.movement += mob
-
-    def set_work(self):
-        self.robot.state = RobotState.READY
-    
-    def work(self, simulation_rng):
-        self.robot.state = RobotState.WORK
-        self.target_coordinate = copy.deepcopy(self.assigned_task.coordinate)
-        # バッテリー消耗
-        for module in reversed(self.robot.component):
-            if module.battery[1] >= 1:
-                module.battery = (module.battery[0], module.battery[1]-1) # バッテリー消耗
-                break
-
-    def check_inactive(self):
-        """ ロボットの稼働状態を確認 """
-        if self.robot.state == RobotState.NO_ENERGY or self.robot.state == RobotState.DEFECTIVE:
-            return True
-        else:
-            return False
-    
-    def check_travel(self, simulation_rng):
-        # 目的地と現在地が一致しないなら移動
-        if not np.array_equal(self.target_coordinate, self.robot.coordinate):
-            self.robot.state = RobotState.MOVE
-            # バッテリー消耗
-            for module in reversed(self.robot.component):
-                if module.battery[1] >= 1:
-                    module.battery = (module.battery[0], module.battery[1]-1) # バッテリー消耗
-                    break
-            return True
-        else:
-            return False
-
-    def charge(self):
-        self.robot.state = RobotState.CHARGE
-        left_charge_power = self.to_be_charged.chargingSpeed
-        # モジュールを順番に充電
-        for module in self.robot.component:
-            remaining_capacity = module.battery[0] - module.battery[1] 
-            if remaining_capacity < left_charge_power:
-                module.battery = (module.battery[0], module.battery[0]) # フル充電
-                left_charge_power += -remaining_capacity
+            # 目的地と現在の座標が同じなら配置済みロボットのリストに追加
+            self.assigned_task.try_assign_robot(self.robot)
+            if isinstance(self.assigned_task, Charge):
+                # 充電タスクならエージェントの状態を充電に変更
+                self.state = AgentState.CHARGE
             else:
-                module.battery = (module.battery[0], module.battery[1]+left_charge_power)
-                break
-        # 充電完了か確認(充電は前から，使用は後ろから)
-        if self.robot.component[-1].battery[0] == self.robot.component[-1].battery[1]:
-            self.to_be_charged = None
-            self.target_coordinate = None
+                # 通常タスクならエージェントの状態を配置中に変更
+                self.state = AgentState.ASSIGNED
+    
+    def reset_task(self):
+        if isinstance(self.assigned_task, Charge):
+            # 充電タスクならフル充電までタスクを固定
+            if self.robot.check_battery_full():
+                self.assigned_task = None
+        else:
+            self.assigned_task = None
+
+    def set_state_work(self):
+        self.state = AgentState.WORK
+    
+    def set_state_idle(self):
+        self.state = AgentState.IDLE
