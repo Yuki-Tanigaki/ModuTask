@@ -52,7 +52,7 @@ class Robot:
         # 座標の異なるモジュールをリストから除外
         self._component = [module for module in self._component if module.coordinate == self.coordinate]
         # 構成に必要なモジュール数を満たしているかチェック
-        if self._check_component_shortage():
+        if self.list_unavailable_components():
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
         if self.check_battery_shortage():
@@ -96,7 +96,7 @@ class Robot:
             sum += module.type.max_battery
         return sum
 
-    def _check_component_shortage(self) -> bool:
+    def list_unavailable_components(self) -> bool:
         """ 構成に必要なモジュール数を満たしているかチェック """
         for module_type, required_num in self.type.required_modules.items():
             num = len([module for module in self._component if module.type == module_type])
@@ -105,6 +105,21 @@ class Robot:
             else:
                 return True
         return False
+        # """
+        # 必要数に対して不足しているモジュール種別と数を返す。
+        # """
+        # # ACTIVEなモジュールのみカウント
+        # active_modules = [module.type.name for module in self.component if module.state == ModuleState.ACTIVE]
+        # available_counts = Counter(active_modules)
+
+        # # 不足分の算出
+        # shortages = {}
+        # for module_name, required_count in required.items():
+        # available_count = available_counts.get(module_name, 0)
+        # if available_count < required_count:
+        #     shortages[module_name] = required_count - available_count
+
+        return shortages
 
     def check_battery_shortage(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
