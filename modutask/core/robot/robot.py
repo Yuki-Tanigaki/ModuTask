@@ -1,16 +1,13 @@
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Union
 from enum import Enum
+import logging
 import numpy as np
+from modutask.core.robot.performance import PerformanceAttributes
+from modutask.core.module.module import Module, ModuleState, ModuleType
+from modutask.core.utils import make_coodinate_to_tuple
 
-from .module import Module, ModuleState, ModuleType
-from .utils import make_coodinate_to_tuple
-
-class PerformanceAttributes(Enum):
-    """ ロボットの能力カテゴリを表す列挙型 """
-    TRANSPORT = 0  # 運搬能力
-    MANUFACTURE = 1  # 加工能力
-    MOBILITY = 2  # 移動能力
+logger = logging.getLogger(__name__)
 
 class RobotState(Enum):
     """ ロボットの状態を表す列挙型 """
@@ -40,17 +37,19 @@ class RobotType:
 class Robot:
     """ ロボットのクラス """
     def __init__(self, robot_type: "RobotType", name: str, coordinate: Tuple[float, float], 
-                 component: List["Module"], task_priority: List[str]):
+                 component_installed: List["Module"], component_required: List["Module"], task_priority: List[str]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # 現在の座標
-        self._component = component  # 搭載モジュール
+        self._component_installed = component_installed  # 搭載モジュール
+        self._component_required = component_required  # 必要モジュール
+
         self._state = RobotState.ACTIVE # ロボットの状態（ACTIVEで初期化）
 
         # ERRORな搭載モジュールはリストから除外
-        self._component = [module for module in self._component if module.state != ModuleState.ERROR]
+        self._component_installed = [module for module in self._component_installed if module.state != ModuleState.ERROR]
         # 座標の異なるモジュールをリストから除外
-        self._component = [module for module in self._component if module.coordinate == self.coordinate]
+        self._component_installed = [module for module in self._component_installed if module.coordinate == self.coordinate]
         # 構成に必要なモジュール数を満たしているかチェック
         if self.list_unavailable_components():
             self._state = RobotState.DEFECTIVE
@@ -73,9 +72,13 @@ class Robot:
         return self._coordinate
     
     @property
-    def component(self):
-        return self._component
-    
+    def component_installed(self):
+        return self._component_installed
+
+    @property
+    def component_required(self):
+        return self._component_required
+
     @property
     def state(self):
         return self._state
@@ -95,6 +98,9 @@ class Robot:
         for module in self._component:
             sum += module.type.max_battery
         return sum
+    
+    def missing_components(self):
+        return list(set(self.component_required) - set(self.component_installed))
 
     def list_unavailable_components(self) -> bool:
         """ 構成に必要なモジュール数を満たしているかチェック """
@@ -185,6 +191,13 @@ class Robot:
         """ モジュールの故障 """
         module.update_state(ModuleState.ERROR)
         self._component.remove(module)
+    
+    def install_module(self, module: "Module"):
+        """ モジュールを組み込む """
+        if module.coordinate != self.coordinate:
+            logger.error(f"{self.name}: {module.name} is in a different location.")
+            raise ValueError(f"{self.name}: {module.name} is in a different location.")
+        self._component_installed.append(module)
     
     def update_state(self):
         """ ロボットの状態を更新 """
