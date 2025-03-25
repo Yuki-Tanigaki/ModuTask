@@ -1,17 +1,19 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Tuple
-import logging
+from typing import Dict, List, Tuple, Union
+import copy, logging
+import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.robot.robot import Robot, RobotState
+from modutask.core.utils import make_coodinate_to_tuple
 
 logger = logging.getLogger(__name__)
 
 class AbstractTask(ABC):
     """ タスクを表す抽象基底クラス """
-    def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
-                 completed_workload: float, required_performance: Dict["PerformanceAttributes", float]):
+    def __init__(self, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], total_workload: float, 
+                 completed_workload: float, required_performance: Dict[PerformanceAttributes, float]):
         self._name = name  # タスク名
-        self._coordinate = coordinate  # タスクの座標
+        self._coordinate = make_coodinate_to_tuple(coordinate)  # タスクの座標
         self._total_workload = total_workload  # タスクの総仕事量
         self._completed_workload = completed_workload  # 完了済み仕事量
         self._required_performance = required_performance  # タスク実行に要求される能力値
@@ -52,22 +54,29 @@ class AbstractTask(ABC):
         return self._required_performance
     
     @property
-    def assigned_robot(self) -> List["Robot"]:
+    def assigned_robot(self) -> List[Robot]:
         return self._assigned_robot
+    
+    @coordinate.setter
+    def coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
 
     @abstractmethod
     def update(self) -> bool:
         """ タスクが実行されたときの処理を記述 """
         pass
     
-    def set_task_dependency(self, task_dependency) -> None:
-        """ 依存するタスクを設定 """
+    def initialize_task_dependency(self, task_dependency: List["AbstractTask"]):
+        """ タスクの依存関係を設定 """
+        if self.task_dependency is not None:
+            logger.error(f"{self.name}: initialize_task_dependency should be call once.")
+            raise RuntimeError(f"{self.name}: initialize_task_dependency should be call once.")
         self._task_dependency = task_dependency
 
     def is_completed(self) -> bool:
         """ タスクが完了しているかを確認 """
         return self.completed_workload >= self.total_workload
-
+    
     def are_dependencies_completed(self) -> bool:
         """ 依存するタスクがすべて完了しているかを確認する """
         if self.task_dependency is None:
@@ -91,11 +100,11 @@ class AbstractTask(ABC):
 
         return all(total_assigned_performance[attr] >= req for attr, req in self.required_performance.items())
 
-    def release_robot(self) -> None:
+    def release_robot(self):
         """ 配置されている全ロボットをリリース """
         self._assigned_robot = None
 
-    def assign_robot(self, robot: "Robot") -> None:
+    def assign_robot(self, robot: Robot):
         if self.assigned_robot is None:
             self._assigned_robot = []
         """ ロボットを配置 """

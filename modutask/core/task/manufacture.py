@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class Manufacture(AbstractTask):
     """ 加工タスクのクラス """
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
-                 completed_workload: float, required_performance: Dict["PerformanceAttributes", int]):
+                 completed_workload: float, required_performance: Dict[PerformanceAttributes, int]):
         super().__init__(name=name, coordinate=coordinate, total_workload=total_workload, 
                          completed_workload=completed_workload, required_performance=required_performance)
 

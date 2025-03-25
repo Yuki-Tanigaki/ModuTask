@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Union
 from enum import Enum
-import logging
+import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleState, ModuleType
@@ -27,6 +27,7 @@ class RobotType:
     required_modules: Dict[ModuleType, int]  # 構成に必要なモジュール数
     performance: Dict[PerformanceAttributes, int]  # ロボットの各能力値
     power_consumption: float  # ロボットの消費電力
+    recharge_trigger: float  # 充電に戻るバッテリー量の基準
 
     def __hash__(self):
         return hash(self.name)
@@ -36,188 +37,165 @@ class RobotType:
 
 class Robot:
     """ ロボットのクラス """
-    def __init__(self, robot_type: "RobotType", name: str, coordinate: Tuple[float, float], 
-                 component_installed: List["Module"], component_required: List["Module"], task_priority: List[str]):
+    def __init__(self, robot_type: RobotType, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
+                 component: List[Module]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # 現在の座標
-        self._component_installed = component_installed  # 搭載モジュール
-        self._component_required = component_required  # 必要モジュール
+        self._component_mounted = list(component)  # 搭載モジュール
+        self._component_required = list(component)  # 必要モジュール
+        """ 指定されたタイプと必要モジュールが一致しているかチェック """
+        for module_type, required_num in self.type.required_modules.items():
+            num = len([module for module in self._component_required if module.type == module_type])
+            if num == required_num:
+                continue
+            else:
+                logger.error(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
+                raise ValueError(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
 
         self._state = RobotState.ACTIVE # ロボットの状態（ACTIVEで初期化）
-
         # ERRORな搭載モジュールはリストから除外
-        self._component_installed = [module for module in self._component_installed if module.state != ModuleState.ERROR]
+        self._component_mounted = [module for module in self._component_mounted if module.state != ModuleState.ERROR]
         # 座標の異なるモジュールをリストから除外
-        self._component_installed = [module for module in self._component_installed if module.coordinate == self.coordinate]
+        self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
         # 構成に必要なモジュール数を満たしているかチェック
-        if self.list_unavailable_components():
+        if len(self.missing_components()) != 0:
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self.check_battery_shortage():
+        if self.is_battery_sufficient():
             self._state = RobotState.NO_ENERGY
-        
-        self._task_priority = task_priority  # タスクの優先順位リスト
 
     @property
-    def type(self):
+    def type(self) -> RobotType:
         return self._type
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @property
-    def coordinate(self):
+    def coordinate(self) -> Tuple[float, float]:
         return self._coordinate
     
     @property
-    def component_installed(self):
-        return self._component_installed
+    def component_mounted(self) -> List[Module]:
+        return self._component_mounted
 
     @property
-    def component_required(self):
+    def component_required(self) -> List[Module]:
         return self._component_required
 
     @property
-    def state(self):
+    def state(self) -> RobotState:
         return self._state
 
-    @property
-    def task_priority(self):
-        return self._task_priority
+    @coordinate.setter
+    def coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+        """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
+        for module in self.component_mounted:
+            module.coordinate = self.coordinate
 
-    def total_battery(self):
+    def total_battery(self) -> float:
+        """ 残りバッテリー量を算出 """
         sum = 0
-        for module in self._component:
+        for module in self.component_mounted:
             sum += module.battery
         return sum
     
-    def total_max_battery(self):
+    def total_max_battery(self) -> float:
+        """ フル充電したときのバッテリー量を算出 """
         sum = 0
-        for module in self._component:
+        for module in self.component_mounted:
             sum += module.type.max_battery
         return sum
     
-    def missing_components(self):
-        return list(set(self.component_required) - set(self.component_installed))
+    def missing_components(self) -> List[Module]:
+        """ 不足中のモジュールをリスト化 """
+        return list(set(self.component_required) - set(self.component_mounted))
 
-    def list_unavailable_components(self) -> bool:
-        """ 構成に必要なモジュール数を満たしているかチェック """
-        for module_type, required_num in self.type.required_modules.items():
-            num = len([module for module in self._component if module.type == module_type])
-            if num >= required_num:
-                continue
-            else:
-                return True
-        return False
-        # """
-        # 必要数に対して不足しているモジュール種別と数を返す。
-        # """
-        # # ACTIVEなモジュールのみカウント
-        # active_modules = [module.type.name for module in self.component if module.state == ModuleState.ACTIVE]
-        # available_counts = Counter(active_modules)
-
-        # # 不足分の算出
-        # shortages = {}
-        # for module_name, required_count in required.items():
-        # available_count = available_counts.get(module_name, 0)
-        # if available_count < required_count:
-        #     shortages[module_name] = required_count - available_count
-
-        return shortages
-
-    def check_battery_shortage(self) -> bool:
+    def is_battery_sufficient(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
         return self.total_battery() < self.type.power_consumption
     
-    def check_battery_full(self) -> bool:
+    def is_battery_full(self) -> bool:
         """ バッテリーが満タンかチェック """
         return self.total_battery() == self.total_max_battery()
 
     def draw_battery_power(self):
-        if self.check_battery_shortage():
-            raise ValueError("Battery level is less than the amount needed for action.")
+        """ 1ステップの行動でバッテリーを消費 """
+        if self.is_battery_sufficient():
+            logger.error(f"{self.name}: Battery level is less than the amount needed for action.")
+            raise RuntimeError(f"{self.name}: Battery level is less than the amount needed for action.")
         left = self.type.power_consumption
-        for module in reversed(self.component):
-            if left <=  module.battery:
-                module.update_battery(battery_variation=-left)
+        for module in reversed(self.component_mounted):
+            if left <= module.battery:
+                module.battery = module.battery-left
                 return
             else:
-                module.update_battery(battery_variation=-module.battery)
                 left -= module.battery
+                module.battery = 0.0
 
-    def charge_battery_power(self, charging_speed: float) -> None:
+    def charge_battery_power(self, charging_speed: float):
+        """ 1ステップの充電 """
         left_charge_power = charging_speed
         # モジュールを順番に充電
-        for module in self.component:
+        for module in self.component_mounted:
             remaining_capacity = module.type.max_battery - module.battery
             if remaining_capacity < left_charge_power:
-                module.update_battery(battery_variation=remaining_capacity)  # フル充電
+                module.battery = module.type.max_battery  # フル充電
                 left_charge_power -= remaining_capacity
             else:
-                module.update_battery(battery_variation=left_charge_power)
+                module.battery = module.battery + left_charge_power
                 return
 
-    def travel(self, target_coordinate): # 移動
+    def travel(self, target_coordinate: Tuple[float, float]): # 移動
+        """ 目的地点に向けて移動 """
         self.draw_battery_power()
         v = np.array(target_coordinate) - np.array(self.coordinate)
         mob = self.type.performance[PerformanceAttributes.MOBILITY]
         if np.linalg.norm(v) < mob:  # 距離が移動能力以下
-            self.update_coordinate(target_coordinate)
-            return np.linalg.norm(v)
+            self.coordinate = target_coordinate
         else:
-            self.update_coordinate(self.coordinate + mob*v/np.linalg.norm(v))
-            return mob
-
-    def update_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
-        """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
-        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
-        for module in self._component:
-            module.update_coordinate(copy.deepcopy(self._coordinate))
+            self.coordinate = self.coordinate + mob*v/np.linalg.norm(v)
     
-    def try_assign_module(self, module: "Module"):
+    def mount_module(self, module: Module):
         """ モジュールを搭載 """
-        # ModuleStateがERRORでないことを確認
+        # ModuleStateがERRORなときエラー
         if module.state == ModuleState.ERROR:
-            return False
-        # ロボットの座標とモジュールの座標が一致しているかチェック
+            logger.error(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
+            raise RuntimeError(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
+        # ロボットの座標とモジュールの座標が一致しない場合エラー
         if module.coordinate != self.coordinate:
-            return False
-        self._component.append(module)
+            logger.error(f"{self.name}: {module.name} is failed to mount due to a coordinate mismatch.")
+            raise RuntimeError(f"{self.name}: {module.name} is failed to mount due to a coordinate mismatch.")
+        # モジュールがcomponent_requiredに含まれていない場合エラー
+        if module not in self.component_required:
+            logger.error(f"{self.name}: {module.name} not found in component_required.")
+            raise RuntimeError(f"{self.name}: {module.name} not found in component_required.")
+        self._component_mounted.append(module)
         return True
-    
-    def malfunction(self, module: "Module"):
-        """ モジュールの故障 """
-        module.update_state(ModuleState.ERROR)
-        self._component.remove(module)
-    
-    def install_module(self, module: "Module"):
-        """ モジュールを組み込む """
-        if module.coordinate != self.coordinate:
-            logger.error(f"{self.name}: {module.name} is in a different location.")
-            raise ValueError(f"{self.name}: {module.name} is in a different location.")
-        self._component_installed.append(module)
-    
+        
     def update_state(self):
         """ ロボットの状態を更新 """
+        # 構成モジュールの状態を更新
+        for module in self.component_mounted:
+            module.update_state()
+        # ERRORな搭載モジュールはリストから除外
+        self._component_mounted = [module for module in self._component_mounted if module.state != ModuleState.ERROR]
         # 構成に必要なモジュール数を満たしているかチェック
-        if self._check_component_shortage():
+        if len(self.missing_components()) != 0:
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self.check_battery_shortage():
+        if self.is_battery_sufficient():
             self._state = RobotState.NO_ENERGY
-
-    def update_task_priority(self, task_priority: List[str]):
-        """ タスクの優先順位リストを更新 """
-        self._task_priority = task_priority
+        self._state = RobotState.ACTIVE
 
     def __str__(self):
         """ ロボットの簡単な情報を文字列として表示 """
-        return f"Robot({self.name}, {self._state.name}, Pos: {self.coordinate})"
+        return f"Robot({self.name}, {self.state.name}, {self.coordinate})"
 
     def __repr__(self):
         """ デバッグ用の詳細な表現 """
-        return (f"Robot(name={self.name}, type={self.type.name}, state={self._state.name}, "
-                f"coordinate={self.coordinate}, modules={len(self._component)}, "
-                f"task_priority={len(self._task_priority)})")
+        return (f"Robot(name={self.name}, type={self.type.name}, state={self.state.name}, "
+                f"coordinate={self.coordinate}, modules={len(self.component_mounted)}, ")

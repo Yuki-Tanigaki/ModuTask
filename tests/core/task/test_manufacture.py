@@ -47,7 +47,7 @@ class TestManufactureTask(unittest.TestCase):
             completed_workload=self.completed_workload
         )
         robot = self.create_mock_robot(mobility=2.0)
-        t.set_task_dependency([])  # 依存タスクなしとする
+        t._task_dependency = []  # 依存タスクなしとする
         t._assigned_robot = [robot]
 
         updated = t.update()
@@ -63,7 +63,7 @@ class TestManufactureTask(unittest.TestCase):
             required_performance={PerformanceAttributes.MOBILITY: 10.0}  # 高すぎて満たせない
         )
         robot = self.create_mock_robot(mobility=1.0)
-        t.set_task_dependency([])  
+        t._task_dependency = []
         t._assigned_robot = [robot]
 
         self.assertFalse(t.update())
@@ -80,7 +80,7 @@ class TestManufactureTask(unittest.TestCase):
         dependency = MagicMock()
         dependency.is_completed.return_value = False
 
-        t.set_task_dependency([dependency])
+        t._task_dependency = [dependency]
         t._assigned_robot = [robot]
 
         self.assertFalse(t.update())

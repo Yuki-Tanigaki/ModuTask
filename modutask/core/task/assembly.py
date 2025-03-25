@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class Assembly(AbstractTask):
     """ ロボット自己組み立てタスク """
-    def __init__(self, name: str, robot: "Robot"):
+    def __init__(self, name: str, robot: Robot):
         missingComponents = robot.missing_components()
         
         total_workload = len(missingComponents)
@@ -18,16 +18,16 @@ class Assembly(AbstractTask):
         self._target_robot = robot
 
     @property
-    def target_robot(self):
+    def target_robot(self) -> Robot:
         return self._target_robot
 
     def update(self) -> bool:
         """ 対象のロボットを組み立てる """
         if self.is_completed():
             return False
-        for module in self._target_robot.missing_components():
-            if module.coordinate != self.target_robot.coordinate:
-                self.target_robot.install_module(module)
+        for module in self.target_robot.missing_components():
+            if module.coordinate == self.target_robot.coordinate:
+                self.target_robot.mount_module(module)
                 self._completed_workload += 1.0
                 return True
         return False

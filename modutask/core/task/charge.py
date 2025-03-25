@@ -15,11 +15,11 @@ class Charge(AbstractTask):
         self._charging_speed = charging_speed  # 充電速度
 
     @property
-    def charging_speed(self):
+    def charging_speed(self) -> float:
         return self._charging_speed
 
     def update(self) -> bool:
         """ 割り当てられたロボットを充電 """
-        for robot in self._assigned_robot:
-            robot.charge_battery_power(self._charging_speed)
+        for robot in self.assigned_robot:
+            robot.charge_battery_power(self.charging_speed)
         return True

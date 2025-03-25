@@ -36,7 +36,7 @@ class TestAbstractTask(unittest.TestCase):
         dep2 = MagicMock()
         dep1.is_completed.return_value = True
         dep2.is_completed.return_value = False
-        self.task.set_task_dependency([dep1, dep2])
+        self.task.initialize_task_dependency([dep1, dep2])
         self.assertFalse(self.task.are_dependencies_completed())
         dep2.is_completed.return_value = True
         self.assertTrue(self.task.are_dependencies_completed())

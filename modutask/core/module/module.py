@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple, Union
 from enum import Enum
-import logging
+import copy, logging
 import numpy as np
 from modutask.core.utils import make_coodinate_to_tuple
 
@@ -21,7 +21,7 @@ class ModuleState(Enum):
         raise ValueError(f"{value} is not a valid ModuleState.")
     
     @property
-    def color(self):
+    def color(self) -> str:
         """ モジュールの状態に対応する色を取得 """
         return self.value[1]
     
@@ -39,16 +39,16 @@ class ModuleType:
 
 class Module:
     """ モジュールのクラス """
-    def __init__(self, module_type: "ModuleType", name: str, coordinate: Tuple[float, float], 
-                 battery: float, max_operating_time: float, current_operating_time: float=0.0):
+    def __init__(self, module_type: ModuleType, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
+                 battery: float, operating_time_limit: float, operating_time: float=0.0):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # モジュールの座標
         self._battery = battery  # 現在のバッテリー残量
-        self._max_operating_time = max_operating_time  # モジュールの耐久
-        self._current_operating_time = current_operating_time  # 現在の耐久
+        self._operating_time_limit = operating_time_limit  # モジュールの耐久
+        self._operating_time = operating_time  # 現在の耐久
         # モジュールの状態
-        if current_operating_time == max_operating_time:
+        if operating_time == operating_time_limit:
             self._state = ModuleState.ERROR
         else:
             self._state = ModuleState.ACTIVE
@@ -59,50 +59,51 @@ class Module:
         if battery < 0.0:
             logger.error(f"{name}: battery must be positive.")
             raise ValueError(f"{name}: battery must be positive.")
-        if current_operating_time > max_operating_time:
+        if operating_time > operating_time_limit:
             logger.error(f"{name}: current operating_time exceeds the maximum operating_time.")
             raise ValueError(f"{name}: current operating_time exceeds the maximum operating_time.")
-        if current_operating_time < 0.0:
+        if operating_time < 0.0:
             logger.error(f"{name}: current operating_time must be positive.")
             raise ValueError(f"{name}: current operating_time must be positive.")
-        if max_operating_time < 0.0:
+        if operating_time_limit < 0.0:
             logger.error(f"{name}: maximum operating_time must be positive.")
             raise ValueError(f"{name}: maximum operating_time must be positive.")
 
     @property
-    def type(self):
+    def type(self) -> ModuleType:
         return self._type
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
     @property
-    def coordinate(self):
+    def coordinate(self) -> Tuple[float, float]:
         return self._coordinate
     
     @property
-    def battery(self):
+    def battery(self) -> float:
         return self._battery
 
     @property
-    def max_operating_time(self):
-        return self._max_operating_time
+    def operating_time_limit(self) -> float:
+        return self._operating_time_limit
     
     @property
-    def current_operating_time(self):
-        return self._current_operating_time
+    def operating_time(self) -> float:
+        return self._operating_time
 
     @property
-    def state(self):
+    def state(self) -> ModuleState:
         return self._state
 
-
-    def set_coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+    @coordinate.setter
+    def coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
         """ モジュールの座標を更新 """
-        self._coordinate = make_coodinate_to_tuple(coordinate)
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
     
-    def set_battery(self, battery: float):
+    @battery.setter
+    def battery(self, battery: float):
         """ モジュールのバッテリーを更新 """
         if self.state == ModuleState.ERROR:
             logger.error(f"{self.name}: try update battery of malfunctioning module.")
@@ -116,7 +117,8 @@ class Module:
 
         self._battery = battery
     
-    def set_operating_time(self, operating_time: float):
+    @operating_time.setter
+    def operating_time(self, operating_time: float):
         """ モジュールの稼働量を更新 """
         if self.state == ModuleState.ERROR:
             logger.error(f"{self.name}: try update runtime of malfunctioning module.")
@@ -124,10 +126,10 @@ class Module:
         if operating_time < 0.0:
             logger.error(f"{self.name}: operating_time must be positive.")
             raise ValueError(f"{self.name}: operating_time must be positive.")
-        if operating_time < self.current_operating_time:
+        if operating_time < self.operating_time:
             logger.error(f"{self.name}: operating_time less than the current operating_time.")
             raise ValueError(f"{self.name}: operating_time less than the current operating_time.")
-        if operating_time > self.max_operating_time:
+        if operating_time > self.operating_time_limit:
             logger.error(f"{self.name}: operating_time exceeds the maximum operating_time.")
             raise ValueError(f"{self.name}: operating_time exceeds the maximum operating_time.")
 
@@ -135,7 +137,7 @@ class Module:
     
     def update_state(self):
         """ モジュールの故障 """
-        if self.current_operating_time == self.max_operating_time:
+        if self.operating_time == self.operating_time_limit:
             self._state = ModuleState.ERROR
         else:
             self._state = ModuleState.ACTIVE

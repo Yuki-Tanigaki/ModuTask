@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union
 import logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
@@ -9,12 +9,13 @@ logger = logging.getLogger(__name__)
 
 class Transport(AbstractTask):
     """ 運搬タスクのクラス """
-    def __init__(self, name: str, coordinate: Tuple[float, float], 
-                 required_performance: Dict["PerformanceAttributes", float], 
-                 origin_coordinate: Tuple[float, float], destination_coordinate: Tuple[float, float],
+    def __init__(self, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
+                 required_performance: Dict[PerformanceAttributes, float], 
+                 origin_coordinate: Union[Tuple[float, float], np.ndarray, list], 
+                 destination_coordinate: Union[Tuple[float, float], np.ndarray, list],
                  transportability: float, total_workload: float=None, completed_workload: float=None):
-        self._origin_coordinate = origin_coordinate  # 出発地点座標
-        self._destination_coordinate = destination_coordinate  # 目的地座標
+        self._origin_coordinate = make_coodinate_to_tuple(origin_coordinate)  # 出発地点座標
+        self._destination_coordinate = make_coodinate_to_tuple(destination_coordinate)  # 目的地座標
         self._transportability = transportability  # 荷物運搬の難しさ
         if transportability < 1.0:
             logger.error(f"{name}: transportability must be set to 1 or higher.")
@@ -49,9 +50,9 @@ class Transport(AbstractTask):
         target_coordinate = np.array(self.destination_coordinate)
         v = target_coordinate - np.array(self.coordinate)
         if np.linalg.norm(v) < mobility:
-            self._coordinate = make_coodinate_to_tuple(self.destination_coordinate)
+            self.coordinate = self.destination_coordinate
         else:
-            self._coordinate = make_coodinate_to_tuple(self.coordinate + mobility * v / np.linalg.norm(v))
+            self.coordinate = self.coordinate + mobility * v / np.linalg.norm(v)
 
     def update(self) -> bool:
         """ タスクの進捗を更新 """
@@ -69,7 +70,7 @@ class Transport(AbstractTask):
         # ロボットもタスクと同時に移動
         # ロボットのバッテリーを消費
         for robot in self.assigned_robot:
-            robot.update_coordinate(self.coordinate)
+            robot.coordinate = self.coordinate
             robot.draw_battery_power()
 
         # 残り移動距離に応じて完了済み仕事量を計算

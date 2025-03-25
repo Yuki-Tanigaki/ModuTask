@@ -15,16 +15,15 @@ class TestTransportTask(unittest.TestCase):
         self.transportability = 2.0
         self.required_perf = {PerformanceAttributes.MOBILITY: 1.0}
 
-    def create_mock_robot(self, mobility=2.0, battery_power=10.0, coordinate=None):
+    def create_mock_robot(self, mobility=2.0):
         robot_type = MagicMock()
         robot_type.performance = {PerformanceAttributes.MOBILITY: mobility}
         
         robot = MagicMock(spec=Robot)
-        robot.coordinate = coordinate or self.origin
         robot.state = RobotState.ACTIVE
         robot.type = robot_type
         robot.name = "TestRobot"
-        robot.update_coordinate = MagicMock()
+        robot.coordinate = MagicMock()
         robot.draw_battery_power = MagicMock()
         return robot
 
@@ -61,7 +60,7 @@ class TestTransportTask(unittest.TestCase):
             transportability=self.transportability
         )
         robot = self.create_mock_robot(mobility=2.0)
-        t.set_task_dependency([])  # 依存タスクなしとする
+        t._task_dependency = []  # 依存タスクなしとする
         t._assigned_robot = [robot]
 
         updated = t.update()
@@ -79,7 +78,7 @@ class TestTransportTask(unittest.TestCase):
             transportability=self.transportability
         )
         robot = self.create_mock_robot(mobility=1.0)
-        t.set_task_dependency([])  
+        t._task_dependency = []
         t._assigned_robot = [robot]
 
         self.assertFalse(t.update())
@@ -97,7 +96,7 @@ class TestTransportTask(unittest.TestCase):
         dependency = MagicMock()
         dependency.is_completed.return_value = False
 
-        t.set_task_dependency([dependency])
+        t._task_dependency = [dependency]
         t._assigned_robot = [robot]
 
         self.assertFalse(t.update())
