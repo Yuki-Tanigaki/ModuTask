@@ -70,8 +70,10 @@ class Transport(AbstractTask):
         # ロボットもタスクと同時に移動
         # ロボットのバッテリーを消費
         for robot in self.assigned_robot:
-            robot.coordinate = self.coordinate
-            robot.draw_battery_power()
+            robot.travel(self.coordinate)
+            if robot.coordinate != self.coordinate:
+                logger.error(f"{self.name}: {robot.name} cannot follow the object to be transported.")
+                raise RuntimeError(f"{self.name}: {robot.name} cannot follow the object to be transported.")
 
         # 残り移動距離に応じて完了済み仕事量を計算
         v = np.array(self.destination_coordinate) - np.array(self.coordinate)

@@ -23,8 +23,11 @@ class TestTransportTask(unittest.TestCase):
         robot.state = RobotState.ACTIVE
         robot.type = robot_type
         robot.name = "TestRobot"
-        robot.coordinate = MagicMock()
-        robot.draw_battery_power = MagicMock()
+        robot.coordinate = (0.0, 0.0)
+        def travel_mock(target):
+            robot.coordinate = target
+        robot.travel.side_effect = travel_mock
+        
         return robot
 
     def test_initialization_success(self):
@@ -65,8 +68,8 @@ class TestTransportTask(unittest.TestCase):
 
         updated = t.update()
         self.assertTrue(updated)
-        self.assertNotEqual(t.coordinate, self.origin)
-        self.assertGreater(t.completed_workload, 0.0)
+        self.assertEqual(t.coordinate, (0.6, 0.8))
+        self.assertEqual(t.completed_workload, 2.0)
 
     def test_update_fails_due_to_unsatisfied_performance(self):
         t = Transport(

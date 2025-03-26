@@ -19,7 +19,7 @@ class Manufacture(AbstractTask):
         
         # ロボットのバッテリーを消費
         for robot in self.assigned_robot:
-            robot.draw_battery_power()
+            robot.act()
         
         self._completed_workload += 1.0
         return True  # 進捗量を1増加

@@ -24,7 +24,7 @@ class TestManufactureTask(unittest.TestCase):
         robot.type = robot_type
         robot.name = "TestRobot"
         robot.update_coordinate = MagicMock()
-        robot.draw_battery_power = MagicMock()
+        robot.act = MagicMock()
         return robot
 
     def test_initialization_success(self):

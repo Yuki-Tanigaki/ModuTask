@@ -62,7 +62,7 @@ class Robot:
         if len(self.missing_components()) != 0:
             self._state = RobotState.DEFECTIVE
         # バッテリーが使用電力以上かチェック
-        if self.is_battery_sufficient():
+        if not self.is_battery_sufficient():
             self._state = RobotState.NO_ENERGY
 
     @property
@@ -89,13 +89,6 @@ class Robot:
     def state(self) -> RobotState:
         return self._state
 
-    @coordinate.setter
-    def coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
-        """ ロボットの座標を更新し、搭載モジュールの座標も同期 """
-        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
-        for module in self.component_mounted:
-            module.coordinate = self.coordinate
-
     def total_battery(self) -> float:
         """ 残りバッテリー量を算出 """
         sum = 0
@@ -116,7 +109,7 @@ class Robot:
 
     def is_battery_sufficient(self) -> bool:
         """ バッテリーが使用電力以上かチェック """
-        return self.total_battery() < self.type.power_consumption
+        return self.total_battery() > self.type.power_consumption
     
     def is_battery_full(self) -> bool:
         """ バッテリーが満タンかチェック """
@@ -124,7 +117,7 @@ class Robot:
 
     def draw_battery_power(self):
         """ 1ステップの行動でバッテリーを消費 """
-        if self.is_battery_sufficient():
+        if not self.is_battery_sufficient():
             logger.error(f"{self.name}: Battery level is less than the amount needed for action.")
             raise RuntimeError(f"{self.name}: Battery level is less than the amount needed for action.")
         left = self.type.power_consumption
@@ -148,16 +141,28 @@ class Robot:
             else:
                 module.battery = module.battery + left_charge_power
                 return
+    
+    def act(self):
+        """ 搭載モジュールを稼働させる """
+        if self.state != RobotState.ACTIVE:
+            logger.error(f"{self.name}: is not ACTIVE.")
+            raise RuntimeError(f"{self.name}: is not ACTIVE.")
+        
+        self.draw_battery_power()
+        for module in self.component_mounted:
+            module.operating_time = module.operating_time + 1.0
 
     def travel(self, target_coordinate: Tuple[float, float]): # 移動
         """ 目的地点に向けて移動 """
-        self.draw_battery_power()
+        self.act()
         v = np.array(target_coordinate) - np.array(self.coordinate)
         mob = self.type.performance[PerformanceAttributes.MOBILITY]
         if np.linalg.norm(v) < mob:  # 距離が移動能力以下
-            self.coordinate = target_coordinate
+            self._coordinate = copy.deepcopy(make_coodinate_to_tuple(target_coordinate))
         else:
-            self.coordinate = self.coordinate + mob*v/np.linalg.norm(v)
+            self._coordinate = copy.deepcopy(make_coodinate_to_tuple(self.coordinate + mob*v/np.linalg.norm(v)))
+        for module in self.component_mounted:
+            module.coordinate = self.coordinate
     
     def mount_module(self, module: Module):
         """ モジュールを搭載 """
@@ -174,7 +179,6 @@ class Robot:
             logger.error(f"{self.name}: {module.name} not found in component_required.")
             raise RuntimeError(f"{self.name}: {module.name} not found in component_required.")
         self._component_mounted.append(module)
-        return True
         
     def update_state(self):
         """ ロボットの状態を更新 """
@@ -182,15 +186,17 @@ class Robot:
         for module in self.component_mounted:
             module.update_state()
         # ERRORな搭載モジュールはリストから除外
-        self._component_mounted = [module for module in self._component_mounted if module.state != ModuleState.ERROR]
+        self._component_mounted = [module for module in self.component_mounted if module.state != ModuleState.ERROR]
+        self._state = RobotState.ACTIVE
         # 構成に必要なモジュール数を満たしているかチェック
         if len(self.missing_components()) != 0:
             self._state = RobotState.DEFECTIVE
+            return
         # バッテリーが使用電力以上かチェック
-        if self.is_battery_sufficient():
+        if not self.is_battery_sufficient():
             self._state = RobotState.NO_ENERGY
-        self._state = RobotState.ACTIVE
-
+            return
+    
     def __str__(self):
         """ ロボットの簡単な情報を文字列として表示 """
         return f"Robot({self.name}, {self.state.name}, {self.coordinate})"
