@@ -8,7 +8,7 @@ from modutask.core.utils import make_coodinate_to_tuple
 
 logger = logging.getLogger(__name__)
 
-class AbstractTask(ABC):
+class BaseTask(ABC):
     """ タスクを表す抽象基底クラス """
     def __init__(self, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], total_workload: float, 
                  completed_workload: float, required_performance: Dict[PerformanceAttributes, float]):
@@ -46,7 +46,10 @@ class AbstractTask(ABC):
         return self._completed_workload
     
     @property
-    def task_dependency(self) -> List["AbstractTask"]:
+    def task_dependency(self) -> List["BaseTask"]:
+        if self._task_dependency is None:
+            logger.error(f"{self.name}: task_dependency is not initialized.")
+            raise RuntimeError(f"{self.name}: task_dependency is not initialized.")
         return self._task_dependency
 
     @property
@@ -66,11 +69,8 @@ class AbstractTask(ABC):
         """ タスクが実行されたときの処理を記述 """
         pass
     
-    def initialize_task_dependency(self, task_dependency: List["AbstractTask"]):
+    def initialize_task_dependency(self, task_dependency: List["BaseTask"]):
         """ タスクの依存関係を設定 """
-        if self.task_dependency is not None:
-            logger.error(f"{self.name}: initialize_task_dependency should be call once.")
-            raise RuntimeError(f"{self.name}: initialize_task_dependency should be call once.")
         self._task_dependency = task_dependency
 
     def is_completed(self) -> bool:
@@ -79,9 +79,6 @@ class AbstractTask(ABC):
     
     def are_dependencies_completed(self) -> bool:
         """ 依存するタスクがすべて完了しているかを確認する """
-        if self.task_dependency is None:
-            logger.error(f"{self.name}: task_dependency is not set.")
-            raise RuntimeError(f"{self.name}: task_dependency is not set.")
         return all(dep.is_completed() for dep in self.task_dependency)
 
     def is_performance_satisfied(self) -> bool:

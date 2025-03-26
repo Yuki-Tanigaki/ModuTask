@@ -1,16 +1,16 @@
 import unittest
 from unittest.mock import MagicMock
-from modutask.core.task import AbstractTask
+from modutask.core.task import BaseTask
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.robot.robot import RobotState
 
-class DummyTask(AbstractTask):
+class DummyTask(BaseTask):
     """ テスト用の具象クラス """
     def update(self) -> bool:
         return True
 
 
-class TestAbstractTask(unittest.TestCase):
+class TestBaseTask(unittest.TestCase):
     def setUp(self):
         self.coord = (1.0, 2.0)
         self.required_perf = {attr: 1.0 for attr in PerformanceAttributes}

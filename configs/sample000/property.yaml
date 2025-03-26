@@ -1,0 +1,37 @@
+task: ./configs/sample000/task.yaml
+task_dependency: ./configs/sample000/task_dependency.yaml
+module_type: ./configs/sample000/module_type.yaml
+module: ./configs/sample000/module.yaml
+robot_type: ./configs/sample000/robot_type.yaml
+robot: ./configs/sample000/robot.yaml
+
+scenario: ./configs/sample000/scenario.yaml
+
+simulation:
+  seed: 1234
+  maxSimulationStep: 50
+  batteryLevel2Recharge: 10
+  chargeStation:
+    base_00: # 基地
+      name: base_00
+      coordinate: [0.0, 0.0]
+      chargingSpeed: 10
+framework:
+  totalIteration: 3
+architecture:
+  populationSize: 20
+  seed: 1234
+  totalTrials: 2000
+  maxRobot: 20
+  miminalActive: 2
+  miminalSpare: 0.1
+  objective: ['WeightedPerformance', 'TotalRedundancy', 'ModuleMovement']
+  constraint: ['ActiveRobot']
+schedule:
+  populationSize: 10
+  eliteSize: 1
+  generations: 100
+  seed: 1234
+  totalTrials: 500
+  
+  

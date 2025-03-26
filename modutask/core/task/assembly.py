@@ -1,11 +1,11 @@
 from typing import Tuple
 import logging
-from modutask.core.task.task import AbstractTask
+from modutask.core.task.task import BaseTask
 from modutask.core.robot.robot import Robot
 
 logger = logging.getLogger(__name__)
 
-class Assembly(AbstractTask):
+class Assembly(BaseTask):
     """ ロボット自己組み立てタスク """
     def __init__(self, name: str, robot: Robot):
         missingComponents = robot.missing_components()

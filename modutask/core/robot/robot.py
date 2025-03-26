@@ -4,7 +4,7 @@ from enum import Enum
 import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
-from modutask.core.module.module import Module, ModuleState, ModuleType
+from modutask.core.module.module import Module, ModuleType
 from modutask.core.utils import make_coodinate_to_tuple
 
 logger = logging.getLogger(__name__)
@@ -54,8 +54,8 @@ class Robot:
                 raise ValueError(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
 
         self._state = RobotState.ACTIVE # ロボットの状態（ACTIVEで初期化）
-        # ERRORな搭載モジュールはリストから除外
-        self._component_mounted = [module for module in self._component_mounted if module.state != ModuleState.ERROR]
+        # ACTIVEでない搭載モジュールはリストから除外
+        self._component_mounted = [module for module in self._component_mounted if module.is_active()]
         # 座標の異なるモジュールをリストから除外
         self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
         # 構成に必要なモジュール数を満たしているかチェック
@@ -167,7 +167,7 @@ class Robot:
     def mount_module(self, module: Module):
         """ モジュールを搭載 """
         # ModuleStateがERRORなときエラー
-        if module.state == ModuleState.ERROR:
+        if not module.is_active():
             logger.error(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
             raise RuntimeError(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
         # ロボットの座標とモジュールの座標が一致しない場合エラー
@@ -186,7 +186,7 @@ class Robot:
         for module in self.component_mounted:
             module.update_state()
         # ERRORな搭載モジュールはリストから除外
-        self._component_mounted = [module for module in self.component_mounted if module.state != ModuleState.ERROR]
+        self._component_mounted = [module for module in self.component_mounted if module.is_active()]
         self._state = RobotState.ACTIVE
         # 構成に必要なモジュール数を満たしているかチェック
         if len(self.missing_components()) != 0:

@@ -4,6 +4,7 @@ from enum import Enum
 import copy, logging
 import numpy as np
 from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.module.scenario import BaseScenario
 
 logger = logging.getLogger(__name__)
 
@@ -40,18 +41,14 @@ class ModuleType:
 class Module:
     """ モジュールのクラス """
     def __init__(self, module_type: ModuleType, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
-                 battery: float, operating_time_limit: float, operating_time: float=0.0):
+                 battery: float, operating_time: float):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # モジュールの座標
         self._battery = battery  # 現在のバッテリー残量
-        self._operating_time_limit = operating_time_limit  # モジュールの耐久
-        self._operating_time = operating_time  # 現在の耐久
-        # モジュールの状態
-        if operating_time == operating_time_limit:
-            self._state = ModuleState.ERROR
-        else:
-            self._state = ModuleState.ACTIVE
+        self._operating_time = operating_time  # モジュールの稼働時間
+        self._scenarios = None  # 故障シナリオ
+        self._state = None  # モジュールの状態
         
         if battery > module_type.max_battery:
             logger.error(f"{name}: battery exceeds the maximum capacity.")
@@ -59,15 +56,9 @@ class Module:
         if battery < 0.0:
             logger.error(f"{name}: battery must be positive.")
             raise ValueError(f"{name}: battery must be positive.")
-        if operating_time > operating_time_limit:
-            logger.error(f"{name}: current operating_time exceeds the maximum operating_time.")
-            raise ValueError(f"{name}: current operating_time exceeds the maximum operating_time.")
         if operating_time < 0.0:
             logger.error(f"{name}: current operating_time must be positive.")
             raise ValueError(f"{name}: current operating_time must be positive.")
-        if operating_time_limit < 0.0:
-            logger.error(f"{name}: maximum operating_time must be positive.")
-            raise ValueError(f"{name}: maximum operating_time must be positive.")
 
     @property
     def type(self) -> ModuleType:
@@ -84,17 +75,23 @@ class Module:
     @property
     def battery(self) -> float:
         return self._battery
-
-    @property
-    def operating_time_limit(self) -> float:
-        return self._operating_time_limit
     
     @property
     def operating_time(self) -> float:
         return self._operating_time
-
+    
+    @property
+    def scenarios(self) -> float:
+        if self._scenarios is None:
+            logger.error(f"{self.name}: scenarios is not initialized.")
+            raise RuntimeError(f"{self.name}: scenarios is not initialized.")
+        return self._scenarios
+    
     @property
     def state(self) -> ModuleState:
+        if self._state is None:
+            logger.error(f"{self.name}: state is not initialized.")
+            raise RuntimeError(f"{self.name}: state is not initialized.")
         return self._state
 
     @coordinate.setter
@@ -129,18 +126,25 @@ class Module:
         if operating_time < self.operating_time:
             logger.error(f"{self.name}: operating_time less than the current operating_time.")
             raise ValueError(f"{self.name}: operating_time less than the current operating_time.")
-        if operating_time > self.operating_time_limit:
-            logger.error(f"{self.name}: operating_time exceeds the maximum operating_time.")
-            raise ValueError(f"{self.name}: operating_time exceeds the maximum operating_time.")
 
         self._operating_time = operating_time
     
+    def is_active(self) -> bool:
+        """ モジュールが使用可能か """
+        return self.state == ModuleState.ACTIVE
+
+    def initialize_scenarios(self, scenarios: "BaseScenario"):
+        """ モジュール状態の初期化 """
+        self._scenarios = scenarios
+        self.update_state()
+
     def update_state(self):
-        """ モジュールの故障 """
-        if self.operating_time == self.operating_time_limit:
-            self._state = ModuleState.ERROR
-        else:
-            self._state = ModuleState.ACTIVE
+        """ モジュール状態の更新 """
+        self._state = ModuleState.ACTIVE
+        for scenario in self.scenarios:
+            if scenario.malfunction_module(self):
+                self._state = ModuleState.ERROR
+                return
 
     def __str__(self):
         """ モジュールの簡単な情報を文字列として表示 """

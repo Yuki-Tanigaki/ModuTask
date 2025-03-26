@@ -2,12 +2,12 @@ from typing import Dict, Tuple, Union
 import logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
-from modutask.core.task.task import AbstractTask
+from modutask.core.task.task import BaseTask
 from modutask.core.utils import make_coodinate_to_tuple
 
 logger = logging.getLogger(__name__)
 
-class Transport(AbstractTask):
+class Transport(BaseTask):
     """ 運搬タスクのクラス """
     def __init__(self, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
                  required_performance: Dict[PerformanceAttributes, float], 
@@ -21,15 +21,15 @@ class Transport(AbstractTask):
             logger.error(f"{name}: transportability must be set to 1 or higher.")
             raise ValueError(f"{name}: transportability must be set to 1 or higher.")
         # total_workloadがNoneの場合は初期化
+        if (total_workload is None) != (completed_workload is None):
+            logger.error(f"{name}: both 'total_workload' and 'completed_workload' must be set together.")
+            raise ValueError(f"{name}: both 'total_workload' and 'completed_workload' must be set together.")
+            
         if total_workload is None:
-            if completed_workload is not None:
-                logger.error(f"{name}: only completed_workload is set — total_workload is still missing.")
-                raise ValueError(f"{name}: only completed_workload is set — total_workload is still missing.")
-            else:
-                # 運搬距離*荷物運搬の難しさでタスクの総仕事量を初期化
-                v = np.array(self.destination_coordinate) - np.array(self._origin_coordinate)
-                total_workload = transportability * np.linalg.norm(v)
-                completed_workload = 0.0
+            # 運搬距離*荷物運搬の難しさでタスクの総仕事量を初期化
+            v = np.array(self.destination_coordinate) - np.array(self._origin_coordinate)
+            total_workload = transportability * np.linalg.norm(v)
+            completed_workload = 0.0
         super().__init__(name=name, coordinate=coordinate, total_workload=total_workload, 
                          completed_workload=completed_workload, required_performance=required_performance)
     

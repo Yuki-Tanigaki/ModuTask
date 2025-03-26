@@ -1,11 +1,11 @@
 from typing import Dict, Tuple
 import logging
 from modutask.core.robot.performance import PerformanceAttributes
-from modutask.core.task.task import AbstractTask
+from modutask.core.task.task import BaseTask
 
 logger = logging.getLogger(__name__)
 
-class Manufacture(AbstractTask):
+class Manufacture(BaseTask):
     """ 加工タスクのクラス """
     def __init__(self, name: str, coordinate: Tuple[float, float], total_workload: float, 
                  completed_workload: float, required_performance: Dict[PerformanceAttributes, int]):

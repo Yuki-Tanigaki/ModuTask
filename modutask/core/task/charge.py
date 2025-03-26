@@ -1,10 +1,10 @@
 from typing import Tuple
 import logging
-from modutask.core.task.task import AbstractTask
+from modutask.core.task.task import BaseTask
 
 logger = logging.getLogger(__name__)
 
-class Charge(AbstractTask):
+class Charge(BaseTask):
     """ 充電タスク """
     def __init__(self, name: str, coordinate: Tuple[float, float], charging_speed: float):
         total_workload = 0.0
