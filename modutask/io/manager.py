@@ -2,8 +2,8 @@ from typing import Dict, Type, List
 import inspect, logging, yaml
 import networkx as nx
 from modutask.core import *
-from modutask.io import Variable
- 
+from modutask.io.config_variable import *
+
 logger = logging.getLogger(__name__)
 
 def find_subclasses_by_name(base_class: Type) -> Dict[str, Type]:
@@ -285,7 +285,7 @@ class DataManager:
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Run the robotic system simulator.")
-    parser.add_argument("--property-file", type=str, help="Path to the property file")
+    parser.add_argument("--property_file", type=str, help="Path to the property file")
     args = parser.parse_args()
 
     manager = DataManager(args.property_file)

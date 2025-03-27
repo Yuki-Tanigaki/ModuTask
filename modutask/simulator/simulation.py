@@ -1,34 +1,12 @@
 import argparse
-from omegaconf import OmegaConf
 import numpy as np
-from modutask.robotic_system.core import *
-from modutask.robotic_system.manager import *
+from typing import Dict, Type, List
+from modutask.core import *
 from modutask.simulator.agent import RobotAgent
 
-class Simulator:
-    def __init__(self, property_file):
-        properties = OmegaConf.load(property_file)
 
-        self.manager = DataManager(properties)
-        self.module_types = self.manager.load_module_types()
-        self.robot_types = self.manager.load_robot_types(self.module_types)
-        self.tasks = self.manager.load_tasks()
-        self.modules = self.manager.load_modules(self.module_types)
-        self.robots = self.manager.load_robots(self.robot_types, self.modules, self.tasks)
-        
-        # シミュレーション設定
-        self.seed = properties.simulation.seed  # シミュレーション内で使う乱数生成器用
-        self.max_step = properties.simulation.maxSimulationStep  # シミュレーションの最大ステップ
-        self.battery_level_to_recharge = properties.simulation.batteryLevel2Recharge  # バッテリー切れ防止に充電に戻る基準となるバッテリー残量
-        self.charge_stations = []  # 充電タスク
-        for _, station in properties.simulation.chargeStation.items():
-            charge = Charge(name=station.name, coordinate=station.coordinate,
-                            total_workload=0, completed_workload=0,
-                            task_dependency=[],
-                            required_performance={},
-                            other_attrs={},
-                            charging_speed=station.chargingSpeed)
-            self.charge_stations.append(charge)
+class Simulator:
+    def __init__(self, tasks: Dict[str, BaseTask], robots: Dict[str, Robot], task_priority: Dict[Robot, List[str]]):
 
         # シミュレーションの結果保存用
         self.agent_history = []
