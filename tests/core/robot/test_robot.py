@@ -34,7 +34,6 @@ class TestRobot(unittest.TestCase):
             battery=10.0,
             operating_time=0.0
         )
-        self.module.initialize_scenarios([self.mock_scenario])
 
         # ロボット作成
         self.robot = Robot(
@@ -43,6 +42,8 @@ class TestRobot(unittest.TestCase):
             coordinate=(0, 0),
             component=[self.module]
         )
+        self.robot.update_state([self.mock_scenario])
+        
 
     def test_initial_state(self):
         self.assertEqual(self.robot.name, "Robo1")
@@ -91,7 +92,7 @@ class TestRobot(unittest.TestCase):
 
     def test_travel_with_insufficient_battery(self):
         self.module.battery = 0.0
-        self.robot.update_state()
+        self.robot.update_state([self.mock_scenario])
         self.assertEqual(self.robot.state, RobotState.NO_ENERGY)
         with self.assertRaises(RuntimeError):
             self.robot.travel((1.0, 1.0))
@@ -107,7 +108,7 @@ class TestRobot(unittest.TestCase):
             battery=5.0,
             operating_time=0.0
         )
-        wrong_module.initialize_scenarios([self.mock_scenario])
+        wrong_module.update_state([self.mock_scenario])
         with self.assertRaises(RuntimeError):
             self.robot.mount_module(wrong_module)
 
@@ -117,24 +118,24 @@ class TestRobot(unittest.TestCase):
         self.assertLess(self.robot.total_battery(), 10.0)
 
     def test_update_state_active(self):
-        self.robot.update_state()
+        self.robot.update_state([self.mock_scenario])
         self.assertEqual(self.robot.state, RobotState.ACTIVE)
 
     def test_update_state_defective_due_to_missing_module(self):
         self.robot._component_mounted = []
-        self.robot.update_state()
+        self.robot.update_state([self.mock_scenario])
         self.assertEqual(self.robot.state, RobotState.DEFECTIVE)
 
     def test_update_state_no_energy(self):
         self.module.battery = 0.0
-        self.robot.update_state()
+        self.robot.update_state([self.mock_scenario])
         self.assertEqual(self.robot.state, RobotState.NO_ENERGY)
 
     def test_update_state_excludes_error_modules(self):
         # 故障を返すようにシナリオを変更
         self.mock_scenario.malfunction_module.return_value = True
-        self.module.update_state()
-        self.robot.update_state()
+        self.module.update_state([self.mock_scenario])
+        self.robot.update_state([self.mock_scenario])
         self.assertNotIn(self.module, self.robot.component_mounted)
         self.assertEqual(self.robot.state, RobotState.DEFECTIVE)
 

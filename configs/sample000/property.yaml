@@ -4,7 +4,6 @@ module_type: ./configs/sample000/module_type.yaml
 module: ./configs/sample000/module.yaml
 robot_type: ./configs/sample000/robot_type.yaml
 robot: ./configs/sample000/robot.yaml
-
 scenario: ./configs/sample000/scenario.yaml
 
 simulation:

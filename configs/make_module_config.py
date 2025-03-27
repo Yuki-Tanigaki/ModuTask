@@ -14,6 +14,7 @@ def generate_modules_yaml(module_counts: dict, output_file: str = "module.yaml")
         for i in range(count):
             name = f"{module_type.lower()}_{i:02}"
             modules[name] = {
+                "name": name,
                 "module_type": module_type,
                 "coordinate": [0.0, 0.0],
                 "battery": DEFAULT_BATTERY.get(module_type, 1),
@@ -29,9 +30,9 @@ def generate_modules_yaml(module_counts: dict, output_file: str = "module.yaml")
 # 使用例
 module_counts = {
     "Body": 5,
-    "Limb": 6,
-    "EndE": 5,
-    "Wheel": 4
+    "Limb": 30,
+    "EndE": 10,
+    "Wheel": 20
 }
 
 generate_modules_yaml(module_counts)

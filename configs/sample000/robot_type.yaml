@@ -1,0 +1,78 @@
+TWSH:  # ロボット型名（任意）
+  name: TWSH  # ロボット型名（コピー）
+  required_modules:  # 必要なモジュールの数
+    Body: 1  # モジュール型名: 必要数
+    Limb: 4  # モジュール型名はModule_type.yamlに記載されているもののみ
+    EndE: 1
+    Wheel: 3
+  performance:  # ロボットの性能 RobotPerformanceAttributesの属性名のみ
+    TRANSPORT: 3  # 輸送性能
+    MANUFACTURE: 3  # マニュピレーション性能
+    MOBILITY: 3  # 移動性能
+  power_consumption: 1  # シミュレーション1ステップあたりのロボットの消費電力
+  recharge_trigger: 10  # 充電に戻るバッテリー量の基準
+TWDH:
+  name: TWDH
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 2
+    Wheel: 3
+  performance:
+    TRANSPORT: 3
+    MANUFACTURE: 5
+    MOBILITY: 3
+  power_consumption: 1
+  recharge_trigger: 10
+QWSH:
+  name: QWSH
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 1
+    Wheel: 4
+  performance:
+    TRANSPORT: 4
+    MANUFACTURE: 3
+    MOBILITY: 3
+  power_consumption: 1
+  recharge_trigger: 10
+QWDH:
+  name: QWDH
+  required_modules:
+    Body: 1
+    Limb: 6
+    EndE: 2
+    Wheel: 4
+  performance:
+    TRANSPORT: 4
+    MANUFACTURE: 5
+    MOBILITY: 3
+  power_consumption: 1
+  recharge_trigger: 10
+Dragon:
+  name: Dragon
+  required_modules:
+    Body: 0
+    Limb: 2
+    EndE: 1
+    Wheel: 2
+  performance:
+    TRANSPORT: 1
+    MANUFACTURE: 3
+    MOBILITY: 2
+  power_consumption: 1
+  recharge_trigger: 10
+Minimal:
+  name: Minimal
+  required_modules:
+    Body: 0
+    Limb: 1
+    EndE: 1
+    Wheel: 1
+  performance:
+    TRANSPORT: 1
+    MANUFACTURE: 3
+    MOBILITY: 1
+  power_consumption: 1
+  recharge_trigger: 10

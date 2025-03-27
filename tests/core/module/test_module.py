@@ -16,7 +16,7 @@ class TestModule(unittest.TestCase):
         # MagicMock で scenario を生成
         self.mock_scenario = MagicMock()
         self.mock_scenario.malfunction_module.return_value = False
-        self.module.initialize_scenarios([self.mock_scenario])
+        self.module.update_state([self.mock_scenario])
 
     def test_initial_state(self):
         self.assertEqual(self.module.name, "TestModule")
@@ -46,7 +46,7 @@ class TestModule(unittest.TestCase):
 
     def test_update_state_sets_error(self):
         self.mock_scenario.malfunction_module.return_value = True
-        self.module.update_state()
+        self.module.update_state([self.mock_scenario])
         self.assertEqual(self.module.state, ModuleState.ERROR)
 
     def test_str_repr(self):

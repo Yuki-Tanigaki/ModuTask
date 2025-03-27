@@ -1,4 +1,5 @@
 t_000:  # タスクの名前（任意）
+  name: t_000  # タスクの名前（同じもの）
   class: Transport  # タスクのクラス (Transport, Manufacture)
   coordinate: [0.0, 0.0]  # タスクの座標
   required_performance:  # タスクの必要能力
@@ -8,6 +9,7 @@ t_000:  # タスクの名前（任意）
   destination_coordinate: [6.0, 8.0]  # タスクの終点座標
   transportability: 1.0  # タスクの運搬難度（1.0~）
 m_000:
+  name: m_000
   class: Manufacture
   coordinate: [5.0, 5.0]
   total_workload: 25.0
@@ -16,6 +18,7 @@ m_000:
     TRANSPORT: 0.0
     MANUFACTURE: 6.0
 m_001:
+  name: m_001
   class: Manufacture
   coordinate: [5.0, 5.0]
   total_workload: 18.0
@@ -24,6 +27,7 @@ m_001:
     TRANSPORT: 0.0
     MANUFACTURE: 10.0
 t_001:
+  name: t_001
   class: Transport
   coordinate: [0.0, 0.0]
   required_performance: 

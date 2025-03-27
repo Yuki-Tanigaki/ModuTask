@@ -24,6 +24,9 @@ class TimeBasedScenario(BaseScenario):
                 raise ValueError(f"Maximum operating_time must be positive.")
 
     def malfunction_module(self, module: "Module") -> bool:
+        if module.name not in self.thresholds:
+            logger.error(f"Unknown module name is found: {module.name}.")
+            raise ValueError(f"Unknown module name is found: {module.name}.")
         if module.operating_time > self.thresholds[module.name]:
             logger.error(f"Operating_time exceeds the maximum operating_time in {module.name}.")
             raise ValueError(f"Operating_time exceeds the maximum operating_time in {module.name}.")

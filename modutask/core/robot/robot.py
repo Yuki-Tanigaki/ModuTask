@@ -6,6 +6,7 @@ import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
 from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.scenario import BaseScenario
 
 logger = logging.getLogger(__name__)
 
@@ -53,17 +54,7 @@ class Robot:
                 logger.error(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
                 raise ValueError(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
 
-        self._state = RobotState.ACTIVE # ロボットの状態（ACTIVEで初期化）
-        # ACTIVEでない搭載モジュールはリストから除外
-        self._component_mounted = [module for module in self._component_mounted if module.is_active()]
-        # 座標の異なるモジュールをリストから除外
-        self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
-        # 構成に必要なモジュール数を満たしているかチェック
-        if len(self.missing_components()) != 0:
-            self._state = RobotState.DEFECTIVE
-        # バッテリーが使用電力以上かチェック
-        if not self.is_battery_sufficient():
-            self._state = RobotState.NO_ENERGY
+        self._state = None
 
     @property
     def type(self) -> RobotType:
@@ -87,6 +78,9 @@ class Robot:
 
     @property
     def state(self) -> RobotState:
+        if self._state is None:
+            logger.error(f"State is not initialized: {self.name}.")
+            raise RuntimeError(f"State is not initialized: {self.name}.")
         return self._state
 
     def total_battery(self) -> float:
@@ -180,13 +174,16 @@ class Robot:
             raise RuntimeError(f"{self.name}: {module.name} not found in component_required.")
         self._component_mounted.append(module)
         
-    def update_state(self):
+    def update_state(self, scenarios: List[BaseScenario]):
         """ ロボットの状態を更新 """
         # 構成モジュールの状態を更新
         for module in self.component_mounted:
-            module.update_state()
+            module.update_state(scenarios)
         # ERRORな搭載モジュールはリストから除外
         self._component_mounted = [module for module in self.component_mounted if module.is_active()]
+        # 座標の異なるモジュールをリストから除外
+        self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
+
         self._state = RobotState.ACTIVE
         # 構成に必要なモジュール数を満たしているかチェック
         if len(self.missing_components()) != 0:

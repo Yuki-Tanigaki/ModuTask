@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from typing import Tuple, Union
+from typing import Tuple, Union, List
 from enum import Enum
 import copy, logging
 import numpy as np
 from modutask.core.utils import make_coodinate_to_tuple
-from modutask.core.module.scenario import BaseScenario
+from modutask.core.scenario import BaseScenario
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,6 @@ class Module:
         self._coordinate = make_coodinate_to_tuple(coordinate)  # モジュールの座標
         self._battery = battery  # 現在のバッテリー残量
         self._operating_time = operating_time  # モジュールの稼働時間
-        self._scenarios = None  # 故障シナリオ
         self._state = None  # モジュールの状態
         
         if battery > module_type.max_battery:
@@ -79,13 +78,6 @@ class Module:
     @property
     def operating_time(self) -> float:
         return self._operating_time
-    
-    @property
-    def scenarios(self) -> float:
-        if self._scenarios is None:
-            logger.error(f"{self.name}: scenarios is not initialized.")
-            raise RuntimeError(f"{self.name}: scenarios is not initialized.")
-        return self._scenarios
     
     @property
     def state(self) -> ModuleState:
@@ -133,15 +125,10 @@ class Module:
         """ モジュールが使用可能か """
         return self.state == ModuleState.ACTIVE
 
-    def initialize_scenarios(self, scenarios: "BaseScenario"):
-        """ モジュール状態の初期化 """
-        self._scenarios = scenarios
-        self.update_state()
-
-    def update_state(self):
+    def update_state(self, scenarios: List[BaseScenario]):
         """ モジュール状態の更新 """
         self._state = ModuleState.ACTIVE
-        for scenario in self.scenarios:
+        for scenario in scenarios:
             if scenario.malfunction_module(self):
                 self._state = ModuleState.ERROR
                 return
