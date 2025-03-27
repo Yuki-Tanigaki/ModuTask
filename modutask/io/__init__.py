@@ -1,3 +1,10 @@
+from .manager import DataManager
+
+__all__ = [
+    "DataManager",
+]
+
+
 class PropertyVariable:
     TASK: str = 'task'
     TASK_DEPENDENCY: str = 'task_dependency'
@@ -6,6 +13,7 @@ class PropertyVariable:
     ROBOT_TYPE: str = 'robot_type'
     ROBOT: str = 'robot'
     SCENARIO: str = 'scenario'
+    TASK_PRIORITY: str = 'task_priority'
 
 class TaskVariable:
     CLASS: str = 'class'

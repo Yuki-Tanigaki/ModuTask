@@ -8,6 +8,16 @@ t_000:  # タスクの名前（任意）
   origin_coordinate: [0.0, 0.0]  # タスクの始点座標
   destination_coordinate: [6.0, 8.0]  # タスクの終点座標
   transportability: 1.0  # タスクの運搬難度（1.0~）
+t_001:
+  name: t_001
+  class: Transport
+  coordinate: [0.0, 0.0]
+  required_performance: 
+    TRANSPORT: 3.0
+    MANUFACTURE: 0.0
+  origin_coordinate: [0.0, 0.0]
+  destination_coordinate: [0.0, 5.0]
+  transportability: 3.0
 m_000:
   name: m_000
   class: Manufacture
@@ -26,13 +36,3 @@ m_001:
   required_performance: 
     TRANSPORT: 0.0
     MANUFACTURE: 10.0
-t_001:
-  name: t_001
-  class: Transport
-  coordinate: [0.0, 0.0]
-  required_performance: 
-    TRANSPORT: 3.0
-    MANUFACTURE: 0.0
-  origin_coordinate: [0.0, 0.0]
-  destination_coordinate: [0.0, 5.0]
-  transportability: 3.0

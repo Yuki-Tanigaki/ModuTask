@@ -1,4 +1,4 @@
-from typing import Dict, Type
+from typing import Dict, Type, List
 import inspect, logging, yaml
 import networkx as nx
 from modutask.core import *
@@ -58,7 +58,6 @@ class DataManager:
                 k: v for k, v in task_data.items() if k in init_args
             }
 
-            # 引数に name を追加
             # required_performanceを PerformanceAttributes のdictに変更
             required_performance = {}
             for name, value in task_data[Variable.Task.REQUIRED_PERFORMANCE].items():
@@ -155,7 +154,7 @@ class DataManager:
             filtered_args = {
                 k: v for k, v in module_data.items() if k in init_args
             }
-            # 引数に name を追加
+            
             
             module_type = module_types.get(module_data[Variable.Module.TYPE])
             if module_type is None:
@@ -211,7 +210,7 @@ class DataManager:
             filtered_args = {
                 k: v for k, v in type_data.items() if k in init_args
             }
-            # 引数に name を追加
+            
             required_modules = {}
             for name, value in type_data[Variable.RobotType.REQUIRED_MODULES].items():
                 if name in module_types:
@@ -249,7 +248,7 @@ class DataManager:
             filtered_args = {
                 k: v for k, v in robot_data.items() if k in init_args
             }
-            # 引数に name を追加
+            
             robot_type = robot_types.get(robot_data[Variable.Robot.TYPE])
             if robot_type is None:
                 logging.error(f"Unknown robot type: {robot_data[Variable.Robot.TYPE]}")
@@ -265,6 +264,23 @@ class DataManager:
                 })
             robots[robot_name] = Robot(**filtered_args)
         return robots
+    
+    def load_task_priority(self, robots: Dict[str, Robot], tasks: Dict[str, BaseTask]) -> Dict[Robot, List[str]]:
+        """ ロボットを読み込む """
+        try:
+            with open(self.prop[Variable.Property.TASK_PRIORITY], 'r') as f:
+                priority_config = yaml.safe_load(f)
+        except FileNotFoundError as e:
+            logging.error(f"File not found: {e}")
+            raise
+        # 型チェック（すべての値が list であること）
+        task_priority = {}
+        for k, v in priority_config.items():
+            if not isinstance(v, list):
+                logging.error("Task_priority only accepts list of task_name.")
+                raise ValueError("Task_priority only accepts list of task_name.")
+            task_priority[robots[k]] = v
+        return task_priority
 
 def main():
     import argparse
@@ -275,15 +291,17 @@ def main():
     manager = DataManager(args.property_file)
     tasks = manager.load_tasks()
     module_types = manager.load_module_types()
-    modules = manager.load_modules(module_types)
+    modules = manager.load_modules(module_types=module_types)
     scenarios = manager.load_scenarios()
-    robot_types = manager.load_robot_types(module_types)
-    robots = manager.load_robots(robot_types, modules)
+    robot_types = manager.load_robot_types(module_types=module_types)
+    robots = manager.load_robots(robot_types=robot_types, modules=modules)
+    task_priority = manager.load_task_priority(robots=robots, tasks=tasks)
     for _, robot in robots.items():
         _, first_value = next(iter(scenarios.items()))
         robot.update_state([first_value])
     print(tasks)
     print(robots)
+    print(task_priority)
 
 if __name__ == '__main__':
     main()

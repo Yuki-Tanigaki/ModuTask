@@ -5,6 +5,7 @@ module: ./configs/sample000/module.yaml
 robot_type: ./configs/sample000/robot_type.yaml
 robot: ./configs/sample000/robot.yaml
 scenario: ./configs/sample000/scenario.yaml
+task_priority: ./configs/sample000/task_priority.yaml
 
 simulation:
   seed: 1234
