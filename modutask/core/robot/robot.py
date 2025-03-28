@@ -6,7 +6,7 @@ import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
 from modutask.core.utils import make_coodinate_to_tuple
-from modutask.core.scenario import BaseScenario
+from modutask.core.risk_scenario import BaseScenario
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class Robot:
                 logger.error(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
                 raise ValueError(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
 
-        self._state = None
+        self.update_state()
 
     @property
     def type(self) -> RobotType:
@@ -174,11 +174,12 @@ class Robot:
             raise RuntimeError(f"{self.name}: {module.name} not found in component_required.")
         self._component_mounted.append(module)
         
-    def update_state(self, scenarios: List[BaseScenario]):
+    def update_state(self, scenarios: List[BaseScenario] = None):
         """ ロボットの状態を更新 """
         # 構成モジュールの状態を更新
-        for module in self.component_mounted:
-            module.update_state(scenarios)
+        if scenarios is not None:
+            for module in self.component_mounted:
+                module.update_state(scenarios)
         # ERRORな搭載モジュールはリストから除外
         self._component_mounted = [module for module in self.component_mounted if module.is_active()]
         # 座標の異なるモジュールをリストから除外

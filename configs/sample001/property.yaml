@@ -1,0 +1,67 @@
+task: ./configs/sample001/task.yaml
+task_dependency: ./configs/sample001/task_dependency.yaml
+module_type: ./configs/sample001/module_type.yaml
+module: ./configs/sample001/module.yaml
+robot_type: ./configs/sample001/robot_type.yaml
+robot: ./configs/sample001/robot.yaml
+risk_scenario: ./configs/sample001/risk_scenario.yaml
+task_priority: ./configs/sample001/task_priority.yaml
+
+coordinate_set:
+- [6.0, 8.0]
+- [0.0, 5.0]
+- [-5.0, 0.0]
+task:
+  number: 10
+  class:
+  - Transport
+  - Manufacture
+  class_rate:
+  - 0.5
+  - 0.5
+  location_variance: 0.5
+  performance_max: 15
+  performance_min: 5
+  dependency_depth: 3
+  dependency_influence: 3.0
+module:
+  number:
+    Body: 5
+    Limb: 30
+    EndE: 10
+    Wheel: 20
+rsik_scenario:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
+seed: 1234
+scenario: scenario_00
+max_step: 50
+charge_station:
+  base_00: # 基地
+    name: base_00
+    coordinate: [0.0, 0.0]
+    charging_speed: 10
+
+
+framework:
+  training_scenario: [scenario_00, scenario_01, scenario_02, scenario_03, scenario_04]
+  test_scenario: [scenario_05]
+  totalIteration: 3
+architecture:
+  populationSize: 20
+  seed: 1234
+  totalTrials: 2000
+  maxRobot: 20
+  miminalActive: 2
+  miminalSpare: 0.1
+  objective: ['WeightedPerformance', 'TotalRedundancy', 'ModuleMovement']
+  constraint: ['ActiveRobot']
+schedule:
+  populationSize: 10
+  eliteSize: 1
+  generations: 100
+  seed: 1234
+  totalTrials: 500
+  
+  

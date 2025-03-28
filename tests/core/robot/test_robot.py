@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock
 from modutask.core.robot.robot import Robot, RobotType, RobotState
 from modutask.core.robot.performance import PerformanceAttributes
-from modutask.core.module.module import Module, ModuleType
+from modutask.core.module.module import Module, ModuleType, ModuleState
 
 class TestRobot(unittest.TestCase):
 
@@ -32,7 +32,8 @@ class TestRobot(unittest.TestCase):
             name="Battery1",
             coordinate=(0, 0),
             battery=10.0,
-            operating_time=0.0
+            operating_time=0.0,
+            state=ModuleState.ACTIVE
         )
 
         # ロボット作成
@@ -106,7 +107,8 @@ class TestRobot(unittest.TestCase):
             name="Battery2",
             coordinate=(1, 1),
             battery=5.0,
-            operating_time=0.0
+            operating_time=0.0,
+            state=ModuleState.ACTIVE
         )
         wrong_module.update_state([self.mock_scenario])
         with self.assertRaises(RuntimeError):

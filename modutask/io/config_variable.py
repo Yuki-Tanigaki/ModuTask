@@ -5,7 +5,7 @@ class PropertyVariable:
     MODULE: str = 'module'
     ROBOT_TYPE: str = 'robot_type'
     ROBOT: str = 'robot'
-    SCENARIO: str = 'scenario'
+    SCENARIO: str = 'risk_scenario'
     TASK_PRIORITY: str = 'task_priority'
 
 class TaskVariable:
@@ -14,6 +14,7 @@ class TaskVariable:
 
 class ModuleVariable:
     TYPE: str = 'module_type'
+    STATE: str = 'state'
 
 class RobotTypeVariable:
     REQUIRED_MODULES: str = 'required_modules'
@@ -24,8 +25,8 @@ class RobotVariable:
     COMPONENT: str = 'component'
 
 class Variable:
-    Property = PropertyVariable
-    Task = TaskVariable
-    Module = ModuleVariable
-    RobotType = RobotTypeVariable
-    Robot = RobotVariable
+    PROPERTY = PropertyVariable
+    TASK = TaskVariable
+    MODULE = ModuleVariable
+    ROBOT_TYPE = RobotTypeVariable
+    ROBOT = RobotVariable

@@ -1,4 +1,4 @@
 from .task import *
 from .module import *
 from .robot import *
-from .scenario import BaseScenario, TimeBasedScenario
+from .risk_scenario import BaseScenario, TimeSigmoid

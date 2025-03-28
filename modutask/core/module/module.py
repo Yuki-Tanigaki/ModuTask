@@ -4,7 +4,7 @@ from enum import Enum
 import copy, logging
 import numpy as np
 from modutask.core.utils import make_coodinate_to_tuple
-from modutask.core.scenario import BaseScenario
+from modutask.core.risk_scenario import BaseScenario
 
 logger = logging.getLogger(__name__)
 
@@ -41,13 +41,13 @@ class ModuleType:
 class Module:
     """ モジュールのクラス """
     def __init__(self, module_type: ModuleType, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
-                 battery: float, operating_time: float):
+                 battery: float, operating_time: float, state: ModuleState):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # モジュールの座標
         self._battery = battery  # 現在のバッテリー残量
         self._operating_time = operating_time  # モジュールの稼働時間
-        self._state = None  # モジュールの状態
+        self._state = state  # モジュールの状態
         
         if battery > module_type.max_battery:
             logger.error(f"{name}: battery exceeds the maximum capacity.")
@@ -81,9 +81,6 @@ class Module:
     
     @property
     def state(self) -> ModuleState:
-        if self._state is None:
-            logger.error(f"{self.name}: state is not initialized.")
-            raise RuntimeError(f"{self.name}: state is not initialized.")
         return self._state
 
     @coordinate.setter

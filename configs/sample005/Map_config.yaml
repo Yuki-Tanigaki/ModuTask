@@ -1,0 +1,24 @@
+xlim: [-6.0, 6.0]
+ylim: [-6.0, 6.0]
+chargingSpeed: 10
+workplace:
+  base0: # 基地
+    coordinate: [0.0, 0.0]
+    size: 1
+    color: [1, 0, 0, 0.2]
+    chargingStation: true
+  wp0: # インフレータブル構造物
+    coordinate: [5.0, 5.0]
+    size: 1
+    color: [0, 0, 0, 0.2]
+    chargingStation: false
+  wp1: # 太陽光発電
+    coordinate: [-5.0, -5.0]
+    size: 1
+    color: [0, 0, 0, 0.2]
+    chargingStation: false
+  wp2: # 通信施設
+    coordinate: [0.0, 5.0]
+    size: 1
+    color: [0, 0, 0, 0.2]
+    chargingStation: false

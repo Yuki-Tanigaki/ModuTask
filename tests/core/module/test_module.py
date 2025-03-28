@@ -11,7 +11,8 @@ class TestModule(unittest.TestCase):
             name="TestModule",
             coordinate=(0.0, 0.0),
             battery=50.0,
-            operating_time=5.0
+            operating_time=5.0,
+            state=ModuleState.ACTIVE
         )
         # MagicMock で scenario を生成
         self.mock_scenario = MagicMock()

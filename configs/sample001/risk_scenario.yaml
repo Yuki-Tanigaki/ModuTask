@@ -1,0 +1,4 @@
+s_000:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
