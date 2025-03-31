@@ -64,7 +64,7 @@ def main():
     robot_types = manager.input.load_robot_types(module_types=module_types)
     robots = manager.input.load_robots(robot_types=robot_types, modules=modules)
     manager.check_duplicate_modules(robots=robots)
-    scenarios = manager.input.load_scenarios()
+    scenarios = manager.input.load_risk_scenarios()
     task_priority = manager.input.load_task_priority(robots=robots, tasks=tasks)
     # print(robots)
     # print(task_priority)

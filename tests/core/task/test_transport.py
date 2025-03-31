@@ -12,7 +12,9 @@ class TestTransportTask(unittest.TestCase):
         self.origin = (0.0, 0.0)
         self.destination = (3.0, 4.0)  # 距離 = 5.0
         self.coordinate = (0.0, 0.0)
-        self.transportability = 2.0
+        self.resistance = 2.0
+        self.total_workload = 10.0
+        self.completed_workload = 0.0
         self.required_perf = {PerformanceAttributes.MOBILITY: 1.0}
 
     def create_mock_robot(self, mobility=2.0):
@@ -37,12 +39,14 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            transportability=self.transportability
+            resistance=self.resistance,
+            total_workload=self.total_workload,
+            completed_workload=self.completed_workload,
         )
         self.assertAlmostEqual(t.total_workload, 10.0)
         self.assertEqual(t.completed_workload, 0.0)
 
-    def test_invalid_transportability(self):
+    def test_invalid_resistance(self):
         with self.assertRaises(ValueError):
             Transport(
                 name=self.name,
@@ -50,7 +54,9 @@ class TestTransportTask(unittest.TestCase):
                 required_performance=self.required_perf,
                 origin_coordinate=self.origin,
                 destination_coordinate=self.destination,
-                transportability=0.5
+                resistance=0.5,
+                total_workload=self.total_workload,
+                completed_workload=self.completed_workload,
             )
 
     def test_update_progress(self):
@@ -60,7 +66,9 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            transportability=self.transportability
+            resistance=self.resistance,
+            total_workload=self.total_workload,
+            completed_workload=self.completed_workload,
         )
         robot = self.create_mock_robot(mobility=2.0)
         t._task_dependency = []  # 依存タスクなしとする
@@ -78,7 +86,9 @@ class TestTransportTask(unittest.TestCase):
             required_performance={PerformanceAttributes.MOBILITY: 10.0},  # 高すぎて満たせない
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            transportability=self.transportability
+            resistance=self.resistance,
+            total_workload=self.total_workload,
+            completed_workload=self.completed_workload,
         )
         robot = self.create_mock_robot(mobility=1.0)
         t._task_dependency = []
@@ -93,7 +103,9 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            transportability=self.transportability
+            resistance=self.resistance,
+            total_workload=self.total_workload,
+            completed_workload=self.completed_workload,
         )
         robot = self.create_mock_robot()
         dependency = MagicMock()

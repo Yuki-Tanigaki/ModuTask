@@ -1,4 +1,3 @@
-from typing import Tuple
 import logging
 from modutask.core.task.task import BaseTask
 
@@ -6,13 +5,13 @@ logger = logging.getLogger(__name__)
 
 class Charge(BaseTask):
     """ 充電タスク """
-    def __init__(self, name: str, coordinate: Tuple[float, float], charging_speed: float):
+    def __init__(self, name: str, coordinate: tuple[float, float], charging_speed: float):
         total_workload = 0.0
         completed_workload = 0.0
         required_performance = {}
         super().__init__(name=name, coordinate=coordinate, total_workload=total_workload, 
                          completed_workload=completed_workload, required_performance=required_performance)
-        self._charging_speed = charging_speed  # 充電速度
+        self._charging_speed = charging_speed
 
     @property
     def charging_speed(self) -> float:

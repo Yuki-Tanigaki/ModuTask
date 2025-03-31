@@ -251,7 +251,7 @@ class Input:
             task_priority[robots[k]] = v
         return task_priority
     
-    def load_scenarios(self) -> Dict[str, BaseScenario]:
+    def load_risk_scenarios(self) -> Dict[str, BaseScenario]:
         """ 故障シナリオを読み込む """
         try:
             with open(self.prop[Variable.PROPERTY.SCENARIO], 'r') as f:

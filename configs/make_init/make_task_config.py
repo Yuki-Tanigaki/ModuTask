@@ -1,6 +1,5 @@
 import random
 import numpy as np
-from config import Config
 import networkx as nx
 from modutask.core import *
 from modutask.io.output import Output

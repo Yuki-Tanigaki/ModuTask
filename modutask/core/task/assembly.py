@@ -1,4 +1,3 @@
-from typing import Tuple
 import logging
 from modutask.core.task.task import BaseTask
 from modutask.core.robot.robot import Robot

@@ -1,12 +1,13 @@
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Union
+from typing import Union
 from enum import Enum
 import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
 from modutask.core.utils import make_coodinate_to_tuple
-from modutask.core.risk_scenario import BaseScenario
+from modutask.core.risk_scenario import BaseRiskScenario
+from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +26,8 @@ class RobotState(Enum):
 class RobotType:
     """ ロボットの種類 """
     name: str  # ロボット名
-    required_modules: Dict[ModuleType, int]  # 構成に必要なモジュール数
-    performance: Dict[PerformanceAttributes, int]  # ロボットの各能力値
+    required_modules: dict[ModuleType, int]  # 構成に必要なモジュール数
+    performance: dict[PerformanceAttributes, int]  # ロボットの各能力値
     power_consumption: float  # ロボットの消費電力
     recharge_trigger: float  # 充電に戻るバッテリー量の基準
 
@@ -38,21 +39,20 @@ class RobotType:
 
 class Robot:
     """ ロボットのクラス """
-    def __init__(self, robot_type: RobotType, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], 
-                 component: List[Module]):
+    def __init__(self, robot_type: RobotType, name: str, coordinate: Union[tuple[float, float], np.ndarray, list], 
+                 component: list[Module]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # 現在の座標
         self._component_mounted = list(component)  # 搭載モジュール
         self._component_required = list(component)  # 必要モジュール
-        """ 指定されたタイプと必要モジュールが一致しているかチェック """
         for module_type, required_num in self.type.required_modules.items():
+            # component_required内のモジュール数が指定されたタイプと一致しているかチェック
             num = len([module for module in self._component_required if module.type == module_type])
             if num == required_num:
                 continue
             else:
-                logger.error(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
-                raise ValueError(f"{self.name}: {module_type.name} is required {required_num} but {num} is mounted.")
+                raise_with_log(ValueError, f"{module_type.name} is required {required_num} but {num} is assigned: {self.name}")
 
         self.update_state()
 
@@ -65,22 +65,21 @@ class Robot:
         return self._name
 
     @property
-    def coordinate(self) -> Tuple[float, float]:
+    def coordinate(self) -> tuple[float, float]:
         return self._coordinate
     
     @property
-    def component_mounted(self) -> List[Module]:
+    def component_mounted(self) -> list[Module]:
         return self._component_mounted
 
     @property
-    def component_required(self) -> List[Module]:
+    def component_required(self) -> list[Module]:
         return self._component_required
 
     @property
     def state(self) -> RobotState:
         if self._state is None:
-            logger.error(f"State is not initialized: {self.name}.")
-            raise RuntimeError(f"State is not initialized: {self.name}.")
+            raise_with_log(RuntimeError, f"State is not initialized: {self.name}.")
         return self._state
 
     def total_battery(self) -> float:
@@ -97,7 +96,7 @@ class Robot:
             sum += module.type.max_battery
         return sum
     
-    def missing_components(self) -> List[Module]:
+    def missing_components(self) -> list[Module]:
         """ 不足中のモジュールをリスト化 """
         return list(set(self.component_required) - set(self.component_mounted))
 
@@ -112,8 +111,7 @@ class Robot:
     def draw_battery_power(self):
         """ 1ステップの行動でバッテリーを消費 """
         if not self.is_battery_sufficient():
-            logger.error(f"{self.name}: Battery level is less than the amount needed for action.")
-            raise RuntimeError(f"{self.name}: Battery level is less than the amount needed for action.")
+            raise_with_log(RuntimeError, f"Battery level is less than the amount needed for action: {self.name}.")
         left = self.type.power_consumption
         for module in reversed(self.component_mounted):
             if left <= module.battery:
@@ -126,8 +124,7 @@ class Robot:
     def charge_battery_power(self, charging_speed: float):
         """ 1ステップの充電 """
         left_charge_power = charging_speed
-        # モジュールを順番に充電
-        for module in self.component_mounted:
+        for module in self.component_mounted:   # 充電順は先頭から
             remaining_capacity = module.type.max_battery - module.battery
             if remaining_capacity < left_charge_power:
                 module.battery = module.type.max_battery  # フル充電
@@ -139,14 +136,13 @@ class Robot:
     def act(self):
         """ 搭載モジュールを稼働させる """
         if self.state != RobotState.ACTIVE:
-            logger.error(f"{self.name}: is not ACTIVE.")
-            raise RuntimeError(f"{self.name}: is not ACTIVE.")
+            raise_with_log(RuntimeError, f"Not ACTIVE: {self.name}.")
         
         self.draw_battery_power()
         for module in self.component_mounted:
             module.operating_time = module.operating_time + 1.0
 
-    def travel(self, target_coordinate: Tuple[float, float]): # 移動
+    def travel(self, target_coordinate: tuple[float, float]):
         """ 目的地点に向けて移動 """
         self.act()
         v = np.array(target_coordinate) - np.array(self.coordinate)
@@ -160,37 +156,26 @@ class Robot:
     
     def mount_module(self, module: Module):
         """ モジュールを搭載 """
-        # ModuleStateがERRORなときエラー
         if not module.is_active():
-            logger.error(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
-            raise RuntimeError(f"{self.name}: {module.name} is failed to mount due to a malfunction.")
-        # ロボットの座標とモジュールの座標が一致しない場合エラー
+            raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a malfunction: {self.name}.")
         if module.coordinate != self.coordinate:
-            logger.error(f"{self.name}: {module.name} is failed to mount due to a coordinate mismatch.")
-            raise RuntimeError(f"{self.name}: {module.name} is failed to mount due to a coordinate mismatch.")
-        # モジュールがcomponent_requiredに含まれていない場合エラー
+            raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a coordinate mismatch: {self.name}.")
         if module not in self.component_required:
-            logger.error(f"{self.name}: {module.name} not found in component_required.")
-            raise RuntimeError(f"{self.name}: {module.name} not found in component_required.")
+            raise_with_log(RuntimeError, f"{module.name} not found in component_required: {self.name}.")
         self._component_mounted.append(module)
         
-    def update_state(self, scenarios: List[BaseScenario] = None):
+    def update_state(self, scenarios: list[BaseRiskScenario] = None):
         """ ロボットの状態を更新 """
-        # 構成モジュールの状態を更新
-        if scenarios is not None:
+        if scenarios is not None:  # 構成モジュールの状態を更新
             for module in self.component_mounted:
                 module.update_state(scenarios)
-        # ERRORな搭載モジュールはリストから除外
         self._component_mounted = [module for module in self.component_mounted if module.is_active()]
-        # 座標の異なるモジュールをリストから除外
         self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
 
         self._state = RobotState.ACTIVE
-        # 構成に必要なモジュール数を満たしているかチェック
         if len(self.missing_components()) != 0:
             self._state = RobotState.DEFECTIVE
             return
-        # バッテリーが使用電力以上かチェック
         if not self.is_battery_sufficient():
             self._state = RobotState.NO_ENERGY
             return

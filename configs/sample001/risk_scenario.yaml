@@ -2,3 +2,24 @@ s_000:
   class: TimeSigmoid
   sharpness: 10.0
   limit: 50
+  seed: 1234
+s_001:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
+  seed: 1235
+s_002:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
+  seed: 1236
+s_003:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
+  seed: 1237
+s_004:
+  class: TimeSigmoid
+  sharpness: 10.0
+  limit: 50
+  seed: 1238

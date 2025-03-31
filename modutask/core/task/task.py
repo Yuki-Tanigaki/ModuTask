@@ -1,17 +1,19 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Tuple, Union
+from typing import Union
 import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.robot.robot import Robot, RobotState
 from modutask.core.utils import make_coodinate_to_tuple
+from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
 
 class BaseTask(ABC):
     """ タスクを表す抽象基底クラス """
-    def __init__(self, name: str, coordinate: Union[Tuple[float, float], np.ndarray, list], total_workload: float, 
-                 completed_workload: float, required_performance: Dict[PerformanceAttributes, float]):
+
+    def __init__(self, name: str, coordinate: Union[tuple[float, float], np.ndarray, list], total_workload: float, 
+                 completed_workload: float, required_performance: dict[PerformanceAttributes, float]):
         self._name = name  # タスク名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # タスクの座標
         self._total_workload = total_workload  # タスクの総仕事量
@@ -20,21 +22,18 @@ class BaseTask(ABC):
         self._task_dependency = None  # 依存するタスクのリスト
         self._assigned_robot = None # タスクに配置済みのロボットのリスト
         if total_workload < 0.0:
-            logger.error(f"{name}: total_workload must be positive.")
-            raise ValueError(f"{name}: total_workload must be positive.")
+            raise_with_log(ValueError, f"Total_workload must be positive: {self.name}.")
         if completed_workload > total_workload:
-            logger.error(f"{name}: completed_workload exceeds the maximum capacity.")
-            raise ValueError(f"{name}: completed_workload exceeds the maximum capacity.")
+            raise_with_log(ValueError, f"Completed_workload exceeds the maximum capacity: {self.name}.")
         if completed_workload < 0.0:
-            logger.error(f"{name}: completed_workload must be positive.")
-            raise ValueError(f"{name}: completed_workload must be positive.")
+            raise_with_log(ValueError, f"Completed_workload must be positive: {self.name}.")
     
     @property
     def name(self) -> str:
         return self._name
 
     @property
-    def coordinate(self) -> Tuple[float, float]:
+    def coordinate(self) -> tuple[float, float]:
         return self._coordinate
     
     @property
@@ -46,22 +45,21 @@ class BaseTask(ABC):
         return self._completed_workload
     
     @property
-    def task_dependency(self) -> List["BaseTask"]:
+    def task_dependency(self) -> list["BaseTask"]:
         if self._task_dependency is None:
-            logger.error(f"{self.name}: task_dependency is not initialized.")
-            raise RuntimeError(f"{self.name}: task_dependency is not initialized.")
+            raise_with_log(RuntimeError, f"Task_dependency must be initialized before use: {self.name}.")
         return self._task_dependency
 
     @property
-    def required_performance(self) -> Dict["PerformanceAttributes", float]:
+    def required_performance(self) -> dict["PerformanceAttributes", float]:
         return self._required_performance
     
     @property
-    def assigned_robot(self) -> List[Robot]:
+    def assigned_robot(self) -> list[Robot]:
         return self._assigned_robot
     
     @coordinate.setter
-    def coordinate(self, coordinate: Union[Tuple[float, float], np.ndarray, list]):
+    def coordinate(self, coordinate: Union[tuple[float, float], np.ndarray, list]):
         self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
 
     @abstractmethod
@@ -69,7 +67,7 @@ class BaseTask(ABC):
         """ タスクが実行されたときの処理を記述 """
         pass
     
-    def initialize_task_dependency(self, task_dependency: List["BaseTask"]):
+    def initialize_task_dependency(self, task_dependency: list["BaseTask"]):
         """ タスクの依存関係を設定 """
         self._task_dependency = task_dependency
 
@@ -88,8 +86,7 @@ class BaseTask(ABC):
         ロボットの合計能力値がrequired_performance以上の時、タスクは実行される
         """
         if self.assigned_robot is None:
-            logger.error(f"{self.name}: assigned_robot is not set.")
-            raise RuntimeError(f"{self.name}: assigned_robot is not set.")
+            raise_with_log(RuntimeError, f"Assigned_robot must be set before proceeding: {self.name}.")
         total_assigned_performance = {attr: 0 for attr in PerformanceAttributes}
         for robot in self.assigned_robot:
             for attr, value in robot.type.performance.items():
@@ -102,17 +99,13 @@ class BaseTask(ABC):
         self._assigned_robot = None
 
     def assign_robot(self, robot: Robot):
+        """ ロボットを配置 """
         if self.assigned_robot is None:
             self._assigned_robot = []
-        """ ロボットを配置 """
-        # RobotStateがACTIVEなことを確認
         if robot.state != RobotState.ACTIVE:
-            logger.error(f"{robot.name} is {robot.state}, cannot be assigned to tasks.")
-            raise RuntimeError(f"{robot.name} is {robot.state}, cannot be assigned to tasks.")
-        # ロボットの座標とタスクの座標が一致しているかチェック
+            raise_with_log(RuntimeError, f"{robot.name} with {robot.state} are assigned: {self.name}.")
         if robot.coordinate != self.coordinate:
-            logger.error(f"{robot.name} with different coordinates are assigned to {self.name}.")
-            raise RuntimeError(f"{robot.name} with different coordinates are assigned to {self.name}.")
+            raise_with_log(RuntimeError, f"{robot.name} with mismatched coordinates are assigned: {self.name}.")
 
         self._assigned_robot.append(robot)
 

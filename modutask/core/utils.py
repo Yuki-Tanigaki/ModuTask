@@ -1,33 +1,38 @@
-from typing import Tuple, Union
-from omegaconf import ListConfig
+from typing import Union
 import numpy as np
-import copy
+import copy, logging
+from modutask.utils import raise_with_log
 
-def make_coodinate_to_tuple(coordinate: Union[Tuple[float, float], np.ndarray, list, ListConfig]) -> Tuple[float, float]:
-    # `ListConfig` を `list` に変換
-    if isinstance(coordinate, ListConfig):
-        coordinate = list(coordinate)
+logger = logging.getLogger(__name__)
 
-    # NumPyの配列ならタプルに変換
+def make_coodinate_to_tuple(
+    coordinate: Union[tuple[float, float], np.ndarray, list],
+) -> tuple[float, float]:
+    """さまざまな2D座標フォーマットをTuple[float, float]に変換"""
+
+    # NumPyの配列
     if isinstance(coordinate, np.ndarray):
-        if coordinate.shape == (2,):  # 2要素の1次元配列か確認
+        if coordinate.shape == (2,):
             return copy.deepcopy(tuple(map(float, coordinate)))
         else:
-            raise TypeError(f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
+            raise_with_log(TypeError, f"Invalid coordinate shape: {coordinate.shape}. Expected shape (2,).")
 
-    # リストの場合もタプルに変換
+    # リスト
     elif isinstance(coordinate, list):
         if len(coordinate) == 2:
             return copy.deepcopy(tuple(map(float, coordinate)))
         else:
-            raise TypeError(f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
+            raise_with_log(TypeError, f"Invalid coordinate length: {len(coordinate)}. Expected length 2.")
 
-    # NumPyのfloat64が含まれているタプルを処理
+    # NumPyのfloat64が含まれているタプル
     elif isinstance(coordinate, tuple):
-        if len(coordinate) == 2 and all(isinstance(x, (float, int, np.float64)) for x in coordinate):
-            return copy.deepcopy(tuple(map(float, coordinate)))  # floatに変換
+        if len(coordinate) == 2 and all(
+            isinstance(x, (float, int, np.float64)) for x in coordinate
+        ):
+            return copy.deepcopy(tuple(map(float, coordinate)))
         else:
-            raise TypeError(f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
+            raise_with_log(TypeError, f"Invalid coordinate format: {coordinate}. Expected Tuple[float, float].")
 
     else:
-        raise TypeError(f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
+        raise_with_log(TypeError, f"Invalid coordinate type: {type(coordinate)}. Expected Tuple[float, float] or np.ndarray.")
+        

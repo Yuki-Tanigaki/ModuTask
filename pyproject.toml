@@ -32,3 +32,8 @@ build-backend = "poetry.core.masonry.api"
 python_version = "3.12"
 ignore_missing_imports = true
 strict = true
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+skip-string-normalization = false

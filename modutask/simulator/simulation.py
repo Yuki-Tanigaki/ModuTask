@@ -5,6 +5,10 @@ from modutask.core import *
 from modutask.simulator.agent import RobotAgent
 
 
+class Initializer:
+     def __init__(self, tasks: Dict[str, BaseTask], robots: Dict[str, Robot]):
+         pass
+
 class Simulator:
     def __init__(self, tasks: Dict[str, BaseTask], robots: Dict[str, Robot], task_priority: Dict[Robot, List[str]]):
 
