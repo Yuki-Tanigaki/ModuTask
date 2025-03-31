@@ -1,3 +1,4 @@
+from typing import NoReturn
 import logging
 
 def setup_logger(logfile: str):
@@ -26,7 +27,7 @@ def setup_logger(logfile: str):
     root_logger.addHandler(console_handler)
     root_logger.addHandler(file_handler)
 
-def raise_with_log(exc_type: type[Exception], message: str):
+def raise_with_log(exc_type: type[Exception], message: str) -> NoReturn:
     logger = logging.getLogger(__name__)
     logger.error(f"[{exc_type.__name__}] {message}")
     raise exc_type(message)

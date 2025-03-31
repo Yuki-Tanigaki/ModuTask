@@ -32,11 +32,11 @@ class TestCharge(unittest.TestCase):
             r.charge_battery_power.assert_called_once_with(3.5)
 
     def test_charge_no_assigned_robot(self):
-        """ _assigned_robot が None のとき TypeError（反復不能） """
+        """ _assigned_robot が None のとき RuntimeError """
         task = Charge("charge", (0.0, 0.0), charging_speed=2.0)
         task._assigned_robot = None
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(RuntimeError):
             task.update()
 
 if __name__ == '__main__':

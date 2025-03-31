@@ -21,10 +21,10 @@ module:
     Limb: 30
     EndE: 10
     Wheel: 20
+  location_variance: 0.5
 rsik_scenario:
-  class: TimeSigmoid
-  sharpness: 10.0
-  limit: 50
+  class: ExponentialFailure
+  failure_rate: 0.1
 seed: 1234
 scenario: scenario_00
 max_step: 50

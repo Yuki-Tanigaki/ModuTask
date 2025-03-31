@@ -12,7 +12,7 @@ class TestTransportTask(unittest.TestCase):
         self.origin = (0.0, 0.0)
         self.destination = (3.0, 4.0)  # 距離 = 5.0
         self.coordinate = (0.0, 0.0)
-        self.resistance = 2.0
+        self.transport_resistance = 2.0
         self.total_workload = 10.0
         self.completed_workload = 0.0
         self.required_perf = {PerformanceAttributes.MOBILITY: 1.0}
@@ -39,14 +39,14 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            resistance=self.resistance,
+            transport_resistance=self.transport_resistance,
             total_workload=self.total_workload,
             completed_workload=self.completed_workload,
         )
         self.assertAlmostEqual(t.total_workload, 10.0)
         self.assertEqual(t.completed_workload, 0.0)
 
-    def test_invalid_resistance(self):
+    def test_invalid_transport_resistance(self):
         with self.assertRaises(ValueError):
             Transport(
                 name=self.name,
@@ -54,7 +54,7 @@ class TestTransportTask(unittest.TestCase):
                 required_performance=self.required_perf,
                 origin_coordinate=self.origin,
                 destination_coordinate=self.destination,
-                resistance=0.5,
+                transport_resistance=0.5,
                 total_workload=self.total_workload,
                 completed_workload=self.completed_workload,
             )
@@ -66,7 +66,7 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            resistance=self.resistance,
+            transport_resistance=self.transport_resistance,
             total_workload=self.total_workload,
             completed_workload=self.completed_workload,
         )
@@ -86,7 +86,7 @@ class TestTransportTask(unittest.TestCase):
             required_performance={PerformanceAttributes.MOBILITY: 10.0},  # 高すぎて満たせない
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            resistance=self.resistance,
+            transport_resistance=self.transport_resistance,
             total_workload=self.total_workload,
             completed_workload=self.completed_workload,
         )
@@ -103,7 +103,7 @@ class TestTransportTask(unittest.TestCase):
             required_performance=self.required_perf,
             origin_coordinate=self.origin,
             destination_coordinate=self.destination,
-            resistance=self.resistance,
+            transport_resistance=self.transport_resistance,
             total_workload=self.total_workload,
             completed_workload=self.completed_workload,
         )

@@ -15,8 +15,8 @@ class Map:
     def charge_stations(self) -> dict[str, ChargeStation]:
         return self._charge_stations
     
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<Map: {len(self.charge_stations)} stations>"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (f"Map(charge_stations={self.charge_stations!r})")

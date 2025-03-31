@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, Optional
+from numpy.typing import NDArray
 import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
@@ -12,15 +13,15 @@ logger = logging.getLogger(__name__)
 class BaseTask(ABC):
     """ タスクを表す抽象基底クラス """
 
-    def __init__(self, name: str, coordinate: Union[tuple[float, float], np.ndarray, list], total_workload: float, 
+    def __init__(self, name: str, coordinate: Union[tuple[float, float], NDArray[np.float64], list[float]], total_workload: float, 
                  completed_workload: float, required_performance: dict[PerformanceAttributes, float]):
         self._name = name  # タスク名
         self._coordinate = make_coodinate_to_tuple(coordinate)  # タスクの座標
         self._total_workload = total_workload  # タスクの総仕事量
         self._completed_workload = completed_workload  # 完了済み仕事量
         self._required_performance = required_performance  # タスク実行に要求される能力値
-        self._task_dependency = None  # 依存するタスクのリスト
-        self._assigned_robot = None # タスクに配置済みのロボットのリスト
+        self._task_dependency: Optional[list[BaseTask]] = None  # 依存するタスクのリスト
+        self._assigned_robot: Optional[list[Robot]] = None # タスクに配置済みのロボットのリスト
         if total_workload < 0.0:
             raise_with_log(ValueError, f"Total_workload must be positive: {self.name}.")
         if completed_workload > total_workload:
@@ -36,6 +37,10 @@ class BaseTask(ABC):
     def coordinate(self) -> tuple[float, float]:
         return self._coordinate
     
+    @coordinate.setter
+    def coordinate(self, coordinate: Union[tuple[float, float], NDArray[np.float64], list[float]]) -> None:
+        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
+
     @property
     def total_workload(self) -> float:
         return self._total_workload
@@ -55,19 +60,15 @@ class BaseTask(ABC):
         return self._required_performance
     
     @property
-    def assigned_robot(self) -> list[Robot]:
+    def assigned_robot(self) -> Optional[list[Robot]]:
         return self._assigned_robot
-    
-    @coordinate.setter
-    def coordinate(self, coordinate: Union[tuple[float, float], np.ndarray, list]):
-        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
 
     @abstractmethod
     def update(self) -> bool:
         """ タスクが実行されたときの処理を記述 """
         pass
     
-    def initialize_task_dependency(self, task_dependency: list["BaseTask"]):
+    def initialize_task_dependency(self, task_dependency: list["BaseTask"]) -> None:
         """ タスクの依存関係を設定 """
         self._task_dependency = task_dependency
 
@@ -94,13 +95,13 @@ class BaseTask(ABC):
 
         return all(total_assigned_performance[attr] >= req for attr, req in self.required_performance.items())
 
-    def release_robot(self):
+    def release_robot(self) -> None:
         """ 配置されている全ロボットをリリース """
         self._assigned_robot = None
 
-    def assign_robot(self, robot: Robot):
+    def assign_robot(self, robot: Robot) -> None:
         """ ロボットを配置 """
-        if self.assigned_robot is None:
+        if self._assigned_robot is None:
             self._assigned_robot = []
         if robot.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"{robot.name} with {robot.state} are assigned: {self.name}.")

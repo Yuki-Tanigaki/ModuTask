@@ -1,4 +1,5 @@
 import logging
+from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
 from modutask.core.robot.robot import Robot
 
@@ -11,7 +12,7 @@ class Assembly(BaseTask):
         
         total_workload = len(missingComponents)
         completed_workload = 0.0
-        required_performance = {}
+        required_performance: dict[PerformanceAttributes, float] = {}
         super().__init__(name=name, coordinate=robot.coordinate, total_workload=total_workload, 
                          completed_workload=completed_workload, required_performance=required_performance)
         self._target_robot = robot

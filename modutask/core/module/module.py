@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import Union
+from numpy.typing import NDArray
 from enum import Enum
-import copy, logging
+import logging
 import numpy as np
 from modutask.core.risk_scenario import BaseRiskScenario
 from modutask.core.utils import make_coodinate_to_tuple
@@ -25,15 +26,17 @@ class ModuleType:
     name: str  # モジュール名
     max_battery: float  # 最大バッテリー容量
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.name)
 
-    def __eq__(self, other: 'ModuleType') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ModuleType):
+            return NotImplemented
         return self.name == other.name
 
 class Module:
     """ モジュールのクラス """
-    def __init__(self, module_type: ModuleType, name: str, coordinate: Union[tuple[float, float], np.ndarray, list], 
+    def __init__(self, module_type: ModuleType, name: str, coordinate: Union[tuple[float, float], NDArray[np.float64], list[float]], 
                  battery: float, operating_time: float, state: ModuleState):
         self._type = module_type  # モジュールの種類
         self._name = name  # モジュール名
@@ -60,26 +63,18 @@ class Module:
     @property
     def coordinate(self) -> tuple[float, float]:
         return self._coordinate
-    
+
+    @coordinate.setter
+    def coordinate(self, coordinate: Union[tuple[float, float], NDArray[np.float64], list[float]]) -> None:
+        """ モジュールの座標を更新 """
+        self._coordinate = make_coodinate_to_tuple(coordinate)
+
     @property
     def battery(self) -> float:
         return self._battery
     
-    @property
-    def operating_time(self) -> float:
-        return self._operating_time
-    
-    @property
-    def state(self) -> ModuleState:
-        return self._state
-
-    @coordinate.setter
-    def coordinate(self, coordinate: Union[tuple[float, float], np.ndarray, list]):
-        """ モジュールの座標を更新 """
-        self._coordinate = copy.deepcopy(make_coodinate_to_tuple(coordinate))
-    
     @battery.setter
-    def battery(self, battery: float):
+    def battery(self, battery: float) -> None:
         """ モジュールのバッテリーを更新 """
         if self.state == ModuleState.ERROR:
             raise_with_log(RuntimeError, f"Try update battery of malfunctioning module: {self.name}.")
@@ -89,9 +84,13 @@ class Module:
             raise_with_log(ValueError, f"Battery must be positive: {self.name}.")
 
         self._battery = battery
-    
+
+    @property
+    def operating_time(self) -> float:
+        return self._operating_time
+
     @operating_time.setter
-    def operating_time(self, operating_time: float):
+    def operating_time(self, operating_time: float) -> None:
         """ モジュールの稼働量を更新 """
         if self.state == ModuleState.ERROR:
             raise_with_log(RuntimeError, f"Try update runtime of malfunctioning module: {self.name}.")
@@ -101,23 +100,27 @@ class Module:
             raise_with_log(ValueError, f"Operating_time less than the current operating_time: {self.name}.")
 
         self._operating_time = operating_time
+
+    @property
+    def state(self) -> ModuleState:
+        return self._state
     
     def is_active(self) -> bool:
         """ モジュールが使用可能か """
         return self.state == ModuleState.ACTIVE
 
-    def update_state(self, scenarios: list[BaseRiskScenario]):
+    def update_state(self, scenarios: list[BaseRiskScenario]) -> None:
         """ モジュール状態の更新 """
         self._state = ModuleState.ACTIVE
         for scenario in scenarios:
             if scenario.malfunction_module(self):
                 self._state = ModuleState.ERROR
-                return
+                break
 
-    def __str__(self):
+    def __str__(self) -> str:
         """ モジュールの簡単な情報を文字列として表示 """
         return f"Module({self.name}, {self.state.name}, Battery: {self.battery}/{self.type.max_battery})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ デバッグ用の詳細な表現 """
         return f"Module(name={self.name}, type={self.type.name}, state={self.state.name}, battery={self.battery})"

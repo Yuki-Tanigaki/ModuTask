@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Union, Optional
+from numpy.typing import NDArray
 from enum import Enum
-import copy, logging
+import logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
@@ -18,7 +19,7 @@ class RobotState(Enum):
     DEFECTIVE = (2, 'purple')  # 部品不足で稼働不可
 
     @property
-    def color(self):
+    def color(self) -> str:
         """ ロボットの状態に対応する色を取得 """
         return self.value[1]
 
@@ -31,15 +32,17 @@ class RobotType:
     power_consumption: float  # ロボットの消費電力
     recharge_trigger: float  # 充電に戻るバッテリー量の基準
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.name)
 
-    def __eq__(self, other: 'ModuleType') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, RobotType):
+            return NotImplemented
         return self.name == other.name
 
 class Robot:
     """ ロボットのクラス """
-    def __init__(self, robot_type: RobotType, name: str, coordinate: Union[tuple[float, float], np.ndarray, list], 
+    def __init__(self, robot_type: RobotType, name: str, coordinate: Union[tuple[float, float], NDArray[np.float64], list[float]], 
                  component: list[Module]):
         self._type = robot_type  # ロボットの種類
         self._name = name  # ロボット名
@@ -84,17 +87,17 @@ class Robot:
 
     def total_battery(self) -> float:
         """ 残りバッテリー量を算出 """
-        sum = 0
+        total = 0.0
         for module in self.component_mounted:
-            sum += module.battery
-        return sum
+            total += module.battery
+        return total
     
     def total_max_battery(self) -> float:
         """ フル充電したときのバッテリー量を算出 """
-        sum = 0
+        total = 0.0
         for module in self.component_mounted:
-            sum += module.type.max_battery
-        return sum
+            total += module.type.max_battery
+        return total
     
     def missing_components(self) -> list[Module]:
         """ 不足中のモジュールをリスト化 """
@@ -108,7 +111,7 @@ class Robot:
         """ バッテリーが満タンかチェック """
         return self.total_battery() == self.total_max_battery()
 
-    def draw_battery_power(self):
+    def draw_battery_power(self) -> None:
         """ 1ステップの行動でバッテリーを消費 """
         if not self.is_battery_sufficient():
             raise_with_log(RuntimeError, f"Battery level is less than the amount needed for action: {self.name}.")
@@ -121,7 +124,7 @@ class Robot:
                 left -= module.battery
                 module.battery = 0.0
 
-    def charge_battery_power(self, charging_speed: float):
+    def charge_battery_power(self, charging_speed: float) -> None:
         """ 1ステップの充電 """
         left_charge_power = charging_speed
         for module in self.component_mounted:   # 充電順は先頭から
@@ -133,7 +136,7 @@ class Robot:
                 module.battery = module.battery + left_charge_power
                 return
     
-    def act(self):
+    def act(self) -> None:
         """ 搭載モジュールを稼働させる """
         if self.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"Not ACTIVE: {self.name}.")
@@ -142,19 +145,19 @@ class Robot:
         for module in self.component_mounted:
             module.operating_time = module.operating_time + 1.0
 
-    def travel(self, target_coordinate: tuple[float, float]):
+    def travel(self, target_coordinate: tuple[float, float]) -> None:
         """ 目的地点に向けて移動 """
         self.act()
         v = np.array(target_coordinate) - np.array(self.coordinate)
         mob = self.type.performance[PerformanceAttributes.MOBILITY]
         if np.linalg.norm(v) < mob:  # 距離が移動能力以下
-            self._coordinate = copy.deepcopy(make_coodinate_to_tuple(target_coordinate))
+            self._coordinate = make_coodinate_to_tuple(target_coordinate)
         else:
-            self._coordinate = copy.deepcopy(make_coodinate_to_tuple(self.coordinate + mob*v/np.linalg.norm(v)))
+            self._coordinate = make_coodinate_to_tuple(self.coordinate + mob*v/np.linalg.norm(v))
         for module in self.component_mounted:
             module.coordinate = self.coordinate
     
-    def mount_module(self, module: Module):
+    def mount_module(self, module: Module) -> None:
         """ モジュールを搭載 """
         if not module.is_active():
             raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a malfunction: {self.name}.")
@@ -164,7 +167,7 @@ class Robot:
             raise_with_log(RuntimeError, f"{module.name} not found in component_required: {self.name}.")
         self._component_mounted.append(module)
         
-    def update_state(self, scenarios: list[BaseRiskScenario] = None):
+    def update_state(self, scenarios: Optional[list[BaseRiskScenario]] = None) -> None:
         """ ロボットの状態を更新 """
         if scenarios is not None:  # 構成モジュールの状態を更新
             for module in self.component_mounted:
@@ -180,11 +183,11 @@ class Robot:
             self._state = RobotState.NO_ENERGY
             return
     
-    def __str__(self):
+    def __str__(self) -> str:
         """ ロボットの簡単な情報を文字列として表示 """
         return f"Robot({self.name}, {self.state.name}, {self.coordinate})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ デバッグ用の詳細な表現 """
         return (f"Robot(name={self.name}, type={self.type.name}, state={self.state.name}, "
-                f"coordinate={self.coordinate}, modules={len(self.component_mounted)}, ")
+                f"coordinate={self.coordinate}, modules={len(self.component_mounted)})")

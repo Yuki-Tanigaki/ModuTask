@@ -1,7 +1,0 @@
-scenario: scenario_00
-max_step: 50
-charge_station:
-  base_00: # 基地
-    name: base_00
-    coordinate: [0.0, 0.0]
-    charging_speed: 10

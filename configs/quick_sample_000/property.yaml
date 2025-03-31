@@ -1,0 +1,26 @@
+load:
+  task: ./configs/quick_sample_000/task.yaml
+  task_dependency: ./configs/quick_sample_000/task_dependency.yaml
+  module_type: ./configs/quick_sample_000/module_type.yaml
+  module: ./configs/quick_sample_000/module.yaml
+  robot_type: ./configs/quick_sample_000/robot_type.yaml
+  robot: ./configs/quick_sample_000/robot.yaml
+  map: ./configs/quick_sample_000/map.yaml
+  risk_scenario: ./configs/quick_sample_000/risk_scenario.yaml
+  task_priority: ./configs/quick_sample_000/task_priority.yaml
+
+save:
+  task: ./results/quick_sample_000/task.yaml
+  task_dependency: ./results/quick_sample_000/task_dependency.yaml
+  module_type: ./results/quick_sample_000/module_type.yaml
+  module: ./results/quick_sample_000/module.yaml
+  robot_type: ./results/quick_sample_000/robot_type.yaml
+  robot: ./results/quick_sample_000/robot.yaml
+  map: ./results/quick_sample_000/map.yaml
+  risk_scenario: ./results/quick_sample_000/risk_scenario.yaml
+  task_priority: ./results/quick_sample_000/task_priority.yaml
+
+simulation:
+  max_step: 50
+  training_scenario: [scenario_00, scenario_01, scenario_02, scenario_03, scenario_04]
+  test_scenario: [scenario_05]
