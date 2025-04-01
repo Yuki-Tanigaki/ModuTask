@@ -1,6 +1,5 @@
 import yaml, os
 import networkx as nx
-from typing import Dict, List
 from modutask.core import *
 
 class TaggedPerformanceAttributes(dict):
@@ -11,7 +10,7 @@ def performance_attributes_representer(dumper, data):
 
 yaml.add_representer(TaggedPerformanceAttributes, performance_attributes_representer)
 
-def save_tasks(tasks: Dict[str, BaseTask], file_path: str = "task.yaml"):
+def save_tasks(tasks: dict[str, BaseTask], file_path: str = "task.yaml"):
     def task_to_yaml_dict(task: BaseTask) -> dict:
         required_perf = TaggedPerformanceAttributes({
                 attr.name: float(task.required_performance.get(attr, 0.0))
@@ -46,7 +45,7 @@ def save_tasks(tasks: Dict[str, BaseTask], file_path: str = "task.yaml"):
     with open(file_path, "w") as f:
         yaml.dump(yaml_dict, f, sort_keys=False)
 
-def save_task_dependency(tasks: Dict[str, BaseTask], file_path: str = "task_dependency.yaml"):
+def save_task_dependency(tasks: dict[str, BaseTask], file_path: str = "task_dependency.yaml"):
     dependency_dict = {}
     for task_name, task in tasks.items():
         dependency_dict[task_name] = [t.name for t in task.task_dependency]
@@ -73,7 +72,7 @@ def save_task_dependency(tasks: Dict[str, BaseTask], file_path: str = "task_depe
     with open(file_path, "w") as f:
         yaml.dump(yaml_structure, f, sort_keys=False, allow_unicode=True)
 
-def save_module_types(module_types: Dict[str, ModuleType], file_path: str = "module_type.yaml"):
+def save_module_types(module_types: dict[str, ModuleType], file_path: str = "module_type.yaml"):
     output = {}
     for type_name, module_type in module_types.items():
         output[type_name] = {
@@ -82,7 +81,7 @@ def save_module_types(module_types: Dict[str, ModuleType], file_path: str = "mod
     with open(file_path, "w") as f:
         yaml.dump(output, f, sort_keys=False, allow_unicode=True)
 
-def save_module(modules: Dict[str, Module], file_path: str = "module.yaml"):
+def save_module(modules: dict[str, Module], file_path: str = "module.yaml"):
     output = {}
     for module_name, mod in modules.items():
         output[module_name] = {
@@ -96,7 +95,7 @@ def save_module(modules: Dict[str, Module], file_path: str = "module.yaml"):
     with open(file_path, "w") as f:
         yaml.dump(output, f, sort_keys=False, allow_unicode=True)
 
-def save_robot_types(robot_types: Dict[str, RobotType], file_path: str = "robot_type.yaml"):
+def save_robot_types(robot_types: dict[str, RobotType], file_path: str = "robot_type.yaml"):
     output = {}
     for name, robot_type in robot_types.items():
         perf = TaggedPerformanceAttributes({
@@ -117,7 +116,7 @@ def save_robot_types(robot_types: Dict[str, RobotType], file_path: str = "robot_
     with open(file_path, "w", encoding="utf-8") as f:
         yaml.dump(output, f, allow_unicode=True, sort_keys=False)
 
-def save_robot(robots: Dict[str, Robot], file_path: str = "robot.yaml"):
+def save_robot(robots: dict[str, Robot], file_path: str = "robot.yaml"):
     output = {}
     for name, robot in robots.items():
         output[name] = {
@@ -129,7 +128,7 @@ def save_robot(robots: Dict[str, Robot], file_path: str = "robot.yaml"):
     with open(file_path, "w", encoding="utf-8") as f:
         yaml.dump(output, f, allow_unicode=True, sort_keys=False)
 
-def save_simulation_map(simulation_map: Map, file_path: str = "map.yaml"):
+def save_simulation_map(simulation_map: SimulationMap, file_path: str = "map.yaml"):
     output = {}
     for name, station in simulation_map.charge_stations.items():
         output[name] = {
@@ -154,10 +153,10 @@ def save_risk_scenarios(risk_scenarios: dict[str, BaseRiskScenario], file_path: 
     with open(file_path, "w", encoding="utf-8") as f:
         yaml.dump(output, f, allow_unicode=True, sort_keys=False)
 
-def save_task_priorities(task_priorities: Dict[Robot, List[str]], file_path: str = "task_priority.yaml"):
+def save_task_priorities(task_priorities: dict[str, list[str]], file_path: str = "task_priority.yaml"):
     output = {}
-    for robot, tasks in task_priorities.items():
-        output[robot.name] = [task.name for task in tasks]
+    for robot_name, task_names in task_priorities.items():
+        output[robot_name] = [task_name for task_name in task_names]
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, 'w') as f:
         yaml.dump(output, f, default_flow_style=False, sort_keys=False)

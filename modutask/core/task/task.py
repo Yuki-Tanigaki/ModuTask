@@ -21,7 +21,7 @@ class BaseTask(ABC):
         self._completed_workload = completed_workload  # 完了済み仕事量
         self._required_performance = required_performance  # タスク実行に要求される能力値
         self._task_dependency: Optional[list[BaseTask]] = None  # 依存するタスクのリスト
-        self._assigned_robot: Optional[list[Robot]] = None # タスクに配置済みのロボットのリスト
+        self._assigned_robot: list[Robot] = [] # タスクに配置済みのロボットのリスト
         if total_workload < 0.0:
             raise_with_log(ValueError, f"Total_workload must be positive: {self.name}.")
         if completed_workload > total_workload:
@@ -60,7 +60,7 @@ class BaseTask(ABC):
         return self._required_performance
     
     @property
-    def assigned_robot(self) -> Optional[list[Robot]]:
+    def assigned_robot(self) -> list[Robot]:
         return self._assigned_robot
 
     @abstractmethod
@@ -86,8 +86,6 @@ class BaseTask(ABC):
         タスクは複数のロボットの共同作業により実行される
         ロボットの合計能力値がrequired_performance以上の時、タスクは実行される
         """
-        if self.assigned_robot is None:
-            raise_with_log(RuntimeError, f"Assigned_robot must be set before proceeding: {self.name}.")
         total_assigned_performance = {attr: 0 for attr in PerformanceAttributes}
         for robot in self.assigned_robot:
             for attr, value in robot.type.performance.items():
@@ -97,12 +95,10 @@ class BaseTask(ABC):
 
     def release_robot(self) -> None:
         """ 配置されている全ロボットをリリース """
-        self._assigned_robot = None
+        self._assigned_robot = []
 
     def assign_robot(self, robot: Robot) -> None:
         """ ロボットを配置 """
-        if self._assigned_robot is None:
-            self._assigned_robot = []
         if robot.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"{robot.name} with {robot.state} are assigned: {self.name}.")
         if robot.coordinate != self.coordinate:

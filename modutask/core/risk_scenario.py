@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 import numpy as np
+from numpy.random import Generator
 import logging
+from modutask.utils import raise_with_log
 
 
 if TYPE_CHECKING:
@@ -15,7 +17,12 @@ class BaseRiskScenario(ABC):
     def __init__(self, name: str, seed: int):
         self.name = name
         self.seed = seed
-        self.rng = np.random.default_rng(seed)
+        self.rng: Optional[Generator] = None
+
+    def initialize(self) -> None:
+        if self.rng is not None:
+            raise_with_log(RuntimeError, "RNG has already been initialized. 'initialize()' should only be called once.")
+        self.rng = np.random.default_rng(self.seed)
 
     @abstractmethod
     def malfunction_module(self, module: "Module") -> bool:
@@ -39,4 +46,6 @@ class ExponentialFailure(BaseRiskScenario):
         return float(1 - np.exp(-self.failure_rate * val))
 
     def malfunction_module(self, module: "Module") -> bool:
+        if self.rng is None:
+            raise_with_log(RuntimeError, "RNG not initialized. Call 'initialize()' first.")
         return self.rng.random() < self._exponential(float(module.operating_time))

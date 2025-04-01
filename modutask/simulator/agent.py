@@ -4,7 +4,7 @@ import copy, sys, math
 import numpy as np
 import pandas as pd
 
-from modutask.robotic_system.core import RobotState, ModuleState, RobotPerformanceAttributes, Charge
+from modutask.core import *
 
 class AgentState(Enum):
     """ エージェントの状態を表す列挙型 """
@@ -22,9 +22,9 @@ class AgentState(Enum):
         return self.value[1]
 
 class RobotAgent:
-    def __init__(self, robot, battery_level_to_recharge):
+    def __init__(self, robot: Robot, task_priority: list[BaseTask]):
         self.robot = robot
-        self.battery_level_to_recharge = battery_level_to_recharge
+        self.task_priority = task_priority
         self.assigned_task = None
         self.state = AgentState.IDLE
 
@@ -39,31 +39,31 @@ class RobotAgent:
         else:
             return False
 
-    def decide_recharge(self, charge_stations):
+    def decide_recharge(self, charge_stations: dict[str, Charge]):
         # 充電タスクが既に割り当て済みならスキップ
         if isinstance(self.assigned_task, Charge):
             return
         # バッテリーが設定以下なら充電に向かう
-        if self.robot.total_battery() < self.battery_level_to_recharge:
+        if self.robot.total_battery() < self.robot.type.recharge_trigger:
             # 現在地から最も近くの充電スペースを探す
             min_dist = sys.float_info.max
             min_station = None
-            for station in charge_stations:
+            for _, station in charge_stations.items():
                 dist = math.sqrt(sum((x - y) ** 2 for x, y in zip(station.coordinate, self.robot.coordinate)))
                 if min_dist > dist:
                     min_dist = dist
                     min_station = station
             self.assigned_task = min_station
 
-    def update_task(self, tasks):
+    def update_task(self, tasks: dict[str, BaseTask]):
         # すでにタスクが割り当てられている場合はスキップ
         if self.assigned_task is not None:
             return
         # 優先順位で目標タスクを決定
-        for task_name in self.robot.task_priority:
+        for task_name in self.task_priority:
             task = tasks[task_name]
             # タスクが完了済みなら次のタスクに
-            if task.completed_workload >= task.total_workload:
+            if task.is_completed():
                 continue
             self.assigned_task = task
             return
@@ -75,7 +75,7 @@ class RobotAgent:
             self.robot.travel(self.assigned_task.coordinate)
         else:
             # 目的地と現在の座標が同じなら配置済みロボットのリストに追加
-            self.assigned_task.try_assign_robot(self.robot)
+            self.assigned_task.assign_robot(self.robot)
             if isinstance(self.assigned_task, Charge):
                 # 充電タスクならエージェントの状態を充電に変更
                 self.state = AgentState.CHARGE

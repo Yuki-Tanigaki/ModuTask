@@ -22,5 +22,5 @@ save:
 
 simulation:
   max_step: 50
-  training_scenario: [scenario_00, scenario_01, scenario_02, scenario_03, scenario_04]
-  test_scenario: [scenario_05]
+  training_scenarios: [[s_000], [s_001], [s_002], [s_003], [s_004]]
+  test_scenarios: [[s_005]]

@@ -51,7 +51,7 @@ class TestBaseTask(unittest.TestCase):
         self.assertIn(robot, self.task.assigned_robot)
 
         self.task.release_robot()
-        self.assertEqual(self.task.assigned_robot, None)
+        self.assertEqual(self.task.assigned_robot, [])
 
     def test_assign_robot_defective(self):
         robot = MagicMock()

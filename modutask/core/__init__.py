@@ -2,11 +2,12 @@ from .task import *
 from .module import *
 from .robot import *
 from .risk_scenario import BaseRiskScenario, ExponentialFailure
-from .map import Map, ChargeStation
+from .simulation_map import SimulationMap
 
 __all__ = [
     'BaseTask', 
     'Transport', 
+    'TransportModule', 
     'Manufacture', 
     'Assembly', 
     'Charge',
@@ -19,6 +20,5 @@ __all__ = [
     "ModuleType",
     'BaseRiskScenario',
     'ExponentialFailure',
-    'ChargeStation',
-    'Map',
+    'SimulationMap',
     ]

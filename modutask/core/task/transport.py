@@ -23,7 +23,7 @@ class Transport(BaseTask):
 
         if transport_resistance < 1.0:
             raise_with_log(ValueError, f"transport_resistance must be set to 1 or higher: {name}.")
-        v = np.array(self.destination_coordinate) - np.array(self._origin_coordinate)
+        v = np.array(self.destination_coordinate) - np.array(self.origin_coordinate)
         total = transport_resistance * np.linalg.norm(v)
         if total_workload != total:
             raise_with_log(ValueError, f"Total_workload does not match carrying_distance * transport_resistance: {name}.")

@@ -164,7 +164,7 @@ def load_robots(file_path: str, robot_types: dict[str, RobotType], modules: dict
         robots[robot_name] = Robot(**filtered_args)
     return robots
 
-def load_simulation_map(file_path: str) -> Map:
+def load_simulation_map(file_path: str) -> SimulationMap:
     """ ロボットを読み込む """
     try:
         with open(file_path, 'r') as f:
@@ -174,9 +174,9 @@ def load_simulation_map(file_path: str) -> Map:
     
     charge_stations = {}
     for location_name, location_data in map_config.items():
-        filtered_args = _get_class_init_args(cls=ChargeStation, input_data=location_data, name=location_name)
-        charge_stations[location_name] = ChargeStation(**filtered_args)
-    return Map(charge_stations=charge_stations)
+        filtered_args = _get_class_init_args(cls=Charge, input_data=location_data, name=location_name)
+        charge_stations[location_name] = Charge(**filtered_args)
+    return SimulationMap(charge_stations=charge_stations)
 
 def load_risk_scenarios(file_path: str) -> dict[str, BaseRiskScenario]:
     """ 故障シナリオを読み込む """
@@ -198,7 +198,7 @@ def load_risk_scenarios(file_path: str) -> dict[str, BaseRiskScenario]:
 
     return scenarios
 
-def load_task_priorities(file_path: str, robots: dict[str, Robot], tasks: dict[str, BaseTask]) -> dict[Robot, list[BaseTask]]:
+def load_task_priorities(file_path: str, robots: dict[str, Robot], tasks: dict[str, BaseTask]) -> dict[str, list[str]]:
     """ 各ロボットのタスク優先順位を読み込む """
     try:
         with open(file_path, 'r') as f:
@@ -210,7 +210,7 @@ def load_task_priorities(file_path: str, robots: dict[str, Robot], tasks: dict[s
     for k, v in priority_config.items():
         if not isinstance(v, list):
             raise_with_log(ValueError, "Task_priority only accepts list of task_name.")
-        task_priorities[robots[k]] = [tasks[task_name] for task_name in v]
+        task_priorities[robots[k].name] = [task_name for task_name in v]
     return task_priorities
 
 def _find_subclasses_by_name(base_class: Type) -> dict[str, Type]:
