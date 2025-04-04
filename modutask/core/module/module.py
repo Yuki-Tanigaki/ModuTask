@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Union
 from numpy.typing import NDArray
 from enum import Enum
-import logging
+import logging, copy
 import numpy as np
 from modutask.core.risk_scenario import BaseRiskScenario
 from modutask.core.utils import make_coodinate_to_tuple
@@ -124,3 +124,13 @@ class Module:
     def __repr__(self) -> str:
         """ デバッグ用の詳細な表現 """
         return f"Module(name={self.name}, type={self.type.name}, state={self.state.name}, battery={self.battery})"
+    
+    def __deepcopy__(self, memo):
+        return Module(
+            copy.deepcopy(self.type, memo),
+            copy.deepcopy(self.name, memo),
+            copy.deepcopy(self.coordinate, memo),
+            copy.deepcopy(self.battery, memo),
+            copy.deepcopy(self.operating_time, memo),
+            copy.deepcopy(self.state, memo)
+        )

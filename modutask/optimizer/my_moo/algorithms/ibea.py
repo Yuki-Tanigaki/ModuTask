@@ -103,7 +103,7 @@ class IBEAHV:
     def evolve(self):
         for gen in range(self.generations):
             # 1. 子個体を生成
-            offspring = generate_offspring(list(self.population), self.population_size, ref_point, self.kappa)
+            offspring = generate_offspring(list(self.population), self.population_size, self.kappa)
 
             # 2. 評価
             for child in offspring:
@@ -124,8 +124,6 @@ class IBEAHV:
 
             # 6. 次世代へ更新
             self.population = Population(survivors)
-
-            print(f"Generation {gen+1} complete")
 
     def get_result(self) -> list[Individual]:
         return self.population.individuals

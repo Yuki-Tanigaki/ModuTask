@@ -125,7 +125,6 @@ class NSGAII:
                     break
 
             self.population = Population(next_population)
-            print(f"Generation {gen+1} complete")
 
     def get_result(self) -> list[Individual]:
         return self.population.individuals

@@ -14,4 +14,5 @@ __all__ = [
     'Population',
     'BaseVariable', 
     'PermutationVariable', 
+    'MultiPermutationVariable',
     ]

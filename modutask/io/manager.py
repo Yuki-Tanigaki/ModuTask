@@ -1,4 +1,4 @@
-import logging, yaml
+import logging, yaml, copy
 import numpy as np
 from modutask.core import *
 from modutask.io.input import *
@@ -21,6 +21,34 @@ class DataManager:
         self.risk_scenarios = None
         self.task_priorities = None
         self.load_task_priorities = load_task_priorities
+
+    def clone_for_simulation(self) -> "DataManager":
+        clone = DataManager(load_task_priorities=self.load_task_priorities)
+        clone.tasks = copy.deepcopy(self.tasks)
+        clone.combined_tasks = copy.deepcopy(self.combined_tasks)
+        clone.module_types = copy.deepcopy(self.module_types)
+        clone.modules = copy.deepcopy(self.modules)
+        clone.robot_types = copy.deepcopy(self.robot_types)
+        robots = {}
+        for robot_name, robot_data in self.robots.items():
+            robot_type = robot_data.type
+            name = robot_data.name
+            coordinate = robot_data.coordinate
+            component = []
+            for module in robot_data.component_required:
+                module_name = module.name
+                component.append(clone.modules[module_name])
+            robots[robot_name] = Robot(
+                robot_type=robot_type,
+                name=name,
+                coordinate=coordinate,
+                component=component
+            )
+        clone.robots = robots
+        clone.simulation_map = copy.deepcopy(self.simulation_map)
+        clone.risk_scenarios = copy.deepcopy(self.risk_scenarios)
+        clone.task_priorities = copy.deepcopy(self.task_priorities)
+        return clone
 
     def load(self, load_path: dict[str, str]):
         self.tasks = load_tasks(file_path=load_path['task'])

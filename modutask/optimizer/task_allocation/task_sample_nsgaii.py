@@ -2,27 +2,43 @@ import argparse, yaml, copy, pickle, os, logging
 from modutask.optimizer.my_moo import *
 from modutask.simulator.simulation import Simulator
 from modutask.io import *
+from modutask.core import *
 from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
 
 
-def objective(order: list[int], manager: DataManager, max_step: int, training_scenarios) -> list[float]:
+def objective(order: list[list[int]], manager: DataManager, max_step: int, training_scenarios) -> list[float]:
+    total_remaining_workload = []
+    variance_remaining_workload = []
+    variance_operating_time = []
+
     for scenario_names in training_scenarios:
-        tasks = copy.deepcopy(manager.combined_tasks)
-        robots = copy.deepcopy(manager.robots)
-        task_priorities=manager.task_priorities
-        scenarios = [manager.risk_scenarios[scenario_name] for scenario_name in scenario_names]
+        local_manager = manager.clone_for_simulation()
+        for module in local_manager.modules.values():
+            if module.state == ModuleState.ERROR:
+                print(module)
+        tasks = local_manager.combined_tasks
+        robots = local_manager.robots
+        scenarios = local_manager.risk_scenarios
+        task_priorities = {}
+        for i, robot_name in enumerate(robots):
+            task_priorities[robot_name] = order[i]
         simulator = Simulator(
             tasks=tasks, 
             robots=robots, 
             task_priorities=task_priorities, 
-            scenarios=scenarios,
+            scenarios=[scenarios[scenario_name] for scenario_name in scenario_names],
             simulation_map=manager.simulation_map,
             )
         for current_step in range(max_step):
             simulator.run_simulation()
-    return [dist1, dist2]
+        total_remaining_workload.append(simulator.total_remaining_workload())
+        variance_remaining_workload.append(simulator.variance_remaining_workload())
+        variance_operating_time.append(simulator.variance_operating_time())
+    return [sum(total_remaining_workload) / len(total_remaining_workload), 
+            sum(variance_remaining_workload) / len(variance_remaining_workload),
+            sum(variance_operating_time) / len(variance_operating_time)]
 
 def main():
     """
@@ -48,10 +64,11 @@ def main():
     varidate_scenarios = prop['simulation']['varidate_scenarios']
 
     seed_rng(prop['task_allocation']['seed'])
-    def sim_func(order: list[int]) -> list[float]:
+    def sim_func(order: list[list[int]]) -> list[float]:
         return objective(order, manager=manager, max_step=max_step, training_scenarios=training_scenarios)
 
-    encoding = PermutationVariable(items=list(range(30)))
+    items = list(manager.combined_tasks.keys())
+    encoding = MultiPermutationVariable(items=items, n_multi=len(manager.robots))
 
     algo = NSGAII(
         simulation_func=sim_func,
@@ -66,24 +83,24 @@ def main():
     for ind in nds:
         print(ind.objectives)
     
-    tasks = manager.combined_tasks
-    robots = manager.robots
-    task_priorities=manager.task_priorities
-    scenarios = [manager.risk_scenarios[scenario_name] for scenario_name in varidate_scenarios]
-    simulator = Simulator(
-        tasks=tasks, 
-        robots=robots, 
-        task_priorities=task_priorities, 
-        scenarios=scenarios,
-        simulation_map=manager.simulation_map,
-        )
-    for current_step in range(max_step):
-        simulator.run_simulation()
-        task_template = prop['results']['task']
-        task_path = task_template.format(index=current_step)
-        os.makedirs(os.path.dirname(task_path), exist_ok=True)
-        with open(task_path, "wb") as f:
-            pickle.dump(manager.tasks, f)
+    # tasks = manager.combined_tasks
+    # robots = manager.robots
+    # task_priorities=manager.task_priorities
+    # scenarios = [manager.risk_scenarios[scenario_name] for scenario_name in varidate_scenarios]
+    # simulator = Simulator(
+    #     tasks=tasks, 
+    #     robots=robots, 
+    #     task_priorities=task_priorities, 
+    #     scenarios=scenarios,
+    #     simulation_map=manager.simulation_map,
+    #     )
+    # for current_step in range(max_step):
+    #     simulator.run_simulation()
+    #     task_template = prop['results']['task']
+    #     task_path = task_template.format(index=current_step)
+    #     os.makedirs(os.path.dirname(task_path), exist_ok=True)
+    #     with open(task_path, "wb") as f:
+    #         pickle.dump(manager.tasks, f)
 
 if __name__ == '__main__':
     main()

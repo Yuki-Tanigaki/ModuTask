@@ -11,14 +11,14 @@ def generate_random_cities(num_cities: int, seed: int = 42) -> list[tuple[float,
         for _ in range(num_cities)
     ]
 
-def dummy_tsp(order: list[int], cities_a, cities_b) -> list[float]:
+def dummy_tsp(order: list[list[int]], cities_a, cities_b) -> list[float]:
     """TSPを使ったダミー目的関数"""
     def euclidean(p1: tuple[float, float], p2: tuple[float, float]) -> float:
         return math.hypot(p1[0] - p2[0], p1[1] - p2[1])
     def total_distance(cities):
         return sum(
-            euclidean(cities[order[i]], cities[order[(i + 1) % len(order)]])
-            for i in range(len(order))
+            euclidean(cities[order[0][i]], cities[order[0][(i + 1) % len(order[0])]])
+            for i in range(len(order[0]))
         )
     
     dist1 = total_distance(cities_a)
@@ -29,10 +29,10 @@ def main():
     seed_rng(42)
     cities_a = generate_random_cities(30, seed=123)
     cities_b = generate_random_cities(30, seed=456)
-    def sim_func(order: list[int]) -> list[float]:
+    def sim_func(order: list[list[int]]) -> list[float]:
         return dummy_tsp(order, cities_a, cities_b)
 
-    encoding = PermutationVariable(items=list(range(30)))
+    encoding = MultiPermutationVariable(items=list(range(30)), n_multi=1)
 
     algo = NSGAII(
         simulation_func=sim_func,

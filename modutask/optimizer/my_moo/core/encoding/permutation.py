@@ -1,20 +1,20 @@
 import random
-from typing import List, Any
+from typing import Any
 from modutask.optimizer.my_moo.core.encoding import BaseVariable
 from modutask.optimizer.my_moo.rng_manager import get_rng
 
 class PermutationVariable(BaseVariable):
-    def __init__(self, items: List[Any]):
+    def __init__(self, items: list[Any]):
         self.items = items  # 初期リスト（例：[0, 1, 2, 3, 4]）
 
-    def sample(self) -> List[Any]:
+    def sample(self) -> list[Any]:
         """ランダムな順列を生成"""
         rng = get_rng()
         perm = self.items[:]
         rng.shuffle(perm)
         return perm
 
-    def mutate(self, value: List[Any]) -> List[Any]:
+    def mutate(self, value: list[Any]) -> list[Any]:
         """スワップ突然変異"""
         rng = get_rng()
         mutated = value[:]
@@ -22,7 +22,7 @@ class PermutationVariable(BaseVariable):
         mutated[i], mutated[j] = mutated[j], mutated[i]
         return mutated
 
-    def crossover(self, value1: List[Any], value2: List[Any]) -> List[Any]:
+    def crossover(self, value1: list[Any], value2: list[Any]) -> list[Any]:
         """順序交叉（Order Crossover, OX）"""
         rng = get_rng()
         size = len(value1)
@@ -37,7 +37,7 @@ class PermutationVariable(BaseVariable):
                 fill_index += 1
         return child
 
-    def validate(self, value: List[Any]) -> bool:
+    def validate(self, value: list[Any]) -> bool:
         """すべての要素が一度ずつ現れるかチェック"""
         return sorted(value) == sorted(self.items)
 

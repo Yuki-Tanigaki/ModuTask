@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Union, Optional
 from numpy.typing import NDArray
 from enum import Enum
-import logging
+import logging, copy
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
@@ -191,3 +191,6 @@ class Robot:
         """ デバッグ用の詳細な表現 """
         return (f"Robot(name={self.name}, type={self.type.name}, state={self.state.name}, "
                 f"coordinate={self.coordinate}, modules={len(self.component_mounted)})")
+    
+    def __deepcopy__(self, memo):
+        raise_with_log(RuntimeError, f"Robot cannot deepcopy: {self.name}.")
