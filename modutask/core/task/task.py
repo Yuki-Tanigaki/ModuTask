@@ -101,7 +101,7 @@ class BaseTask(ABC):
         """ ロボットを配置 """
         if robot.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"{robot.name} with {robot.state} are assigned: {self.name}.")
-        if robot.coordinate != self.coordinate:
+        if not np.allclose(robot.coordinate, self.coordinate, atol=1e-8):
             raise_with_log(RuntimeError, f"{robot.name} with mismatched coordinates are assigned: {self.name}.")
 
         self._assigned_robot.append(robot)
@@ -113,3 +113,14 @@ class BaseTask(ABC):
     def __repr__(self) -> str:
         """ デバッグ用の表現 """
         return f"Task(name={self.name}, completed={self.completed_workload}, total={self.total_workload})"
+    
+    def __deepcopy__(self, memo):
+        clone = BaseTask(
+            copy.deepcopy(self.name, memo),
+            copy.deepcopy(self.coordinate, memo),
+            copy.deepcopy(self.total_workload, memo),
+            copy.deepcopy(self.completed_workload, memo),
+            copy.deepcopy(self.required_performance, memo)
+        )
+        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
+        return clone

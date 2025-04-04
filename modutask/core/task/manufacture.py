@@ -1,6 +1,6 @@
 from typing import Union
 from numpy.typing import NDArray
-import logging
+import logging, copy
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
@@ -30,3 +30,14 @@ class Manufacture(BaseTask):
         
         self._completed_workload += 1.0
         return True
+
+    def __deepcopy__(self, memo):
+        clone = Manufacture(
+            copy.deepcopy(self.name, memo),
+            copy.deepcopy(self.coordinate, memo),
+            copy.deepcopy(self.total_workload, memo),
+            copy.deepcopy(self.completed_workload, memo),
+            copy.deepcopy(self.required_performance, memo)
+        )
+        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
+        return clone

@@ -17,7 +17,7 @@ class Simulator:
         # 各エージェントのループ
         for _, agent in self.agents.items():
             # 稼働不可ならスキップ
-            if agent.check_inactive():
+            if agent.is_inactive():
                 continue
             # 充電が必要かチェック
             agent.decide_recharge(self.simulation_map.charge_stations)
@@ -42,10 +42,11 @@ class Simulator:
             agent.set_state_idle()
             agent.robot.update_state(scenarios=self.scenarios)  # モジュールの故障判定
     
-    def total_remaining_workload(self):
+    def total_remaining_workload(self) -> float:
+        # 各タスクの未完了仕事量を合計
         return sum(task.total_workload - task.completed_workload for task in self.tasks.values()) 
 
-    def variance_remaining_workload(self):
+    def variance_remaining_workload(self) -> float:
         # 各タスクの座標と未完了仕事量を抽出
         coordinates = []
         weights = []
@@ -65,13 +66,13 @@ class Simulator:
         distances_squared = np.sum(weights * np.sum((coordinates - weighted_center) ** 2, axis=1))
 
         # 重み付き分散（距離に基づく残タスク分散）
-        return distances_squared / np.sum(weights)
+        return float(distances_squared / np.sum(weights))
 
-    def variance_operating_time(self):
+    def variance_operating_time(self) -> float:
         all_modules = []
         for agent in self.agents.values():
             for module in agent.robot.component_mounted:
                 all_modules.append(module)
         operating_times = np.array([module.operating_time for module in all_modules])
-        return np.var(operating_times)
+        return float(np.var(operating_times))
 

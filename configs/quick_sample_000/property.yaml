@@ -33,3 +33,8 @@ simulation:
   max_step: 50
   training_scenarios: [[s_000], [s_001], [s_002], [s_003]]
   varidate_scenarios: [s_004]
+
+task_allocation:
+  populationSize: 10
+  generations: 100
+  seed: 1234

@@ -6,7 +6,7 @@ TWSH:
     Wheel: 3
   performance: !PerformanceAttributes
     TRANSPORT: 3
-    MANUFACTURE: 3
+    MANUFACTURE: 2
     MOBILITY: 3
   power_consumption: 1
   recharge_trigger: 10
@@ -18,7 +18,7 @@ TWDH:
     Wheel: 3
   performance: !PerformanceAttributes
     TRANSPORT: 3
-    MANUFACTURE: 5
+    MANUFACTURE: 3
     MOBILITY: 3
   power_consumption: 1
   recharge_trigger: 10
@@ -30,7 +30,7 @@ QWSH:
     Wheel: 4
   performance: !PerformanceAttributes
     TRANSPORT: 4
-    MANUFACTURE: 3
+    MANUFACTURE: 2
     MOBILITY: 3
   power_consumption: 1
   recharge_trigger: 10
@@ -42,7 +42,7 @@ QWDH:
     Wheel: 4
   performance: !PerformanceAttributes
     TRANSPORT: 4
-    MANUFACTURE: 4
+    MANUFACTURE: 3
     MOBILITY: 3
   power_consumption: 1
   recharge_trigger: 10
@@ -54,7 +54,7 @@ Dragon:
     Wheel: 2
   performance: !PerformanceAttributes
     TRANSPORT: 1
-    MANUFACTURE: 2
+    MANUFACTURE: 4
     MOBILITY: 2
   power_consumption: 1
   recharge_trigger: 10

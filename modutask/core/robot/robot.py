@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Union, Optional
 from numpy.typing import NDArray
 from enum import Enum
-import logging, copy
+import logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
@@ -161,7 +161,7 @@ class Robot:
         """ モジュールを搭載 """
         if not module.is_active():
             raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a malfunction: {self.name}.")
-        if module.coordinate != self.coordinate:
+        if not np.allclose(module.coordinate, self.coordinate, atol=1e-8):
             raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a coordinate mismatch: {self.name}.")
         if module not in self.component_required:
             raise_with_log(RuntimeError, f"{module.name} not found in component_required: {self.name}.")
@@ -173,7 +173,7 @@ class Robot:
             for module in self.component_mounted:
                 module.update_state(scenarios)
         self._component_mounted = [module for module in self.component_mounted if module.is_active()]
-        self._component_mounted = [module for module in self._component_mounted if module.coordinate == self.coordinate]
+        self._component_mounted = [module for module in self._component_mounted if np.allclose(module.coordinate, self.coordinate, atol=1e-8)]
 
         self._state = RobotState.ACTIVE
         if len(self.missing_components()) != 0:

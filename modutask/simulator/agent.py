@@ -28,7 +28,7 @@ class RobotAgent:
         self.assigned_task = None
         self.state = AgentState.IDLE
 
-    def check_inactive(self):
+    def is_inactive(self):
         """ ロボットの稼働状態を確認 """
         if self.robot.state == RobotState.NO_ENERGY:
             self.state = AgentState.NO_ENERGY
@@ -69,7 +69,7 @@ class RobotAgent:
             return
 
     def try_travel(self):
-        if self.assigned_task.coordinate != self.robot.coordinate:
+        if not np.allclose(self.assigned_task.coordinate, self.robot.coordinate, atol=1e-8):
             # 目的地と現在の座標が異なるならエージェントを移動
             self.state = AgentState.MOVE
             self.robot.travel(self.assigned_task.coordinate)
@@ -86,7 +86,7 @@ class RobotAgent:
     def reset_task(self):
         if isinstance(self.assigned_task, Charge):
             # 充電タスクならフル充電までタスクを固定
-            if self.robot.check_battery_full():
+            if self.robot.is_battery_full():
                 self.assigned_task = None
         else:
             self.assigned_task = None

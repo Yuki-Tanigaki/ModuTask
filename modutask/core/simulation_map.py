@@ -1,3 +1,4 @@
+import copy
 from modutask.core.task import Charge
 
 class SimulationMap:
@@ -14,3 +15,8 @@ class SimulationMap:
 
     def __repr__(self) -> str:
         return (f"Map(charge_stations={self.charge_stations!r})")
+    
+    def __deepcopy__(self, memo):
+        return SimulationMap(
+            copy.deepcopy(self.charge_stations, memo),
+        )

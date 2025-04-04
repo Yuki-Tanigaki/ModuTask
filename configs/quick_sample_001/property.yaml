@@ -35,6 +35,6 @@ simulation:
   varidate_scenarios: [s_004]
 
 task_allocation:
-  populationSize: 10
-  generations: 100
+  population_size: 100
+  generations: 2000
   seed: 1234

@@ -8,16 +8,13 @@ from modutask.utils import raise_with_log
 logger = logging.getLogger(__name__)
 
 
-def objective(order: list[list[int]], manager: DataManager, max_step: int, training_scenarios) -> list[float]:
+def objective(order: list[list[str]], manager: DataManager, max_step: int, training_scenarios) -> list[float]:
     total_remaining_workload = []
     variance_remaining_workload = []
     variance_operating_time = []
 
     for scenario_names in training_scenarios:
         local_manager = manager.clone_for_simulation()
-        for module in local_manager.modules.values():
-            if module.state == ModuleState.ERROR:
-                print(module)
         tasks = local_manager.combined_tasks
         robots = local_manager.robots
         scenarios = local_manager.risk_scenarios
@@ -65,7 +62,8 @@ def main():
 
     seed_rng(prop['task_allocation']['seed'])
     def sim_func(order: list[list[int]]) -> list[float]:
-        return objective(order, manager=manager, max_step=max_step, training_scenarios=training_scenarios)
+        resutls = objective(order, manager=manager, max_step=max_step, training_scenarios=training_scenarios)
+        return resutls
 
     items = list(manager.combined_tasks.keys())
     encoding = MultiPermutationVariable(items=items, n_multi=len(manager.robots))
@@ -73,8 +71,8 @@ def main():
     algo = NSGAII(
         simulation_func=sim_func,
         encoding=encoding,
-        population_size=100,
-        generations=200,
+        population_size=prop['task_allocation']['population_size'],
+        generations=prop['task_allocation']['generations'],
     )
     algo.evolve()
 

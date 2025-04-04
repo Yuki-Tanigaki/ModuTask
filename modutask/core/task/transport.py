@@ -1,6 +1,6 @@
 from typing import Union
 from numpy.typing import NDArray
-import logging
+import logging, copy
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
@@ -55,7 +55,7 @@ class Transport(BaseTask):
             raise_with_log(RuntimeError, f"Assigned_robot must be initialized: {self.name}.")
         for robot in self.assigned_robot:  # ロボットを荷物に追従
             robot.travel(self.coordinate)
-            if robot.coordinate != self.coordinate:
+            if not np.allclose(robot.coordinate, self.coordinate, atol=1e-8):
                 raise_with_log(RuntimeError, f"{robot.name} cannot follow the object: {self.name}.")
 
     def update(self) -> bool:
@@ -81,3 +81,17 @@ class Transport(BaseTask):
         left = float(np.linalg.norm(v) * self.transport_resistance)
         self._completed_workload = self.total_workload - left
         return True
+    
+    def __deepcopy__(self, memo):
+        clone = Transport(
+            name=copy.deepcopy(self.name, memo),
+            coordinate=copy.deepcopy(self.coordinate, memo),
+            total_workload=copy.deepcopy(self.total_workload, memo),
+            completed_workload=copy.deepcopy(self.completed_workload, memo),
+            required_performance=copy.deepcopy(self.required_performance, memo),
+            origin_coordinate=copy.deepcopy(self.origin_coordinate, memo),
+            destination_coordinate=copy.deepcopy(self.destination_coordinate, memo),
+            transport_resistance=copy.deepcopy(self.transport_resistance, memo),
+        )
+        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
+        return clone

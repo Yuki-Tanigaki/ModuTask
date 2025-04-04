@@ -25,7 +25,7 @@ class DataManager:
     def clone_for_simulation(self) -> "DataManager":
         clone = DataManager(load_task_priorities=self.load_task_priorities)
         clone.tasks = copy.deepcopy(self.tasks)
-        clone.combined_tasks = copy.deepcopy(self.combined_tasks)
+        clone.combined_tasks = clone.tasks  # combined_tasksはディープコピー不可
         clone.module_types = copy.deepcopy(self.module_types)
         clone.modules = copy.deepcopy(self.modules)
         clone.robot_types = copy.deepcopy(self.robot_types)
@@ -44,7 +44,8 @@ class DataManager:
                 coordinate=coordinate,
                 component=component
             )
-        clone.robots = robots
+        clone.robots = robots  # robot はディープコピー不可
+        clone.add_assembly_task()
         clone.simulation_map = copy.deepcopy(self.simulation_map)
         clone.risk_scenarios = copy.deepcopy(self.risk_scenarios)
         clone.task_priorities = copy.deepcopy(self.task_priorities)
@@ -82,12 +83,13 @@ class DataManager:
         全ロボットのモジュール名の重複をチェックする関数
         """
         all_module_names = []
-        for robot_name, robot in self.robots.items():
+        for robot in self.robots.values():
             module_names = [module.name for module in robot.component_required]
-            duplicates = set(name for name in module_names if module_names.count(name) > 1)
-            if duplicates:
-                raise_with_log(ValueError, f"Robot has duplicate modules: {duplicates}.")
             all_module_names.extend(module_names)
+
+        duplicates = set(name for name in all_module_names if all_module_names.count(name) > 1)
+        if duplicates:
+            raise_with_log(ValueError, f"Duplicate module names across robots: {duplicates}.")
     
     def add_assembly_task(self) -> None:
         """ モジュール不足のロボット用の組み立てタスクの追加 """

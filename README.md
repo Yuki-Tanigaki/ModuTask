@@ -9,29 +9,34 @@
 - ロボット
 - マップ
 - リスクシナリオ
-## io
-コンポーネントデータのセーブロード
-### input
-- task
-- task-dependency
-- module_type
-- module
-- robot_type
-- robot
-- map
-- risk_scenario
-- task-priority
-### output
-- task
-- task-dependency
-- module_type
-- module
-- robot_type
-- robot
-- task-priority
+## simulator
+## optimizer
 
 # How to Use
+## Run Tests
+```
+poetry run pytest -s
+```
+
+## Run mypy
+```
+poetry run mypy modutask/core/
+```
+
 ## Run Simulation
+```python
+poetry run python modutask/simulator/launcher.py --property_file configs/quick_sample_000/property.yaml
 ```
-poetry run python modutask/simulator/launcher.py --property_file configs/quick_sample/property.yaml --scenario scenario_00 --max_step 50
+-> output
 ```
+Training scenarios average:
+[42.25, 30.94960485235799, 17.559813204133135]
+Varidate scenario evaluation:
+[32.0, 30.46875, 49.46260387811635]
+```
+
+## Run Task-allocation
+```python
+poetry run python modutask/optimizer/task_allocation/task_sample_nsgaii.py --property_file configs/quick_sample_001/property.yaml
+```
+
