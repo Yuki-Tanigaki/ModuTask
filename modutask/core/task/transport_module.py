@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 from numpy.typing import NDArray
 import logging
 import numpy as np
@@ -34,5 +34,5 @@ class TransportModule(Transport):
             self._target_module.coordinate = self.coordinate
         return True
     
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "TransportModule":
         raise_with_log(RuntimeError, f"TransportModule cannot deepcopy: {self.name}.")

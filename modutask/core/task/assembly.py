@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
@@ -35,7 +36,7 @@ class Assembly(BaseTask):
                 return True
         return False
     
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Assembly":
         raise_with_log(RuntimeError, f"Assembly cannot deepcopy: {self.name}.")
 
         

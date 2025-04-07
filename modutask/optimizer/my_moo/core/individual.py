@@ -32,3 +32,12 @@ class Individual:
             f"Individual(genome={self.genome}, "
             f"objectives={self.objectives}, rank={self.rank})"
         )
+    
+    def __eq__(self, other):
+        if not isinstance(other, Individual):
+            return False
+        # genomeが等しいかはencodingを使って判定
+        return self.encoding.equals(self.genome, other.genome)
+    
+    def __hash__(self):
+        return hash(self.encoding.hash(self.genome))

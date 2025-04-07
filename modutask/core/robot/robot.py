@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Union, Optional
+from typing import Any, Union, Optional
 from numpy.typing import NDArray
 from enum import Enum
 import logging
@@ -192,5 +192,5 @@ class Robot:
         return (f"Robot(name={self.name}, type={self.type.name}, state={self.state.name}, "
                 f"coordinate={self.coordinate}, modules={len(self.component_mounted)})")
     
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Robot":
         raise_with_log(RuntimeError, f"Robot cannot deepcopy: {self.name}.")

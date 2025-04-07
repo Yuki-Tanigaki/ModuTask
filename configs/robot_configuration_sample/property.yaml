@@ -1,0 +1,9 @@
+load:
+  module_type: ./configs/robot_configuration_sample/module_type.yaml
+  module: ./configs/robot_configuration_sample/module.yaml
+  robot_type: ./configs/robot_configuration_sample/robot_type.yaml
+
+robot_configuration:
+  population_size: 10
+  generations: 200
+  seed: 1234

@@ -58,8 +58,32 @@ class MultiPermutationVariable(BaseVariable):
         return child
 
     def validate(self, value: list[list[Any]]) -> bool:
-        """すべての要素が一度ずつ現れるかチェック"""
-        return sorted(value) == sorted(self.items)
+        if not isinstance(value, list) or len(value) != self.n_multi:
+            return False
+        reference_set = set(self.items)
+        for perm in value:
+            if not isinstance(perm, list):
+                return False
+            if set(perm) != reference_set or len(perm) != len(self.items):
+                return False
+        return True
 
     def __repr__(self):
         return f"MultiPermutationVariable(items={self.items})"
+    
+    def equals(self, value1: list[Any], value2: list[Any]) -> bool:
+        """順列が等しいかチェック"""
+        if len(value1) != len(value2):
+            return False
+
+        for r1, r2 in zip(value1, value2):
+            if not r1 == r2:
+                return False
+        return True
+    
+    def hash(self, value: list[list[Any]]) -> int:
+        """順列のハッシュ値を計算"""
+        hash_value = 0
+        for i, r in enumerate(value):
+            hash_value += hash(tuple(r)) * (i + 1)
+        return hash_value

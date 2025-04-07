@@ -1,4 +1,3 @@
-import random
 from typing import Any
 from modutask.optimizer.my_moo.core.encoding import BaseVariable
 from modutask.optimizer.my_moo.rng_manager import get_rng
@@ -43,3 +42,17 @@ class PermutationVariable(BaseVariable):
 
     def __repr__(self):
         return f"PermutationVariable(items={self.items})"
+    
+    def equals(self, value1: list[Any], value2: list[Any]) -> bool:
+        """順列が等しいかチェック"""
+        if len(value1) != len(value2):
+            return False
+
+        for r1, r2 in zip(value1, value2):
+            if not r1 == r2:
+                return False
+        return True
+
+    def hash(self, value: list[Any]) -> int:
+        """順列のハッシュ値を計算"""
+        return hash(tuple(value))

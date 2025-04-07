@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 from numpy.typing import NDArray
 import logging, copy
 import numpy as np
@@ -31,7 +31,7 @@ class Manufacture(BaseTask):
         self._completed_workload += 1.0
         return True
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Manufacture":
         clone = Manufacture(
             copy.deepcopy(self.name, memo),
             copy.deepcopy(self.coordinate, memo),

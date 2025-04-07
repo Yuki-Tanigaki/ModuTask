@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 from numpy.typing import NDArray
 import logging, copy
 import numpy as np
@@ -82,7 +82,7 @@ class Transport(BaseTask):
         self._completed_workload = self.total_workload - left
         return True
     
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Transport":
         clone = Transport(
             name=copy.deepcopy(self.name, memo),
             coordinate=copy.deepcopy(self.coordinate, memo),

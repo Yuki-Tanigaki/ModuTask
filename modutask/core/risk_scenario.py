@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 import numpy as np
 from numpy.random import Generator
 import logging, copy
@@ -34,13 +34,6 @@ class BaseRiskScenario(ABC):
 
     def __repr__(self) -> str:
         return (f"Scenario(name={self.name}, seed={self.seed})")
-    
-    def __deepcopy__(self, memo):
-        return BaseRiskScenario(
-            copy.deepcopy(self.name, memo),
-            copy.deepcopy(self.seed, memo),
-        )
-
 
 class ExponentialFailure(BaseRiskScenario):
     """ 使用時間が増えると指数関数で故障確率が増えるシナリオ """
@@ -57,7 +50,7 @@ class ExponentialFailure(BaseRiskScenario):
             raise_with_log(RuntimeError, "RNG not initialized. Call 'initialize()' first.")
         return self.rng.random() < self._exponential(float(module.operating_time))
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "ExponentialFailure":
         return ExponentialFailure(
             copy.deepcopy(self.name, memo),
             copy.deepcopy(self.failure_rate, memo),

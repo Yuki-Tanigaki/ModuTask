@@ -21,3 +21,13 @@ class BaseVariable(ABC):
     def validate(self, value: Any) -> bool:
         """値が有効かどうかを判定する（範囲外チェックなど）"""
         pass
+
+    @abstractmethod
+    def equals(self, value1: Any, value2: Any) -> bool:
+        """2つの値が等しいかどうかを判定する"""
+        pass
+    
+    @abstractmethod
+    def hash(self, value: Any) -> int:
+        """値のハッシュ値を計算する"""
+        pass

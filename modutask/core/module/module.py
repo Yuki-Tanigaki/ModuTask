@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Any, Union
 from numpy.typing import NDArray
 from enum import Enum
 import logging, copy
@@ -125,7 +125,7 @@ class Module:
         """ デバッグ用の詳細な表現 """
         return f"Module(name={self.name}, type={self.type.name}, state={self.state.name}, battery={self.battery})"
     
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> "Module":
         return Module(
             copy.deepcopy(self.type, memo),
             copy.deepcopy(self.name, memo),

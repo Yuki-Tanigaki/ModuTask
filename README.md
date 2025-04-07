@@ -1,16 +1,7 @@
 # ModuTask: A optimization framework for Task Allocation in Modular Robots 
-モジュラーロボットに対するタスクスケジューリング
 
 # Basic Concepts
-## core
-シミュレーションに用いるコンポーネント
-- タスク
-- モジュール
-- ロボット
-- マップ
-- リスクシナリオ
-## simulator
-## optimizer
+TBA
 
 # How to Use
 ## Run Tests
@@ -23,9 +14,14 @@ poetry run pytest -s
 poetry run mypy modutask/core/
 ```
 
+## Run Robot-Configuration
+```python
+poetry run python modutask/robot_configuration.py --property_file configs/robot_configuration_sample/property.yaml
+```
+
 ## Run Simulation
 ```python
-poetry run python modutask/simulator/launcher.py --property_file configs/quick_sample_000/property.yaml
+poetry run python modutask/simulation_launcher.py --property_file configs/simulation_sample/property.yaml
 ```
 -> output
 ```
@@ -37,6 +33,29 @@ Varidate scenario evaluation:
 
 ## Run Task-allocation
 ```python
-poetry run python modutask/optimizer/task_allocation/task_sample_nsgaii.py --property_file configs/quick_sample_001/property.yaml
+poetry run python modutask/task_allocation.py --property_file configs/task_allocation_sample/property.yaml
 ```
-
+-> output
+```
+NonD solutions:
+Training: [61.5, 5.162223290086425, 17.559813204133135]
+Varidation: [50.0, 16.0, 49.46260387811635]
+Training: [61.5, 5.162223290086425, 17.559813204133135]
+Varidation: [50.0, 16.0, 49.46260387811635]
+Training: [20.25, 20.388260565386545, 17.559813204133135]
+Varidation: [23.0, 23.53497164461248, 49.46260387811635]
+Training: [17.0, 17.47965839100346, 19.350733254659993]
+Varidation: [8.0, 0.0, 56.25]
+Training: [17.0, 17.47965839100346, 19.350733254659993]
+Varidation: [8.0, 0.0, 56.25]
+Training: [58.75, 5.229645306924513, 19.350733254659993]
+Varidation: [47.0, 12.675418741511995, 56.25]
+Training: [23.5, 13.433492159225173, 19.350733254659993]
+Varidation: [15.0, 30.0, 56.25]
+Training: [26.25, 7.5637368799706, 17.559813204133135]
+Varidation: [23.0, 11.058601134215502, 49.46260387811635]
+Training: [49.75, 6.634131425080693, 17.559813204133135]
+Varidation: [40.0, 18.75, 49.46260387811635]
+Training: [37.25, 6.990091446268318, 19.350733254659993]
+Varidation: [27.0, 19.204389574759944, 56.25]
+```

@@ -10,7 +10,15 @@ def fast_non_dominated_sort(individuals: list[Individual]) -> list[list[Individu
     n = {}  # number of individuals dominating p
     rank = {}
 
+    seen = []
     for p in individuals:
+        # 重複チェック
+        if any(p == q for q in seen):
+            p.fitness['rank'] = float('inf')  # 最悪ランクを付与
+            continue
+
+        seen.append(p)
+
         S[p] = []
         n[p] = 0
         for q in individuals:

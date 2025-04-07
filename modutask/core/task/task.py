@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Union, Optional
+from typing import Any, Union, Optional
 from numpy.typing import NDArray
 import copy, logging
 import numpy as np
@@ -114,13 +114,3 @@ class BaseTask(ABC):
         """ デバッグ用の表現 """
         return f"Task(name={self.name}, completed={self.completed_workload}, total={self.total_workload})"
     
-    def __deepcopy__(self, memo):
-        clone = BaseTask(
-            copy.deepcopy(self.name, memo),
-            copy.deepcopy(self.coordinate, memo),
-            copy.deepcopy(self.total_workload, memo),
-            copy.deepcopy(self.completed_workload, memo),
-            copy.deepcopy(self.required_performance, memo)
-        )
-        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
-        return clone
