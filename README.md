@@ -18,6 +18,32 @@ poetry run mypy modutask/core/
 ```python
 poetry run python modutask/robot_configuration.py --property_file configs/robot_configuration_sample/property.yaml
 ```
+-> output
+```
+NonD solutions:
+Robots: Counter({'QWDH': 8})
+Objectives: [-32.0, -24.0, -24.0, 0.0, 0.0]
+Robots: Counter({'QWDH': 8})
+Objectives: [-32.0, -24.0, -24.0, 0.0, 0.0]
+Robots: Counter({'Dragon': 8})
+Objectives: [-8.0, -32.0, -16.0, 0.0, 0.0]
+Robots: Counter({'Dragon': 8})
+Objectives: [-8.0, -32.0, -16.0, 0.0, 0.0]
+Robots: Counter({'QWDH': 4, 'Dragon': 4})
+Objectives: [-20.0, -28.0, -20.0, 0.0, 0.0]
+Robots: Counter({'QWDH': 7, 'Dragon': 1})
+Objectives: [-29.0, -25.0, -23.0, 0.0, 0.0]
+Robots: Counter({'Dragon': 7, 'QWDH': 1})
+Objectives: [-11.0, -31.0, -17.0, 0.0, 0.0]
+Robots: Counter({'Dragon': 6, 'TWDH': 1, 'QWDH': 1})
+Objectives: [-13.0, -30.0, -18.0, 0.0, 0.0]
+Robots: Counter({'QWDH': 5, 'Dragon': 2, 'TWDH': 1})
+Objectives: [-25.0, -26.0, -22.0, 0.0, 0.0]
+Robots: Counter({'QWDH': 5, 'Dragon': 2, 'TWDH': 1})
+Objectives: [-25.0, -26.0, -22.0, 0.0, 0.0]
+```
+and result files:
+robot_"n_step".yaml
 
 ## Run Simulation
 ```python
@@ -30,6 +56,8 @@ Training scenarios average:
 Varidate scenario evaluation:
 [32.0, 30.46875, 49.46260387811635]
 ```
+and result files:
+task_"n_step".pkl
 
 ## Run Task-allocation
 ```python

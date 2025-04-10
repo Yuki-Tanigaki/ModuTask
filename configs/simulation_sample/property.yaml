@@ -10,7 +10,7 @@ load:
   task_priority: ./configs/simulation_sample/task_priority.yaml
 
 results:
-  task: ./results/simulation_sample/history/task{index:03}.pkl
+  task: ./results/simulation_sample/history/task_{index:03}.pkl
 
 simulation:
   max_step: 50

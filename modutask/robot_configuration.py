@@ -1,12 +1,15 @@
+import os
 from typing import Counter
 import numpy as np
 import argparse, yaml, logging
 from modutask.io.input import load_module_types, load_modules, load_robot_types
+from modutask.io.output import save_robot
 from modutask.optimizer.my_moo import *
 from modutask.optimizer.my_moo.core.encoding.configuration import ConfigurationVariable
 from modutask.io import *
 from modutask.core import *
 from modutask.utils import raise_with_log
+from modutask.visualization.objective import plot_objective_scatter
 
 logger = logging.getLogger(__name__)
 
@@ -72,13 +75,30 @@ def main():
     algo.evolve()
 
     nds = get_non_dominated_individuals(algo.get_result())
+    for configuration_id, ind in enumerate(nds):
+        # ロボットの保存
+        robots_dict = {}
+        for robot_id, robot in enumerate(ind.genome):
+            robot.name = f"robot_{robot_id:03}"
+            robots_dict[robot.name] = robot
+        task_template = prop['results']['robot']
+        file_path = task_template.format(index=configuration_id)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        save_robot(robots=robots_dict, file_path=file_path)
+
     print("NonD solutions:")
     for ind in nds:
-        types = [robot.type.name for robot in ind.genome]    
+        types = [robot.type.name for robot in ind.genome]
         # カウント
         type_counts = Counter(types)
         print(f"Robots: {type_counts}")
         print(f"Objectives: {ind.objectives}")
+    objectives = [ind.objectives for ind in nds]
+    plot_objective_scatter(objectives=objectives, 
+                           file_path=prop['figures']['pareto_front'],
+                           labels=['Transport', 'Manufacture', 'Mobility', 'Operating Time', 'Module Distance']
+                           )
+
 
 if __name__ == '__main__':
     main()

@@ -3,6 +3,12 @@ load:
   module: ./configs/robot_configuration_sample/module.yaml
   robot_type: ./configs/robot_configuration_sample/robot_type.yaml
 
+results:
+  robot: ./results/robot_configuration_sample/robot_{index:03}.yaml
+
+figures:
+  pareto_front: ./figures/robot_configuration_sample/pareto_front.png
+
 robot_configuration:
   population_size: 10
   generations: 200
