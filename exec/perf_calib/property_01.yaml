@@ -1,0 +1,15 @@
+load:
+  module_type: ./configs/perf_calib/01_module_type.yaml
+  module: ./configs/perf_calib/01_module.yaml
+  robot_type: ./configs/perf_calib/01_robot_type.yaml
+results:
+  robot: ./results/perf_calib/01_robot_{index:03}.yaml
+  configuration: ./results/perf_calib/01_configuration.txt
+figures:
+  pareto_front: ./figures/perf_calib/01_pareto_front.png
+  kmeans: ./figures/perf_calib/01_kmeans.png
+configuration:
+  population_size: 100
+  generations: 1000
+  seed: 1234
+  kmeans: 20

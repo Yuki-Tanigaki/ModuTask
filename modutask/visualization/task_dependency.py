@@ -2,7 +2,6 @@ import argparse, yaml, os, logging
 import networkx as nx
 import matplotlib.pyplot as plt
 from modutask.core import BaseTask
-from modutask.io import DataManager
 from modutask.utils import raise_with_log
 # plt.figure(figsize=(10, 8), constrained_layout=True)
 # pos = nx.nx_agraph.graphviz_layout(G, prog="dot")  # `dot` はツリー風にレイアウト
@@ -13,13 +12,14 @@ from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
 
-def make_figure(tasks: dict[str, BaseTask], file_path: str):
+def dag_draw_dag_graph(tasks: dict[str, BaseTask], file_path: str):
     dependency_dict = {}
     for task_name, task in tasks.items():
         dependency_dict[task_name] = [t.name for t in task.task_dependency]
 
     # DAGを構築（依存先 → タスク）
     G = nx.DiGraph()
+    G.add_nodes_from(tasks.keys())
     for task, deps in dependency_dict.items():
         for dep in deps:
             G.add_edge(dep, task)
@@ -42,27 +42,8 @@ def make_figure(tasks: dict[str, BaseTask], file_path: str):
 
     G_simple = remove_transitive_edges(G)
     fig, ax = plt.subplots(figsize=(10, 8), constrained_layout=True)
-    nx.draw(G_simple, pos=nx.circular_layout(G_simple), with_labels=True, arrows=True, ax=ax)
+    pos = nx.nx_agraph.graphviz_layout(G_simple, prog="dot")
+    # pos = nx.circular_layout(G_simple)
+    nx.draw(G_simple, pos=pos, with_labels=True, arrows=True, ax=ax)
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     plt.savefig(file_path)
-
-def main():
-    """
-    property_fileの設定でタスク依存関係をグラフ化
-    """
-    parser = argparse.ArgumentParser(description="Run the robotic system simulator.")
-    parser.add_argument("--property_file", type=str, help="Path to the property file")
-    args = parser.parse_args()
-    try:
-        with open(args.property_file, 'r') as f:
-            prop = yaml.safe_load(f)
-    except FileNotFoundError as e:
-        raise_with_log(FileNotFoundError, f"File not found: {e}.")
-
-    manager = DataManager(load_task_priorities=True)
-    manager.load(load_path=prop["load"])
-    make_figure(tasks=manager.tasks, file_path=prop["figure"]["task_dependency"])
-    
-
-if __name__ == '__main__':
-    main()

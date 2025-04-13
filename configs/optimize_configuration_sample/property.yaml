@@ -1,0 +1,15 @@
+load:
+  module_type: ./configs/optimize_configuration_sample/module_type.yaml
+  module: ./configs/optimize_configuration_sample/module.yaml
+  robot_type: ./configs/optimize_configuration_sample/robot_type.yaml
+results:
+  robot: ./results/optimize_configuration_sample/robot_{index:03}.yaml
+  configuration: ./results/optimize_configuration_sample/configuration.txt
+figures:
+  pareto_front: ./figures/optimize_configuration_sample/pareto_front.png
+  kmeans: ./figures/optimize_configuration_sample/kmeans.png
+configuration:
+  population_size: 50
+  generations: 200
+  seed: 1234
+  kmeans: 20

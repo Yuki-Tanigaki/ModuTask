@@ -6,7 +6,7 @@ import logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.module.module import Module, ModuleType
-from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.utils.coodinate_utils import is_within_range, make_coodinate_to_tuple
 from modutask.core.risk_scenario import BaseRiskScenario
 from modutask.utils import raise_with_log
 
@@ -39,6 +39,19 @@ class RobotType:
         if not isinstance(other, RobotType):
             return NotImplemented
         return self.name == other.name
+
+def has_duplicate_module(robots: dict[str, 'Robot']) -> None:
+    """
+    全ロボットのモジュール名の重複をチェックする関数
+    """
+    all_module_names = []
+    for robot in robots.values():
+        module_names = [module.name for module in robot.component_required]
+        all_module_names.extend(module_names)
+
+    duplicates = set(name for name in all_module_names if all_module_names.count(name) > 1)
+    if duplicates:
+        raise_with_log(ValueError, f"Duplicate module names across robots: {duplicates}.")
 
 class Robot:
     """ ロボットのクラス """
@@ -140,7 +153,7 @@ class Robot:
                 module.battery = module.battery + left_charge_power
                 return
     
-    def act(self) -> None:
+    def operate(self, scenarios: Optional[list[BaseRiskScenario]]) -> None:
         """ 搭載モジュールを稼働させる """
         if self.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"Not ACTIVE: {self.name}.")
@@ -148,10 +161,14 @@ class Robot:
         self.draw_battery_power()
         for module in self.component_mounted:
             module.operating_time = module.operating_time + 1.0
+        
+        """ ロボットのモジュールに故障判定 """
+        if scenarios is not None:  # 構成モジュールの状態を更新
+            for module in self.component_mounted:
+                module.update_state(scenarios)
 
     def travel(self, target_coordinate: tuple[float, float]) -> None:
         """ 目的地点に向けて移動 """
-        self.act()
         v = np.array(target_coordinate) - np.array(self.coordinate)
         mob = self.type.performance[PerformanceAttributes.MOBILITY]
         if np.linalg.norm(v) < mob:  # 距離が移動能力以下
@@ -165,19 +182,16 @@ class Robot:
         """ モジュールを搭載 """
         if not module.is_active():
             raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a malfunction: {self.name}.")
-        if not np.allclose(module.coordinate, self.coordinate, atol=1e-8):
+        if not is_within_range(module.coordinate, self.coordinate):
             raise_with_log(RuntimeError, f"{module.name} is failed to mount due to a coordinate mismatch: {self.name}.")
         if module not in self.component_required:
             raise_with_log(RuntimeError, f"{module.name} not found in component_required: {self.name}.")
         self._component_mounted.append(module)
-        
-    def update_state(self, scenarios: Optional[list[BaseRiskScenario]] = None) -> None:
+
+    def update_state(self) -> None:
         """ ロボットの状態を更新 """
-        if scenarios is not None:  # 構成モジュールの状態を更新
-            for module in self.component_mounted:
-                module.update_state(scenarios)
         self._component_mounted = [module for module in self.component_mounted if module.is_active()]
-        self._component_mounted = [module for module in self._component_mounted if np.allclose(module.coordinate, self.coordinate, atol=1e-8)]
+        self._component_mounted = [module for module in self._component_mounted if is_within_range(module.coordinate, self.coordinate)]
 
         self._state = RobotState.ACTIVE
         if len(self.missing_components()) != 0:

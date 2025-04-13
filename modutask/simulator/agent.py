@@ -1,10 +1,13 @@
 from enum import Enum
 from collections import Counter
 import copy, sys, math
+from typing import Optional
 import numpy as np
 import pandas as pd
 
 from modutask.core import *
+from modutask.core.utils.coodinate_utils import is_within_range
+from modutask.utils.logger import raise_with_log
 
 class AgentState(Enum):
     """ エージェントの状態を表す列挙型 """
@@ -68,20 +71,28 @@ class RobotAgent:
             self.assigned_task = task
             return
 
-    def try_travel(self):
-        if not np.allclose(self.assigned_task.coordinate, self.robot.coordinate, atol=1e-8):
-            # 目的地と現在の座標が異なるならエージェントを移動
-            self.state = AgentState.MOVE
-            self.robot.travel(self.assigned_task.coordinate)
+    def is_on_site(self) -> bool:
+        if self.assigned_task is None:
+            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+        return is_within_range(self.assigned_task.coordinate, self.robot.coordinate)
+
+    def travel(self, scenarios: Optional[list[BaseRiskScenario]]):
+        if self.assigned_task is None:
+            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+        self.state = AgentState.MOVE
+        self.robot.travel(self.assigned_task.coordinate)
+        self.robot.operate(scenarios=scenarios)
+    
+    def ready(self):
+        if self.assigned_task is None:
+            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+        self.assigned_task.assign_robot(self.robot)
+        if isinstance(self.assigned_task, Charge):
+            # 充電タスクならエージェントの状態を充電に変更
+            self.state = AgentState.CHARGE
         else:
-            # 目的地と現在の座標が同じなら配置済みロボットのリストに追加
-            self.assigned_task.assign_robot(self.robot)
-            if isinstance(self.assigned_task, Charge):
-                # 充電タスクならエージェントの状態を充電に変更
-                self.state = AgentState.CHARGE
-            else:
-                # 通常タスクならエージェントの状態を配置中に変更
-                self.state = AgentState.ASSIGNED
+            # 通常タスクならエージェントの状態を配置中に変更
+            self.state = AgentState.ASSIGNED
     
     def reset_task(self):
         if isinstance(self.assigned_task, Charge):
@@ -91,7 +102,8 @@ class RobotAgent:
         else:
             self.assigned_task = None
 
-    def set_state_work(self):
+    def set_state_work(self, scenarios: Optional[list[BaseRiskScenario]]):
+        self.robot.operate(scenarios=scenarios)
         self.state = AgentState.WORK
     
     def set_state_idle(self):

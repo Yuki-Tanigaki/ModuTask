@@ -18,6 +18,7 @@ __all__ = [
     "Module",
     "ModuleState",
     "ModuleType",
+    "has_duplicate_module",
     'BaseRiskScenario',
     'ExponentialFailure',
     'SimulationMap',

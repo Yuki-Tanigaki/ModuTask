@@ -24,20 +24,9 @@ class Manufacture(BaseTask):
             return False
         if self.assigned_robot is None:
             raise_with_log(RuntimeError, f"Assigned_robot must be initialized: {self.name}.")
-
-        for robot in self.assigned_robot:
-            robot.act()
         
         self._completed_workload += 1.0
         return True
 
     def __deepcopy__(self, memo: dict[int, Any]) -> "Manufacture":
-        clone = Manufacture(
-            copy.deepcopy(self.name, memo),
-            copy.deepcopy(self.coordinate, memo),
-            copy.deepcopy(self.total_workload, memo),
-            copy.deepcopy(self.completed_workload, memo),
-            copy.deepcopy(self.required_performance, memo)
-        )
-        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
-        return clone
+        raise_with_log(RuntimeError, f"Manufacture cannot deepcopy: {self.name}.")

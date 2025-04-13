@@ -4,7 +4,7 @@ import logging, copy
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
-from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.utils.coodinate_utils import is_within_range, make_coodinate_to_tuple
 from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class Transport(BaseTask):
             raise_with_log(RuntimeError, f"Assigned_robot must be initialized: {self.name}.")
         for robot in self.assigned_robot:  # ロボットを荷物に追従
             robot.travel(self.coordinate)
-            if not np.allclose(robot.coordinate, self.coordinate, atol=1e-8):
+            if not is_within_range(robot.coordinate, self.coordinate):
                 raise_with_log(RuntimeError, f"{robot.name} cannot follow the object: {self.name}.")
 
     def update(self) -> bool:
@@ -83,15 +83,4 @@ class Transport(BaseTask):
         return True
     
     def __deepcopy__(self, memo: dict[int, Any]) -> "Transport":
-        clone = Transport(
-            name=copy.deepcopy(self.name, memo),
-            coordinate=copy.deepcopy(self.coordinate, memo),
-            total_workload=copy.deepcopy(self.total_workload, memo),
-            completed_workload=copy.deepcopy(self.completed_workload, memo),
-            required_performance=copy.deepcopy(self.required_performance, memo),
-            origin_coordinate=copy.deepcopy(self.origin_coordinate, memo),
-            destination_coordinate=copy.deepcopy(self.destination_coordinate, memo),
-            transport_resistance=copy.deepcopy(self.transport_resistance, memo),
-        )
-        clone._task_dependency = copy.deepcopy(self.task_dependency, memo)
-        return clone
+        raise_with_log(RuntimeError, f"Transport cannot deepcopy: {self.name}.")

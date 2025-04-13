@@ -1,0 +1,18 @@
+load:
+  task: ./configs/simulation_sample/task.yaml
+  task_dependency: ./configs/simulation_sample/task_dependency.yaml
+  module_type: ./configs/simulation_sample/module_type.yaml
+  module: ./configs/simulation_sample/module.yaml
+  robot_type: ./configs/simulation_sample/robot_type.yaml
+  robot: ./configs/simulation_sample/robot.yaml
+  map: ./configs/simulation_sample/map.yaml
+  risk_scenario: ./configs/simulation_sample/risk_scenario.yaml
+  task_priority: ./configs/simulation_sample/task_priority.yaml
+
+results:
+  task: ./results/simulation_sample/history/task_{index:03}.pkl
+
+simulation:
+  max_step: 50
+  training_scenarios: [[s_000], [s_001], [s_002], [s_003]]
+  varidate_scenarios: [s_004]

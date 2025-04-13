@@ -5,7 +5,7 @@ from enum import Enum
 import logging, copy
 import numpy as np
 from modutask.core.risk_scenario import BaseRiskScenario
-from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.utils.coodinate_utils import make_coodinate_to_tuple
 from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)

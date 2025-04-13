@@ -24,12 +24,21 @@ class Simulator:
             # タスクの割り当て
             agent.update_task(self.tasks)
             # 移動が必要なエージェントは移動
-            agent.try_travel()
+            if agent.is_on_site():
+                agent.ready()
+            else:
+                agent.travel(self.scenarios)
+
         # 各タスクを一斉に実行
         for _, task in self.tasks.items():
+            # if isinstance(task, Assembly):
+            total_assigned_performance = {attr: 0 for attr in PerformanceAttributes}
+            for robot in task.assigned_robot:
+                for attr, value in robot.type.performance.items():
+                    total_assigned_performance[attr] += value
             if task.update():
                 for robot in task.assigned_robot:
-                    self.agents[robot.name].set_state_work()  # タスクを実行したエージェントのみ
+                    self.agents[robot.name].set_state_work(self.scenarios)  # タスクを実行したエージェントのみ
             task.release_robot()
         # 充電を実行
         for _, station in self.simulation_map.charge_stations.items():
@@ -40,7 +49,7 @@ class Simulator:
         for _, agent in self.agents.items():
             agent.reset_task()
             agent.set_state_idle()
-            agent.robot.update_state(scenarios=self.scenarios)  # モジュールの故障判定
+            agent.robot.update_state()  # ロボット状態更新
     
     def total_remaining_workload(self) -> float:
         # 各タスクの未完了仕事量を合計

@@ -1,0 +1,15 @@
+load:
+  module_type: ./configs/robots_for_simulation/module_type.yaml
+  module: ./configs/robots_for_simulation/module.yaml
+  robot_type: ./configs/robots_for_simulation/robot_type.yaml
+results:
+  robot: ./results/robots_for_simulation/robot_{index:03}.yaml
+  configuration: ./results/robots_for_simulation/configuration.txt
+figures:
+  pareto_front: ./figures/robots_for_simulation/pareto_front.png
+  kmeans: ./figures/robots_for_simulation/kmeans.png
+configuration:
+  population_size: 100
+  generations: 20
+  seed: 1234
+  kmeans: 20

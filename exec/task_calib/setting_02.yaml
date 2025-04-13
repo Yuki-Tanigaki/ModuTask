@@ -1,0 +1,10 @@
+config_dir:
+  task: ./configs/task_calib/01_task.yaml
+  task_dependency: ./configs/task_calib/02_task_dependency.yaml
+figures:
+  dag_graph: ./figures/task_calib/02_dag_graph.png
+task:
+  seed: 1234
+  root: 2
+  depth: 3
+  influence: 1.0

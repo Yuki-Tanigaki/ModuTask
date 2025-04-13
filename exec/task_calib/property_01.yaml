@@ -1,0 +1,23 @@
+load:
+  task: ./configs/task_calib/01_task.yaml
+  task_dependency: ./configs/task_calib/01_task_dependency.yaml
+  module_type: ./configs/task_calib/module_type.yaml
+  module: ./configs/task_calib/module.yaml
+  robot_type: ./configs/task_calib/robot_type.yaml
+  robot: ./configs/task_calib/robot.yaml
+  map: ./configs/task_calib/map.yaml
+  risk_scenario: ./configs/task_calib/risk_scenario.yaml
+results:
+  # robot: ./results/robots_for_simulation/robot_{index:03}.yaml
+  # configuration: ./results/robots_for_simulation/configuration.txt
+figures:
+  # pareto_front: ./figures/robots_for_simulation/pareto_front.png
+  # kmeans: ./figures/robots_for_simulation/kmeans.png
+simulation:
+  max_step: 30
+  training_scenarios: [[s_000], [s_001], [s_002], [s_003], [s_004]]
+  varidate_scenarios: [s_005]
+task_allocation:
+  population_size: 10
+  generations: 200
+  seed: 1234

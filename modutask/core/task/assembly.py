@@ -1,9 +1,11 @@
 import logging
 from typing import Any
 import numpy as np
+from modutask.core.module.module import ModuleState
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.task.task import BaseTask
 from modutask.core.robot.robot import Robot
+from modutask.core.utils.coodinate_utils import is_within_range
 from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
@@ -30,7 +32,9 @@ class Assembly(BaseTask):
         if self.is_completed():
             return False
         for module in self.target_robot.missing_components():
-            if np.allclose(module.coordinate, self.target_robot.coordinate, atol=1e-8):
+            if module.state == ModuleState.ERROR:
+                continue
+            if is_within_range(module.coordinate, self.target_robot.coordinate):
                 self.target_robot.mount_module(module)
                 self._completed_workload += 1.0
                 return True

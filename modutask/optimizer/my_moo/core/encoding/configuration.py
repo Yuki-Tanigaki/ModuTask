@@ -1,7 +1,8 @@
 import numpy as np
 from collections import Counter
 from modutask.core.module.module import Module, ModuleState
-from modutask.core.robot.robot import Robot, RobotType
+from modutask.core.robot.robot import Robot, RobotType, has_duplicate_module
+from modutask.core.utils.coodinate_utils import is_within_range
 from modutask.optimizer.my_moo.core.encoding import BaseVariable
 from modutask.optimizer.my_moo.rng_manager import get_rng
 
@@ -12,7 +13,6 @@ class ConfigurationVariable(BaseVariable):
 
     def sample(self) -> list[Robot]:
         """ランダムなロボット群を生成"""
-        rng = get_rng()
         robots = []
         
         while True:
@@ -31,7 +31,7 @@ class ConfigurationVariable(BaseVariable):
         robot_type: RobotType = rng.choice(list(self.robot_types.values()))
         component = []
         for module_type, required_num in robot_type.required_modules.items():
-            active_modules =[]
+            active_modules = []
             for module in self.modules.values():
                 if module.type == module_type and module.state == ModuleState.ACTIVE and module not in used_modules:
                     active_modules.append(module)
@@ -44,11 +44,29 @@ class ConfigurationVariable(BaseVariable):
         most_common_coordinate, _ = Counter(coordinates).most_common(1)[0]
         return Robot(robot_type=robot_type, name="dummy", coordinate=most_common_coordinate, 
                         component=component)
+    
+    def clone_robots(self, value: list[Robot]) -> list[Robot]:
+        clone = []
+        for robot in value:
+            robot_type = robot.type
+            name = robot.name
+            coordinate = robot.coordinate
+            component = []
+            for module in robot.component_required:
+                module_name = module.name
+                component.append(self.modules[module_name])
+            clone.append(Robot(
+                robot_type=robot_type,
+                name=name,
+                coordinate=coordinate,
+                component=component
+            ))
+        return clone
 
     def mutate(self, value: list[Robot]) -> list[Robot]:
         """突然変異"""
         rng = get_rng()
-        mutated = value[:]
+        mutated = self.clone_robots(value)
         if not mutated:
             return mutated  # 空なら何もしない
 
@@ -62,13 +80,12 @@ class ConfigurationVariable(BaseVariable):
             mutated.append(new_robot)
         return self.mutate_cross(mutated) # モジュール交叉を行う
 
-
     def mutate_cross(self, value: list[Robot]) -> list[Robot]:
         """任意のロボットを選択し、モジュールを交換する"""
         rng = get_rng()
-        mutated = value[:]
+        mutated = self.clone_robots(value)
         if len(mutated) == 1:
-            return mutated
+            return mutated # ロボットがひとつの場合交換不可能
         robots: list[Robot] = rng.choice(mutated, 2)
         r1, r2 = robots[0], robots[1]
         # それぞれのモジュールから同じtypeのものを探す
@@ -86,27 +103,33 @@ class ConfigurationVariable(BaseVariable):
         m1, m2 = rng.choice(type_pairs)
         r1.component_required.remove(m1)
         r2.component_required.remove(m2)
+        if m1 in r1.component_mounted:
+            r1.component_mounted.remove(m1)
+        if m2 in r2.component_mounted:
+            r2.component_mounted.remove(m2)
         r1.component_required.append(m2)
         r2.component_required.append(m1)
-        if np.allclose(m2.coordinate, r1.coordinate, atol=1e-8):
+        if is_within_range(m2.coordinate, r1.coordinate):
             r1.mount_module(m2)
-        if np.allclose(m1.coordinate, r2.coordinate, atol=1e-8):
+        if is_within_range(m1.coordinate, r2.coordinate):
             r2.mount_module(m1)
         return mutated
 
     def crossover(self, value1: list[Robot], value2: list[Robot]) -> list[Robot]:
-        """交叉"""
+        # """交叉"""
         rng = get_rng()
-        offspring = value1[:]  # コピー
-
-        if not value1 or not value2:
+        offspring = self.clone_robots(value1)
+        opponent = self.clone_robots(value2)
+        if not value1:
+            return opponent
+        elif not value2:
             return offspring
 
         # ランダムにロボット A を選ぶ
-        robot_a: Robot = rng.choice(value1)
+        robot_a: Robot = rng.choice(offspring)
 
         # 同じタイプのロボットを value2 から抽出
-        same_type_candidates = [r for r in value2 if r.type == robot_a.type]
+        same_type_candidates = [r for r in opponent if r.type == robot_a.type]
 
         if not same_type_candidates:
             return offspring  # 同タイプなし
@@ -120,20 +143,31 @@ class ConfigurationVariable(BaseVariable):
 
         # AとBの component_required を比較して変化したモジュールを記録
         swap_map = {}
-        for mod_a, mod_b in zip(robot_a.component_required, robot_b.component_required):
-            if mod_a != mod_b:
-                swap_map[mod_b] = mod_a
+        candidate = robot_a.component_required[:]
+        for mod_b in robot_b.component_required:
+            if mod_b in candidate:
+                candidate.remove(mod_b)
+                continue
+            temp = [mod_candidate for mod_candidate in candidate 
+                    if mod_candidate.type == mod_b.type]
+            mod_a = rng.choice(temp)
+            swap_map[mod_b] = mod_a
+            candidate.remove(mod_a)
 
         # 残りのロボットの component_required も置き換え候補があれば交換
-        for robot in offspring:
-            if robot is robot_b:
+        for i, robot in enumerate(offspring):
+            if i == idx:
                 continue  # 置き換え済みなのでスキップ
-            for module in robot.component_required:
-                if module in swap_map:
-                    robot.component_required.remove(module)
-                    robot.component_required.append(swap_map[module])
-                    if np.allclose(swap_map[module].coordinate, robot.coordinate, atol=1e-8):
-                        robot.mount_module(swap_map[module])
+            for old_module, new_module in swap_map.items():
+                if old_module in robot.component_required:
+                    robot.component_required.remove(old_module)
+                    robot.component_required.append(new_module)
+
+                    if old_module in robot.component_mounted:
+                        robot.component_mounted.remove(old_module)
+
+                    if is_within_range(new_module.coordinate, robot.coordinate):
+                        robot.mount_module(new_module)
 
         return offspring
     

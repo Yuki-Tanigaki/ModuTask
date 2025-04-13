@@ -30,7 +30,7 @@ class Individual:
     def __repr__(self):
         return (
             f"Individual(genome={self.genome}, "
-            f"objectives={self.objectives}, rank={self.rank})"
+            f"objectives={self.objectives})"
         )
     
     def __eq__(self, other):

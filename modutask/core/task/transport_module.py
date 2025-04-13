@@ -32,7 +32,8 @@ class TransportModule(Transport):
         """
         if super().update():
             self._target_module.coordinate = self.coordinate
-        return True
+            return True
+        return False
     
     def __deepcopy__(self, memo: dict[int, Any]) -> "TransportModule":
         raise_with_log(RuntimeError, f"TransportModule cannot deepcopy: {self.name}.")

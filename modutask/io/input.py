@@ -18,7 +18,6 @@ enum_classes = {
     'PerformanceAttributes': PerformanceAttributes,
     'ModuleState': ModuleState,
 }
-
 yaml.add_multi_constructor("!", lambda loader, suffix, node: _enum_constructor(loader, suffix, node))  # PyYAMLにカスタムタグを登録
 
 def load_tasks(file_path: str) -> dict[str, BaseTask]:
@@ -49,7 +48,7 @@ def load_task_dependency(file_path: str, tasks: dict[str, BaseTask]) -> dict[str
     except FileNotFoundError as e:
         raise_with_log(FileNotFoundError, f"File not found: {e}.")
 
-    def build_graph(graph, name, content):
+    def build_graph(graph: nx.DiGraph, name: str, content: Any) -> None:
         """ 有向グラフ作成 """
         if not graph.has_node(name):
             graph.add_node(name)
@@ -213,19 +212,19 @@ def load_task_priorities(file_path: str, robots: dict[str, Robot], tasks: dict[s
         task_priorities[robots[k].name] = [task_name for task_name in v]
     return task_priorities
 
-def _find_subclasses_by_name(base_class: Type) -> dict[str, Type]:
+def _find_subclasses_by_name(base_class: Type[Any]) -> dict[str, Type[Any]]:
     """
     指定された基底クラスのすべてのサブクラスを探索し、クラス名をキーとする辞書を返す
 
     :param base_class: 基底クラス
     :return: クラス名をキー、クラスオブジェクトを値とする辞書
     """
-    subclasses = {}
+    subclasses: dict[str, Type[Any]] = {}
     for cls in base_class.__subclasses__():
         subclasses[cls.__name__] = cls  # クラス名 (__name__) をキーとして登録
     return subclasses
 
-def _get_class_init_args(cls: Type, input_data: dict[str, Any], name) -> dict[str, Any]:
+def _get_class_init_args(cls: Type[Any], input_data: dict[str, Any], name: str) -> dict[str, Any]:
     """ clsの __init__ 引数にinput_dataを成形 """
     signature = inspect.signature(cls.__init__)
     init_args = [param for param in signature.parameters]
@@ -237,7 +236,7 @@ def _get_class_init_args(cls: Type, input_data: dict[str, Any], name) -> dict[st
 
     return filtered_args
 
-def _enum_constructor(loader, tag_suffix, node):
+def _enum_constructor(loader: Any, tag_suffix: str, node: yaml.Node) -> Any:
     """ Enum辞書の読み込みハンドラ """
     tag_name = tag_suffix.lstrip('!')
     enum_class = enum_classes.get(tag_name)

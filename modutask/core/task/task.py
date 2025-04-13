@@ -5,7 +5,7 @@ import copy, logging
 import numpy as np
 from modutask.core.robot.performance import PerformanceAttributes
 from modutask.core.robot.robot import Robot, RobotState
-from modutask.core.utils import make_coodinate_to_tuple
+from modutask.core.utils.coodinate_utils import is_within_range, make_coodinate_to_tuple
 from modutask.utils import raise_with_log
 
 logger = logging.getLogger(__name__)
@@ -101,7 +101,7 @@ class BaseTask(ABC):
         """ ロボットを配置 """
         if robot.state != RobotState.ACTIVE:
             raise_with_log(RuntimeError, f"{robot.name} with {robot.state} are assigned: {self.name}.")
-        if not np.allclose(robot.coordinate, self.coordinate, atol=1e-8):
+        if not is_within_range(robot.coordinate, self.coordinate):
             raise_with_log(RuntimeError, f"{robot.name} with mismatched coordinates are assigned: {self.name}.")
 
         self._assigned_robot.append(robot)
