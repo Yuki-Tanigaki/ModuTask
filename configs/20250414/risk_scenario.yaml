@@ -1,0 +1,24 @@
+s_000:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1234
+s_001:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1235
+s_002:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1236
+s_003:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1237
+s_004:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1238
+s_005:
+  class: ExponentialFailure
+  failure_rate: 0.001
+  seed: 1239

@@ -69,14 +69,14 @@ def main():
     robot_types = load_robot_types(file_path=prop['load']['robot_type'], module_types=module_types)
 
     seed_rng(prop['configuration']['seed'])
-    def sim_func(order: list[list[int]]) -> list[float]:
+    def func(order: list[list[int]]) -> list[float]:
         resutls = objective(order)
         return resutls
 
     encoding = ConfigurationVariable(modules=modules, robot_types=robot_types)
 
     algo = NSGAII(
-        simulation_func=sim_func,
+        func=func,
         encoding=encoding,
         population_size=prop['configuration']['population_size'],
         generations=prop['configuration']['generations'],

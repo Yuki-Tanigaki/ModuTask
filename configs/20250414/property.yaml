@@ -1,0 +1,31 @@
+load:
+  task: ./configs/20250414/task.yaml
+  task_dependency: ./configs/20250414/task_dependency.yaml
+  module_type: ./configs/20250414/module_type.yaml
+  module: ./configs/20250414/module.yaml
+  robot_type: ./configs/20250414/robot_type.yaml
+  map: ./configs/20250414/map.yaml
+  risk_scenario: ./configs/20250414/risk_scenario.yaml
+  task_priority: ./configs/20250414/task_priority.yaml
+results:
+  robot: ./results/20250414/phase1/robot_{index:03}.yaml
+  task: ./results/20250414/phase1/task.yaml
+  module: ./results/20250414/phase1/module.yaml
+  configuration: ./results/20250414/phase1/configuration.csv
+  task: ./results/20250414/phase1/task.csv
+# figures:
+#   pareto_front: ./figures/perf_calib/01_pareto_front.png
+#   kmeans: ./figures/perf_calib/01_kmeans.png
+configuration:
+  population_size: 100
+  generations: 1000
+  seed: 1234
+  kmeans: 20
+task_allocation:
+  population_size: 20
+  generations: 100
+  seed: 1234
+simulation:
+  max_step: 30
+  training_scenarios: [[s_000], [s_001], [s_002], [s_003], [s_004]]
+  varidate_scenarios: [s_005]

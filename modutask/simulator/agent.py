@@ -60,7 +60,7 @@ class RobotAgent:
 
     def update_task(self, tasks: dict[str, BaseTask]):
         # すでにタスクが割り当てられている場合はスキップ
-        if self.assigned_task is not None:
+        if isinstance(self.assigned_task, Charge):
             return
         # 優先順位で目標タスクを決定
         for task_name in self.task_priority:

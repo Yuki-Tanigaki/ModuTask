@@ -3,9 +3,9 @@ from copy import deepcopy
 from modutask.optimizer.my_moo.core.encoding import BaseVariable
 
 class Individual:
-    def __init__(self, encoding: BaseVariable):
+    def __init__(self, encoding: BaseVariable, genome: list[Any] = None):
         self.encoding = encoding
-        self.genome = self.encoding.sample()
+        self.genome = genome if genome is not None else self.encoding.sample()
         self.objectives: list[float] = []
         self.fitness: dict[str, Any] = {}
 
@@ -13,9 +13,8 @@ class Individual:
         self.objectives = values
 
     def crossover(self, other: 'Individual') -> 'Individual':
-        child = Individual(self.encoding)
-        child.genome = self.encoding.crossover(self.genome, other.genome)
-        return child
+        child_genome = self.encoding.crossover(self.genome, other.genome)
+        return Individual(self.encoding, genome=child_genome)
 
     def mutate(self):
         self.genome = self.encoding.mutate(self.genome)

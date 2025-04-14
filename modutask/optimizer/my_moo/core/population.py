@@ -12,10 +12,10 @@ class Population:
         individuals = [Individual(encoding) for _ in range(size)]
         return cls(individuals)
 
-    def evaluate(self, simulation_func: Callable[[Any], list[float]]):
+    def evaluate(self, func: Callable[[Any], list[float]]):
         """全個体を一括評価"""
         for ind in self.individuals:
-            ind.objectives = simulation_func(ind.genome)
+            ind.objectives = func(ind.genome)
 
     def __len__(self):
         return len(self.individuals)

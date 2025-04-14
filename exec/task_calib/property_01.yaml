@@ -18,6 +18,6 @@ simulation:
   training_scenarios: [[s_000], [s_001], [s_002], [s_003], [s_004]]
   varidate_scenarios: [s_005]
 task_allocation:
-  population_size: 10
-  generations: 200
+  population_size: 20
+  generations: 100
   seed: 1234

@@ -1,4 +1,6 @@
 from typing import Callable
+
+import numpy as np
 from modutask.optimizer.my_moo.core.individual import Individual
 from modutask.optimizer.my_moo.core.population import Population
 from modutask.optimizer.my_moo.rng_manager import get_rng
@@ -81,6 +83,9 @@ def generate_offspring(population: list[Individual], num_offspring: int, tournam
     for front in fronts:
         calculate_crowding_distance(front)
 
+    for ind in population:
+        if 'crowding_distance' not in ind.fitness:
+            ind.fitness['crowding_distance'] = 0.0
     offspring = []
     for _ in range(num_offspring):
         p1 = tournament_selection(population, tournament_size)
@@ -93,30 +98,36 @@ def generate_offspring(population: list[Individual], num_offspring: int, tournam
 class NSGAII:
     def __init__(
         self,
-        simulation_func: Callable[[list[int]], list[float]],
+        func: Callable[[list[int]], list[float]],
         encoding,
         population_size: int = 50,
         generations: int = 100,
     ):
-        self.simulation_func = simulation_func
+        self.func = func
         self.encoding = encoding
         self.population_size = population_size
         self.generations = generations
 
         self.population: Population = Population.initialize(population_size, encoding)
-        self.population.evaluate(simulation_func)
+        self.population.evaluate(func)
 
     def evolve(self):
-        for gen in range(self.generations):
+        for _ in range(self.generations):
+            # print(_)
+            # F = np.array([ind.objectives for ind in list(self.population)])
+            # from pymoo.indicators.hv import HV
+            # hv = HV(ref_point=np.array([110, 110, 110]))
+            # print(hv.do(F))
             # 1. 子個体を生成
-            offspring = generate_offspring(list(self.population), self.population_size)
+            offspring = Population(generate_offspring(list(self.population), self.population_size))
 
             # 2. 評価
+            offspring.evaluate(self.func)
             for child in offspring:
-                child.set_objectives(self.simulation_func(child.genome))
+                child.set_objectives(self.func(child.genome))
 
             # 3. 親 + 子を統合
-            combined = list(self.population) + offspring
+            combined = list(self.population) + list(offspring)
 
             # 4. 非支配ソート
             fronts = fast_non_dominated_sort(combined)

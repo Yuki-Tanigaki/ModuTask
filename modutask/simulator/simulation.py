@@ -43,6 +43,7 @@ class Simulator:
         # 充電を実行
         for _, station in self.simulation_map.charge_stations.items():
             station.update()
+            station.release_robot()
 
         # タスクをエージェントの目標から消す
         # 充電以外
@@ -50,38 +51,5 @@ class Simulator:
             agent.reset_task()
             agent.set_state_idle()
             agent.robot.update_state()  # ロボット状態更新
-    
-    def total_remaining_workload(self) -> float:
-        # 各タスクの未完了仕事量を合計
-        return sum(task.total_workload - task.completed_workload for task in self.tasks.values()) 
 
-    def variance_remaining_workload(self) -> float:
-        # 各タスクの座標と未完了仕事量を抽出
-        coordinates = []
-        weights = []
-
-        for task in self.tasks.values():
-            remaining = task.total_workload - task.completed_workload
-            coordinates.append(np.array(task.coordinate))
-            weights.append(remaining)
-
-        coordinates = np.array(coordinates)
-        weights = np.array(weights)
-
-        # 重心（重み付き平均座標）を計算
-        weighted_center = np.average(coordinates, axis=0, weights=weights)
-
-        # 各点の重心からの距離の二乗 × 重み の合計を求める
-        distances_squared = np.sum(weights * np.sum((coordinates - weighted_center) ** 2, axis=1))
-
-        # 重み付き分散（距離に基づく残タスク分散）
-        return float(distances_squared / np.sum(weights))
-
-    def variance_operating_time(self) -> float:
-        all_modules = []
-        for agent in self.agents.values():
-            for module in agent.robot.component_mounted:
-                all_modules.append(module)
-        operating_times = np.array([module.operating_time for module in all_modules])
-        return float(np.var(operating_times))
 

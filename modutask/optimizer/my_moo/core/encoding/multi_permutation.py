@@ -10,9 +10,9 @@ class MultiPermutationVariable(BaseVariable):
 
     def sample(self) -> list[list[Any]]:
         """ランダムな順列を生成"""
+        rng = get_rng()
         gene_list = []
         for _ in range(self.n_multi):
-            rng = get_rng()
             perm = self.items[:]
             rng.shuffle(perm)
             gene_list.append(perm)

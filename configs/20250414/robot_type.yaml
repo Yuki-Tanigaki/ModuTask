@@ -1,0 +1,72 @@
+TWSH:
+  required_modules:
+    Body: 1
+    Limb: 4
+    EndE: 1
+    Wheel: 3
+  performance: !PerformanceAttributes
+    TRANSPORT: 3.0
+    MANUFACTURE: 2.0
+    MOBILITY: 3.0
+  power_consumption: 1
+  recharge_trigger: 10
+TWDH:
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 2
+    Wheel: 3
+  performance: !PerformanceAttributes
+    TRANSPORT: 2.0
+    MANUFACTURE: 5.0
+    MOBILITY: 3.0
+  power_consumption: 1
+  recharge_trigger: 10
+QWSH:
+  required_modules:
+    Body: 1
+    Limb: 5
+    EndE: 1
+    Wheel: 4
+  performance: !PerformanceAttributes
+    TRANSPORT: 5.0
+    MANUFACTURE: 2.0
+    MOBILITY: 3.0
+  power_consumption: 1
+  recharge_trigger: 10
+QWDH:
+  required_modules:
+    Body: 1
+    Limb: 6
+    EndE: 2
+    Wheel: 4
+  performance: !PerformanceAttributes
+    TRANSPORT: 4.0
+    MANUFACTURE: 5.0
+    MOBILITY: 3.0
+  power_consumption: 1
+  recharge_trigger: 10
+Dragon:
+  required_modules:
+    Body: 0
+    Limb: 2
+    EndE: 1
+    Wheel: 2
+  performance: !PerformanceAttributes
+    TRANSPORT: 2.0
+    MANUFACTURE: 2.0
+    MOBILITY: 3.0
+  power_consumption: 1
+  recharge_trigger: 10
+Minimal:
+  required_modules:
+    Body: 0
+    Limb: 1
+    EndE: 1
+    Wheel: 1
+  performance: !PerformanceAttributes
+    TRANSPORT: 0.0
+    MANUFACTURE: 1.0
+    MOBILITY: 1.0
+  power_consumption: 1
+  recharge_trigger: 10

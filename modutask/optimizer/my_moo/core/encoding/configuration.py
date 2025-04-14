@@ -37,9 +37,20 @@ class ConfigurationVariable(BaseVariable):
                     active_modules.append(module)
             if len(active_modules) < required_num:
                 return None
-            module: list[Module] = rng.choice(active_modules, required_num, replace=False)
-            component.extend(module)
-            used_modules.extend(module)
+            if required_num == 0:
+                continue
+            # selected_modules: list[Module] = rng.choice(active_modules, required_num, replace=False)
+            # すでに選ばれたモジュールの座標の平均を計算
+            if len(component) > 0:
+                avg_coordinate = np.mean([np.array(mod.coordinate) for mod in component], axis=0)
+            else:
+                avg_coordinate = np.zeros_like(np.array(active_modules[0].coordinate))  # 最初は原点基準
+            # モジュールを距離でソート
+            active_modules.sort(key=lambda mod: np.linalg.norm(np.array(mod.coordinate) - avg_coordinate))
+            # 上位から required_num 個選ぶ
+            selected_modules = active_modules[:required_num]
+            component.extend(selected_modules)
+            used_modules.extend(selected_modules)
         coordinates = [module.coordinate for module in component]
         most_common_coordinate, _ = Counter(coordinates).most_common(1)[0]
         return Robot(robot_type=robot_type, name="dummy", coordinate=most_common_coordinate, 
@@ -99,8 +110,15 @@ class ConfigurationVariable(BaseVariable):
         if not type_pairs:
             return mutated  # 同じタイプのモジュールがない場合は交換しない
 
-        # 1組選んで交換
-        m1, m2 = rng.choice(type_pairs)
+        # 距離合計が最小になるペアを交換
+        # m1, m2 = rng.choice(type_pairs)  # ランダム選択は廃止
+        def distance(p1, p2):
+            return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
+        best_pair = min(
+                type_pairs,
+                key=lambda pair: distance(pair[0].coordinate, r2.coordinate) + distance(pair[1].coordinate, r1.coordinate)
+            )
+        m1, m2 = best_pair
         r1.component_required.remove(m1)
         r2.component_required.remove(m2)
         if m1 in r1.component_mounted:

@@ -1,0 +1,2160 @@
+m_000:
+  module_type: Body
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_001:
+  module_type: Body
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_002:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_003:
+  module_type: Body
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_004:
+  module_type: Body
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_005:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_006:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_007:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_008:
+  module_type: Body
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_009:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_010:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_011:
+  module_type: Body
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_012:
+  module_type: Body
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_013:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_014:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_015:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_016:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_017:
+  module_type: Body
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_018:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_019:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_020:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_021:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_022:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_023:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_024:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_025:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_026:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_027:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_028:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_029:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_030:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_031:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_032:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_033:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_034:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_035:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_036:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_037:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_038:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_039:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_040:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_041:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_042:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_043:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_044:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_045:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_046:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_047:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_048:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_049:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_050:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_051:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_052:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_053:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_054:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_055:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_056:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_057:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_058:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_059:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_060:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_061:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_062:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_063:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_064:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_065:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_066:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_067:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_068:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_069:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_070:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_071:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_072:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_073:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_074:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_075:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_076:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_077:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_078:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_079:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_080:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_081:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_082:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_083:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_084:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_085:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_086:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_087:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_088:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_089:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_090:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_091:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_092:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_093:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_094:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_095:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_096:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_097:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_098:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_099:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_100:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_101:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_102:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_103:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_104:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_105:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_106:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_107:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_108:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_109:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_110:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_111:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_112:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_113:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_114:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_115:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_116:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_117:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_118:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_119:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_120:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_121:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_122:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_123:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_124:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_125:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_126:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_127:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_128:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_129:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_130:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_131:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_132:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_133:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_134:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_135:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_136:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_137:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_138:
+  module_type: Limb
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_139:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_140:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_141:
+  module_type: Limb
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_142:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_143:
+  module_type: Limb
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 5
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_144:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_145:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_146:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_147:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_148:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_149:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_150:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_151:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_152:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_153:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_154:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_155:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_156:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_157:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_158:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_159:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_160:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_161:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_162:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_163:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_164:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_165:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_166:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_167:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_168:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_169:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_170:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_171:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_172:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_173:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_174:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_175:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_176:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_177:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_178:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_179:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_180:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_181:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_182:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_183:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_184:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_185:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_186:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_187:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_188:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_189:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_190:
+  module_type: EndE
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_191:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_192:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_193:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 1
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_194:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_195:
+  module_type: EndE
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_196:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_197:
+  module_type: EndE
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 1
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_198:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_199:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_200:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_201:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_202:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_203:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_204:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_205:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_206:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_207:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_208:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_209:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_210:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_211:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_212:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_213:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_214:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_215:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_216:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_217:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_218:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_219:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_220:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_221:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_222:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_223:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_224:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_225:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_226:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_227:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_228:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_229:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_230:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_231:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_232:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_233:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_234:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_235:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_236:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_237:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_238:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_239:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_240:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_241:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_242:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_243:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_244:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_245:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_246:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_247:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_248:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_249:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_250:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_251:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_252:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_253:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_254:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_255:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_256:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_257:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_258:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_259:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_260:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_261:
+  module_type: Wheel
+  coordinate:
+  - 6.0
+  - 8.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_262:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_263:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_264:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_265:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 10.0
+  state: !ModuleState 'ACTIVE'
+m_266:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 5.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
+m_267:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_268:
+  module_type: Wheel
+  coordinate:
+  - 0.0
+  - 0.0
+  battery: 15
+  operating_time: 0.0
+  state: !ModuleState 'ACTIVE'
+m_269:
+  module_type: Wheel
+  coordinate:
+  - -5.0
+  - 0.0
+  battery: 15
+  operating_time: 5.0
+  state: !ModuleState 'ACTIVE'
