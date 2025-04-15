@@ -1,0 +1,362 @@
+[Non-Dominated]
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'QWSH': 6}
+Objectives: [-30.0, -12.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 6}
+Objectives: [-30.0, -12.0, -24.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'QWSH': 3, 'TWSH': 2}
+Objectives: [-27.0, -16.0, -29.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'QWDH': 4, 'Dragon': 1}
+Objectives: [-22.0, -32.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWDH': 6}
+Objectives: [-24.0, -30.0, -24.0, 0.0, 0.0]
+
+Robots: {'TWDH': 4, 'Dragon': 2, 'QWDH': 2}
+Objectives: [-20.0, -34.0, -30.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'Dragon': 2}
+Objectives: [-29.0, -14.0, -26.0, 0.0, 0.0]
+
+Robots: {'TWSH': 2, 'QWSH': 4, 'Dragon': 1}
+Objectives: [-28.0, -14.0, -27.0, 0.0, 0.0]
+
+Robots: {'TWSH': 6, 'Dragon': 3}
+Objectives: [-24.0, -18.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 4, 'Dragon': 4, 'QWDH': 1}
+Objectives: [-20.0, -33.0, -32.0, 0.0, 0.0]
+
+Robots: {'TWDH': 3, 'Dragon': 2, 'QWDH': 2, 'TWSH': 1}
+Objectives: [-21.0, -31.0, -30.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'QWDH': 3, 'Dragon': 3}
+Objectives: [-22.0, -31.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWDH': 5, 'Dragon': 2}
+Objectives: [-24.0, -29.0, -26.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 5, 'TWSH': 1}
+Objectives: [-19.0, -33.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 4, 'TWSH': 2}
+Objectives: [-20.0, -30.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 3, 'TWSH': 3}
+Objectives: [-21.0, -27.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 2, 'TWSH': 4}
+Objectives: [-22.0, -24.0, -33.0, 0.0, 0.0]
+
+Robots: {'QWDH': 3, 'TWDH': 1, 'Dragon': 3, 'TWSH': 1}
+Objectives: [-23.0, -28.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 1, 'QWDH': 2, 'QWSH': 1, 'TWSH': 1}
+Objectives: [-24.0, -25.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 1, 'QWDH': 1, 'QWSH': 2, 'TWSH': 1}
+Objectives: [-25.0, -22.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'QWSH': 2, 'TWSH': 2, 'QWDH': 1}
+Objectives: [-26.0, -19.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWSH': 3, 'Dragon': 3, 'TWSH': 2}
+Objectives: [-27.0, -16.0, -29.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'Dragon': 1, 'QWDH': 3, 'QWSH': 1}
+Objectives: [-23.0, -29.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWSH': 3, 'TWSH': 1, 'Dragon': 1, 'TWDH': 1, 'QWDH': 1}
+Objectives: [-26.0, -20.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'Dragon': 2}
+Objectives: [-29.0, -14.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWDH': 5, 'QWSH': 1}
+Objectives: [-25.0, -27.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'QWDH': 1}
+Objectives: [-29.0, -15.0, -24.0, 0.0, 0.0]
+
+Robots: {'Dragon': 4, 'TWSH': 4, 'QWSH': 1}
+Objectives: [-25.0, -18.0, -32.0, 0.0, 0.0]
+
+Robots: {'Dragon': 5, 'TWDH': 2, 'QWDH': 2}
+Objectives: [-22.0, -30.0, -31.0, 0.0, 0.0]
+
+Robots: {'Dragon': 5, 'TWSH': 2, 'QWSH': 2}
+Objectives: [-26.0, -18.0, -31.0, 0.0, 0.0]
+
+Robots: {'TWDH': 5, 'Dragon': 3, 'TWSH': 1}
+Objectives: [-19.0, -33.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 4, 'Dragon': 2, 'QWDH': 1, 'QWSH': 1}
+Objectives: [-21.0, -31.0, -30.0, 0.0, 0.0]
+
+Robots: {'TWSH': 2, 'QWSH': 4, 'Dragon': 1}
+Objectives: [-28.0, -14.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWSH': 4, 'Dragon': 2, 'QWDH': 1}
+Objectives: [-28.0, -17.0, -26.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWSH': 5, 'TWDH': 1}
+Objectives: [-23.0, -21.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 4, 'Dragon': 2, 'QWDH': 2}
+Objectives: [-20.0, -34.0, -30.0, 0.0, 0.0]
+
+Robots: {'QWDH': 3, 'TWDH': 1, 'Dragon': 3, 'TWSH': 1}
+Objectives: [-23.0, -28.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWDH': 2, 'TWDH': 1, 'Dragon': 3, 'TWSH': 1, 'QWSH': 1}
+Objectives: [-24.0, -25.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWDH': 1, 'TWDH': 1, 'Dragon': 3, 'TWSH': 1, 'QWSH': 2}
+Objectives: [-25.0, -22.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'QWSH': 3, 'TWSH': 1, 'TWDH': 1}
+Objectives: [-26.0, -19.0, -29.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'QWDH': 4, 'Dragon': 1}
+Objectives: [-22.0, -32.0, -27.0, 0.0, 0.0]
+
+Robots: {'TWDH': 1, 'Dragon': 1, 'QWDH': 3, 'QWSH': 1, 'TWSH': 1}
+Objectives: [-24.0, -26.0, -27.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'Dragon': 1, 'QWDH': 1, 'QWSH': 3}
+Objectives: [-25.0, -23.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWSH': 4, 'TWSH': 1, 'Dragon': 1, 'TWDH': 1}
+Objectives: [-27.0, -17.0, -27.0, 0.0, 0.0]
+
+Robots: {'QWSH': 1, 'Dragon': 2, 'QWDH': 4}
+Objectives: [-25.0, -26.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWSH': 2, 'Dragon': 2, 'QWDH': 3}
+Objectives: [-26.0, -23.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWSH': 3, 'Dragon': 2, 'QWDH': 2}
+Objectives: [-27.0, -20.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWSH': 4, 'Dragon': 2, 'QWDH': 1}
+Objectives: [-28.0, -17.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWDH': 4, 'QWSH': 2}
+Objectives: [-26.0, -24.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWDH': 3, 'QWSH': 3}
+Objectives: [-27.0, -21.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 4, 'QWDH': 2}
+Objectives: [-28.0, -18.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'QWDH': 1}
+Objectives: [-29.0, -15.0, -24.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 6}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+[K-means]
+Robots: {'TWDH': 6, 'Dragon': 3}
+Objectives: [-18.0, -36.0, -33.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'QWSH': 2, 'TWSH': 2, 'QWDH': 1}
+Objectives: [-26.0, -19.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWDH': 3, 'TWDH': 1, 'Dragon': 3, 'TWSH': 1}
+Objectives: [-23.0, -28.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'QWDH': 1}
+Objectives: [-29.0, -15.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 2, 'Dragon': 2, 'QWDH': 3}
+Objectives: [-26.0, -23.0, -26.0, 0.0, 0.0]
+
+Robots: {'TWDH': 2, 'QWDH': 4, 'Dragon': 1}
+Objectives: [-22.0, -32.0, -27.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 2, 'TWSH': 4}
+Objectives: [-22.0, -24.0, -33.0, 0.0, 0.0]
+
+Robots: {'TWDH': 3, 'Dragon': 2, 'QWDH': 2, 'TWSH': 1}
+Objectives: [-21.0, -31.0, -30.0, 0.0, 0.0]
+
+Robots: {'TWDH': 4, 'Dragon': 4, 'QWDH': 1}
+Objectives: [-20.0, -33.0, -32.0, 0.0, 0.0]
+
+Robots: {'QWSH': 5, 'Dragon': 2}
+Objectives: [-29.0, -14.0, -26.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 1, 'QWDH': 2, 'QWSH': 1, 'TWSH': 1}
+Objectives: [-24.0, -25.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'TWDH': 1, 'QWDH': 1, 'QWSH': 2, 'TWSH': 1}
+Objectives: [-25.0, -22.0, -29.0, 0.0, 0.0]
+
+Robots: {'Dragon': 4, 'TWSH': 4, 'QWSH': 1}
+Objectives: [-25.0, -18.0, -32.0, 0.0, 0.0]
+
+Robots: {'QWDH': 5, 'Dragon': 2}
+Objectives: [-24.0, -29.0, -26.0, 0.0, 0.0]
+
+Robots: {'Dragon': 3, 'QWSH': 3, 'TWSH': 2}
+Objectives: [-27.0, -16.0, -29.0, 0.0, 0.0]
+
+Robots: {'QWDH': 6}
+Objectives: [-24.0, -30.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 6}
+Objectives: [-30.0, -12.0, -24.0, 0.0, 0.0]
+
+Robots: {'QWSH': 4, 'Dragon': 2, 'QWDH': 1}
+Objectives: [-28.0, -17.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWSH': 3, 'Dragon': 2, 'QWDH': 2}
+Objectives: [-27.0, -20.0, -26.0, 0.0, 0.0]
+
+Robots: {'QWSH': 1, 'Dragon': 2, 'QWDH': 4}
+Objectives: [-25.0, -26.0, -26.0, 0.0, 0.0]
+

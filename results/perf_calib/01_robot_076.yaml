@@ -1,0 +1,64 @@
+robot_000:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_060
+  - m_082
+  - m_071
+  - m_016
+  - m_077
+  - m_067
+  - m_078
+  - m_003
+  - m_036
+robot_001:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_089
+  - m_046
+  - m_009
+  - m_017
+  - m_012
+  - m_048
+  - m_003
+  - m_039
+  - m_028
+robot_002:
+  robot_type: QWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_004
+  - m_010
+  - m_017
+  - m_034
+  - m_062
+  - m_079
+  - m_066
+  - m_067
+  - m_085
+  - m_020
+  - m_038
+robot_003:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_007
+  - m_028
+  - m_018
+  - m_061
+  - m_084
+  - m_039
+  - m_066
+  - m_088
+  - m_060
+  - m_062

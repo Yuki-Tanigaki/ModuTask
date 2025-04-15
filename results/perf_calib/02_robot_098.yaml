@@ -1,0 +1,171 @@
+robot_000:
+  robot_type: Dragon
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_127
+  - m_166
+  - m_265
+  - m_205
+  - m_155
+robot_001:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_133
+  - m_213
+  - m_014
+  - m_099
+  - m_233
+robot_002:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_263
+  - m_085
+  - m_230
+  - m_080
+  - m_035
+  - m_184
+  - m_023
+  - m_062
+  - m_127
+  - m_134
+  - m_076
+robot_003:
+  robot_type: TWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_252
+  - m_062
+  - m_086
+  - m_129
+  - m_062
+  - m_155
+  - m_126
+  - m_166
+  - m_166
+  - m_056
+  - m_233
+robot_004:
+  robot_type: TWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_062
+  - m_062
+  - m_169
+  - m_127
+  - m_239
+  - m_181
+  - m_166
+  - m_191
+  - m_127
+  - m_142
+  - m_093
+robot_005:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_041
+  - m_091
+  - m_191
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_133
+  - m_100
+  - m_209
+robot_007:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_168
+  - m_126
+  - m_203
+  - m_229
+  - m_110
+robot_008:
+  robot_type: QWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_003
+  - m_254
+  - m_140
+  - m_035
+  - m_009
+  - m_102
+  - m_142
+  - m_044
+  - m_094
+  - m_109
+  - m_133
+robot_009:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_128
+  - m_265
+  - m_211
+  - m_054
+  - m_127
+  - m_127
+  - m_210
+  - m_114
+  - m_118
+  - m_032
+  - m_245
+robot_010:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_136
+  - m_014
+  - m_265
+robot_011:
+  robot_type: QWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_005
+  - m_037
+  - m_119
+  - m_065
+  - m_147
+  - m_231
+  - m_269
+  - m_266
+  - m_127
+  - m_020
+  - m_221
+robot_012:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_138
+  - m_241
+  - m_033

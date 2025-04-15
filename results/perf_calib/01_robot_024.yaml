@@ -1,0 +1,158 @@
+robot_000:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_050
+  - m_071
+  - m_008
+robot_001:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_061
+  - m_061
+  - m_031
+  - m_085
+  - m_005
+  - m_068
+  - m_042
+  - m_025
+  - m_020
+robot_002:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_004
+  - m_037
+  - m_049
+robot_003:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_004
+  - m_008
+  - m_014
+  - m_066
+  - m_061
+  - m_015
+  - m_052
+  - m_050
+  - m_052
+robot_004:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_008
+  - m_050
+  - m_014
+  - m_008
+  - m_050
+  - m_047
+  - m_070
+  - m_050
+  - m_050
+  - m_014
+  - m_023
+robot_005:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_007
+  - m_015
+  - m_061
+  - m_050
+  - m_061
+  - m_015
+  - m_085
+  - m_018
+  - m_061
+robot_006:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_003
+  - m_048
+  - m_048
+  - m_074
+  - m_004
+  - m_004
+  - m_061
+  - m_061
+  - m_015
+  - m_061
+  - m_031
+robot_007:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_064
+  - m_061
+  - m_025
+robot_008:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_050
+  - m_035
+  - m_004
+robot_009:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_060
+  - m_012
+  - m_032
+  - m_015
+  - m_007
+  - m_065
+  - m_050
+  - m_085
+  - m_042
+robot_010:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_018
+  - m_078
+  - m_048
+  - m_031
+  - m_048
+  - m_085
+  - m_081
+  - m_078
+  - m_018
+  - m_004
+  - m_062
+robot_011:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_061
+  - m_074
+  - m_077
+  - m_085
+  - m_060

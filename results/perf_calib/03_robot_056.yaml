@@ -1,0 +1,181 @@
+robot_000:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_072
+  - m_221
+  - m_168
+robot_001:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_149
+  - m_201
+  - m_081
+robot_002:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_149
+  - m_201
+  - m_081
+robot_003:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_180
+  - m_212
+  - m_048
+robot_004:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_038
+  - m_061
+  - m_123
+robot_005:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_048
+  - m_257
+  - m_028
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_172
+  - m_175
+  - m_041
+robot_007:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_048
+  - m_094
+  - m_094
+robot_008:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_163
+  - m_105
+  - m_079
+robot_009:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_223
+  - m_123
+  - m_042
+robot_010:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_268
+  - m_098
+  - m_072
+robot_011:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_224
+  - m_139
+  - m_039
+robot_012:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_017
+  - m_150
+  - m_040
+  - m_086
+  - m_087
+robot_013:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_236
+  - m_224
+  - m_108
+robot_014:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_140
+  - m_039
+  - m_221
+robot_015:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_183
+  - m_243
+  - m_026
+  - m_094
+  - m_268
+robot_016:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_213
+  - m_069
+  - m_029
+robot_017:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_004
+  - m_111
+  - m_065
+  - m_077
+  - m_160
+  - m_253
+  - m_258
+  - m_235
+  - m_048
+robot_018:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_071
+  - m_184
+  - m_214

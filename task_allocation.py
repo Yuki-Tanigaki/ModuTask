@@ -53,7 +53,7 @@ def objective(order: list[list[str]], modules: dict[str, Module], robots: dict[s
         task_priorities = {}
         for i, robot_name in enumerate(robots):
             task_priorities[robot_name] = order[i]
-        permutation_of_tasks(task_priorities=task_priorities, tasks=local_combined_tasks, robots=local_robots)
+        # permutation_of_tasks(task_priorities=task_priorities, tasks=local_combined_tasks, robots=local_robots)
         simulator = Simulator(
             tasks=local_combined_tasks, 
             robots=local_robots, 

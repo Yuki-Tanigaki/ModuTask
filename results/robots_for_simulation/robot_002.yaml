@@ -1,0 +1,186 @@
+robot_000:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_010
+  - m_082
+  - m_164
+  - m_218
+  - m_246
+  - m_127
+  - m_179
+  - m_199
+  - m_021
+  - m_022
+  - m_249
+  - m_129
+  - m_093
+robot_001:
+  robot_type: Dragon
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_065
+  - m_178
+  - m_226
+  - m_031
+  - m_230
+robot_002:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_099
+  - m_144
+  - m_233
+  - m_120
+  - m_264
+robot_003:
+  robot_type: TWDH
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_012
+  - m_084
+  - m_040
+  - m_122
+  - m_192
+  - m_156
+  - m_214
+  - m_209
+  - m_206
+  - m_080
+  - m_023
+robot_004:
+  robot_type: Dragon
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_086
+  - m_154
+  - m_113
+  - m_263
+  - m_221
+robot_005:
+  robot_type: TWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_009
+  - m_058
+  - m_052
+  - m_168
+  - m_265
+  - m_112
+  - m_173
+  - m_237
+  - m_228
+  - m_125
+  - m_049
+robot_006:
+  robot_type: Dragon
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_110
+  - m_105
+  - m_146
+  - m_224
+  - m_202
+robot_007:
+  robot_type: Dragon
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_126
+  - m_047
+  - m_196
+  - m_236
+  - m_243
+robot_008:
+  robot_type: Minimal
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_100
+  - m_197
+  - m_253
+robot_009:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_119
+  - m_174
+  - m_254
+robot_010:
+  robot_type: TWSH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_008
+  - m_081
+  - m_044
+  - m_054
+  - m_153
+  - m_198
+  - m_252
+  - m_205
+  - m_078
+robot_011:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_141
+  - m_026
+  - m_157
+  - m_234
+  - m_220
+robot_012:
+  robot_type: QWSH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_011
+  - m_060
+  - m_070
+  - m_032
+  - m_106
+  - m_069
+  - m_163
+  - m_261
+  - m_227
+  - m_232
+  - m_219
+robot_013:
+  robot_type: QWSH
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_017
+  - m_085
+  - m_135
+  - m_114
+  - m_046
+  - m_169
+  - m_259
+  - m_248
+  - m_208
+  - m_258
+  - m_024

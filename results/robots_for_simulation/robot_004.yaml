@@ -1,0 +1,180 @@
+robot_000:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_078
+  - m_100
+  - m_062
+  - m_209
+  - m_155
+  - m_259
+  - m_248
+  - m_012
+  - m_180
+  - m_065
+  - m_261
+  - m_084
+  - m_022
+robot_001:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_021
+  - m_128
+  - m_164
+  - m_214
+  - m_202
+robot_002:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_235
+  - m_227
+  - m_163
+  - m_024
+  - m_082
+robot_003:
+  robot_type: QWDH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_011
+  - m_127
+  - m_120
+  - m_069
+  - m_093
+  - m_193
+  - m_220
+  - m_198
+  - m_099
+  - m_243
+  - m_157
+  - m_046
+  - m_249
+robot_004:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_047
+  - m_181
+  - m_187
+  - m_237
+  - m_029
+  - m_010
+  - m_226
+  - m_132
+  - m_037
+  - m_228
+  - m_079
+  - m_233
+  - m_108
+robot_005:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_009
+  - m_112
+  - m_135
+  - m_133
+  - m_106
+  - m_058
+  - m_146
+  - m_174
+  - m_206
+  - m_208
+  - m_052
+  - m_263
+  - m_232
+robot_006:
+  robot_type: Dragon
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_122
+  - m_094
+  - m_173
+  - m_230
+  - m_221
+robot_007:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_129
+  - m_089
+  - m_168
+  - m_219
+  - m_236
+robot_008:
+  robot_type: Dragon
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_107
+  - m_178
+  - m_258
+  - m_126
+  - m_199
+robot_009:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_264
+  - m_176
+  - m_224
+  - m_026
+  - m_040
+robot_010:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_017
+  - m_042
+  - m_085
+  - m_141
+  - m_070
+  - m_090
+  - m_154
+  - m_196
+  - m_234
+  - m_266
+  - m_218
+  - m_253
+  - m_119
+robot_011:
+  robot_type: QWDH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_008
+  - m_054
+  - m_088
+  - m_086
+  - m_073
+  - m_113
+  - m_060
+  - m_191
+  - m_192
+  - m_252
+  - m_205
+  - m_246
+  - m_254

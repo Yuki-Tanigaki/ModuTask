@@ -142,7 +142,7 @@ class NSGAII:
                     sorted_front = sorted(front, key=lambda ind: ind.fitness['crowding_distance'], reverse=True)
                     next_population.extend(sorted_front[:self.population_size - len(next_population)])
                     break
-
+            # print(next_population)
             self.population = Population(next_population)
 
     def get_result(self) -> list[Individual]:

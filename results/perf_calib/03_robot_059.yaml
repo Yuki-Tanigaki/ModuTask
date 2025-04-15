@@ -1,0 +1,179 @@
+robot_000:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_146
+  - m_080
+  - m_100
+robot_001:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_149
+  - m_201
+  - m_081
+robot_002:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_149
+  - m_201
+  - m_081
+robot_003:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_172
+  - m_175
+  - m_041
+robot_004:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_177
+  - m_049
+  - m_105
+robot_005:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_038
+  - m_061
+  - m_123
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_048
+  - m_257
+  - m_028
+robot_007:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_048
+  - m_094
+  - m_094
+robot_008:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_213
+  - m_080
+  - m_033
+robot_009:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_080
+  - m_105
+  - m_080
+robot_010:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_146
+  - m_070
+  - m_070
+robot_011:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_163
+  - m_105
+  - m_079
+robot_012:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_223
+  - m_123
+  - m_042
+robot_013:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_266
+  - m_224
+  - m_094
+robot_014:
+  robot_type: Minimal
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_126
+  - m_048
+  - m_053
+robot_015:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_268
+  - m_098
+  - m_072
+robot_016:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_224
+  - m_139
+  - m_039
+robot_017:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_081
+  - m_121
+  - m_042
+robot_018:
+  robot_type: TWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_069
+  - m_135
+  - m_110
+  - m_046
+  - m_080
+  - m_165
+  - m_266
+  - m_033
+  - m_200
+  - m_224
+  - m_050

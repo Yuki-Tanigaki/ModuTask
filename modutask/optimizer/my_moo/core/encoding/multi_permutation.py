@@ -13,9 +13,18 @@ class MultiPermutationVariable(BaseVariable):
         rng = get_rng()
         gene_list = []
         for _ in range(self.n_multi):
-            perm = self.items[:]
-            rng.shuffle(perm)
+            transport_items = [item for item in self.items if str(item).startswith('transport_')]
+            other_items = [item for item in self.items if not str(item).startswith('transport_')]
+            # それぞれをシャッフル
+            rng.shuffle(transport_items)
+            rng.shuffle(other_items)
+
+            # transport_ 系を前半、それ以外を後半にして結合
+            perm = transport_items + other_items
             gene_list.append(perm)
+            # perm = self.items[:]
+            # rng.shuffle(perm)
+            # gene_list.append(perm)
         return gene_list
 
     def mutate(self, value: list[list[Any]]) -> list[list[Any]]:

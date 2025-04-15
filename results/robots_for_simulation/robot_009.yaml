@@ -1,0 +1,72 @@
+robot_000:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_264
+  - m_127
+  - m_181
+robot_001:
+  robot_type: Minimal
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_023
+  - m_178
+  - m_230
+robot_002:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_133
+  - m_180
+  - m_249
+robot_003:
+  robot_type: Minimal
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_206
+  - m_107
+  - m_174
+robot_004:
+  robot_type: Minimal
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_190
+  - m_084
+  - m_227
+robot_005:
+  robot_type: Minimal
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_132
+  - m_191
+  - m_232
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_047
+  - m_263
+  - m_168
+robot_007:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 5.0
+  component:
+  - m_088
+  - m_163
+  - m_199

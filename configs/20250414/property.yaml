@@ -12,7 +12,7 @@ results:
   task: ./results/20250414/phase1/task.yaml
   module: ./results/20250414/phase1/module.yaml
   configuration: ./results/20250414/phase1/configuration.csv
-  task: ./results/20250414/phase1/task.csv
+  scheduling: ./results/20250414/phase1/scheduling.csv
 # figures:
 #   pareto_front: ./figures/perf_calib/01_pareto_front.png
 #   kmeans: ./figures/perf_calib/01_kmeans.png
@@ -20,12 +20,12 @@ configuration:
   population_size: 100
   generations: 1000
   seed: 1234
-  kmeans: 20
+  kmeans: 10
 task_allocation:
-  population_size: 20
-  generations: 100
+  population_size: 10
+  generations: 1000
   seed: 1234
 simulation:
-  max_step: 30
+  max_step: 60
   training_scenarios: [[s_000], [s_001], [s_002], [s_003], [s_004]]
   varidate_scenarios: [s_005]

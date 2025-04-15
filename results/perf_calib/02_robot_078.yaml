@@ -1,0 +1,195 @@
+robot_000:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_027
+  - m_246
+  - m_269
+  - m_077
+  - m_045
+  - m_099
+  - m_006
+  - m_134
+  - m_134
+  - m_123
+robot_001:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_207
+  - m_095
+  - m_163
+  - m_077
+  - m_157
+  - m_077
+  - m_002
+  - m_123
+  - m_077
+  - m_091
+  - m_023
+robot_002:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_005
+  - m_057
+  - m_171
+  - m_206
+  - m_194
+  - m_026
+  - m_060
+  - m_251
+  - m_081
+  - m_230
+  - m_105
+robot_003:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_002
+  - m_145
+  - m_190
+  - m_123
+  - m_042
+  - m_168
+  - m_132
+  - m_033
+  - m_123
+  - m_106
+  - m_006
+robot_004:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_145
+  - m_108
+  - m_255
+  - m_123
+  - m_122
+  - m_207
+  - m_168
+  - m_089
+  - m_123
+  - m_092
+  - m_077
+robot_005:
+  robot_type: TWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_162
+  - m_196
+  - m_123
+  - m_123
+  - m_209
+  - m_077
+  - m_002
+  - m_100
+  - m_220
+  - m_123
+  - m_209
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_133
+  - m_100
+  - m_209
+robot_007:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_006
+  - m_168
+  - m_002
+  - m_123
+  - m_236
+  - m_034
+  - m_042
+  - m_139
+  - m_245
+  - m_156
+  - m_010
+robot_008:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_118
+  - m_177
+  - m_110
+robot_009:
+  robot_type: QWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_015
+  - m_124
+  - m_021
+  - m_238
+  - m_188
+  - m_248
+  - m_077
+  - m_123
+  - m_042
+  - m_123
+  - m_132
+robot_010:
+  robot_type: TWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_000
+  - m_018
+  - m_044
+  - m_059
+  - m_129
+  - m_228
+  - m_256
+  - m_232
+  - m_065
+robot_011:
+  robot_type: QWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_004
+  - m_115
+  - m_039
+  - m_138
+  - m_195
+  - m_231
+  - m_210
+  - m_266
+  - m_125
+  - m_123
+  - m_123
+robot_012:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_179
+  - m_197
+  - m_077

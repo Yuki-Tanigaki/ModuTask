@@ -1,0 +1,180 @@
+robot_000:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_017
+  - m_023
+  - m_056
+  - m_024
+  - m_089
+  - m_088
+  - m_007
+  - m_023
+  - m_023
+  - m_038
+  - m_074
+  - m_033
+  - m_066
+robot_001:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_017
+  - m_023
+  - m_056
+  - m_024
+  - m_089
+  - m_088
+  - m_007
+  - m_023
+  - m_023
+  - m_038
+  - m_074
+  - m_033
+  - m_066
+robot_002:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_017
+  - m_023
+  - m_056
+  - m_024
+  - m_089
+  - m_088
+  - m_007
+  - m_023
+  - m_023
+  - m_038
+  - m_074
+  - m_033
+  - m_066
+robot_003:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_005
+  - m_005
+  - m_001
+  - m_075
+  - m_005
+  - m_086
+  - m_047
+  - m_047
+  - m_047
+  - m_034
+  - m_047
+  - m_089
+  - m_079
+robot_004:
+  robot_type: Dragon
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_005
+  - m_058
+  - m_015
+  - m_084
+  - m_017
+robot_005:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_079
+  - m_010
+  - m_080
+  - m_068
+  - m_032
+robot_006:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_027
+  - m_011
+  - m_026
+  - m_016
+  - m_034
+robot_007:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_039
+  - m_047
+  - m_080
+  - m_009
+  - m_046
+robot_008:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_038
+  - m_001
+  - m_047
+  - m_043
+  - m_080
+robot_009:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_017
+  - m_023
+  - m_056
+  - m_024
+  - m_089
+  - m_088
+  - m_007
+  - m_023
+  - m_023
+  - m_038
+  - m_074
+  - m_033
+  - m_066
+robot_010:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_024
+  - m_005
+  - m_077
+  - m_001
+  - m_051
+  - m_005
+  - m_005
+  - m_057
+  - m_025
+  - m_036
+  - m_047
+  - m_047
+  - m_047
+robot_011:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_005
+  - m_001
+  - m_006
+  - m_047
+  - m_047

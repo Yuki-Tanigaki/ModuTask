@@ -1,0 +1,529 @@
+robot_000:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_268
+  - m_231
+  - m_249
+  - m_048
+  - m_240
+  - m_064
+  - m_064
+  - m_172
+  - m_064
+  - m_172
+  - m_064
+  - m_172
+  - m_172
+robot_001:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_239
+  - m_261
+  - m_130
+  - m_047
+  - m_106
+  - m_060
+  - m_216
+  - m_172
+  - m_172
+  - m_259
+  - m_047
+  - m_240
+  - m_030
+robot_002:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_213
+  - m_201
+  - m_257
+  - m_075
+  - m_181
+  - m_161
+  - m_079
+  - m_060
+  - m_216
+  - m_064
+  - m_024
+  - m_047
+  - m_216
+robot_003:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_119
+  - m_049
+  - m_188
+  - m_161
+  - m_048
+  - m_064
+  - m_064
+  - m_024
+  - m_240
+  - m_197
+  - m_115
+  - m_047
+  - m_216
+robot_004:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_116
+  - m_134
+  - m_010
+  - m_169
+  - m_063
+  - m_079
+  - m_203
+  - m_064
+  - m_064
+  - m_047
+  - m_035
+  - m_216
+  - m_216
+robot_005:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_091
+  - m_203
+  - m_071
+  - m_038
+  - m_116
+  - m_064
+  - m_216
+  - m_172
+  - m_259
+  - m_047
+  - m_047
+  - m_216
+  - m_075
+robot_006:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_119
+  - m_049
+  - m_188
+  - m_161
+  - m_048
+  - m_064
+  - m_064
+  - m_024
+  - m_240
+  - m_197
+  - m_115
+  - m_047
+  - m_216
+robot_007:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_089
+  - m_035
+  - m_033
+  - m_161
+  - m_035
+  - m_161
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_033
+robot_008:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_213
+  - m_075
+  - m_244
+  - m_214
+  - m_216
+  - m_064
+  - m_064
+  - m_064
+  - m_047
+  - m_035
+  - m_047
+  - m_047
+  - m_216
+robot_009:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_257
+  - m_257
+  - m_230
+  - m_203
+  - m_116
+  - m_216
+  - m_161
+  - m_240
+  - m_047
+  - m_047
+  - m_216
+  - m_064
+  - m_060
+robot_010:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_146
+  - m_118
+  - m_214
+  - m_214
+  - m_075
+  - m_075
+  - m_075
+  - m_216
+  - m_064
+  - m_024
+  - m_240
+  - m_216
+  - m_216
+robot_011:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_268
+  - m_231
+  - m_249
+  - m_048
+  - m_240
+  - m_064
+  - m_064
+  - m_172
+  - m_064
+  - m_172
+  - m_064
+  - m_172
+  - m_172
+robot_012:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_089
+  - m_035
+  - m_033
+  - m_161
+  - m_035
+  - m_161
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_033
+robot_013:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_034
+  - m_203
+  - m_161
+  - m_118
+  - m_049
+  - m_181
+  - m_181
+  - m_080
+  - m_033
+  - m_033
+  - m_035
+  - m_113
+  - m_035
+robot_014:
+  robot_type: QWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_257
+  - m_034
+  - m_251
+  - m_262
+  - m_214
+  - m_049
+  - m_248
+  - m_161
+  - m_059
+  - m_240
+  - m_047
+  - m_047
+  - m_240
+robot_015:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_064
+  - m_169
+  - m_169
+  - m_196
+  - m_048
+  - m_014
+  - m_261
+  - m_176
+  - m_162
+  - m_213
+  - m_047
+  - m_161
+  - m_198
+robot_016:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_213
+  - m_075
+  - m_244
+  - m_214
+  - m_216
+  - m_064
+  - m_064
+  - m_064
+  - m_047
+  - m_035
+  - m_047
+  - m_047
+  - m_216
+robot_017:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_239
+  - m_261
+  - m_130
+  - m_047
+  - m_106
+  - m_060
+  - m_216
+  - m_172
+  - m_172
+  - m_259
+  - m_047
+  - m_240
+  - m_030
+robot_018:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_058
+  - m_130
+  - m_112
+  - m_130
+  - m_138
+  - m_119
+  - m_071
+  - m_060
+  - m_172
+  - m_172
+  - m_259
+  - m_047
+  - m_047
+robot_019:
+  robot_type: QWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_264
+  - m_269
+  - m_214
+  - m_224
+  - m_214
+  - m_075
+  - m_135
+  - m_116
+  - m_230
+  - m_033
+  - m_064
+  - m_216
+  - m_216
+robot_020:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_119
+  - m_049
+  - m_188
+  - m_161
+  - m_048
+  - m_064
+  - m_064
+  - m_024
+  - m_240
+  - m_197
+  - m_115
+  - m_047
+  - m_216
+robot_021:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_067
+  - m_068
+  - m_161
+  - m_161
+  - m_108
+  - m_064
+  - m_216
+  - m_035
+  - m_064
+  - m_240
+  - m_024
+  - m_035
+  - m_064
+robot_022:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_160
+  - m_108
+  - m_203
+  - m_181
+  - m_172
+  - m_064
+  - m_064
+  - m_047
+  - m_240
+  - m_024
+  - m_047
+  - m_216
+  - m_047
+robot_023:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_177
+  - m_050
+  - m_249
+robot_024:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_147
+  - m_086
+  - m_025
+  - m_105
+  - m_261
+  - m_261
+  - m_198
+  - m_230
+  - m_063
+robot_025:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_005
+  - m_026
+  - m_211
+  - m_226
+  - m_196
+  - m_029
+  - m_215
+  - m_000
+  - m_098
+  - m_047
+  - m_068
+  - m_090
+  - m_130
+robot_026:
+  robot_type: QWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_008
+  - m_099
+  - m_062
+  - m_088
+  - m_196
+  - m_261
+  - m_055
+  - m_025
+  - m_067
+  - m_083
+  - m_198
+  - m_198
+  - m_203
+robot_027:
+  robot_type: TWSH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_003
+  - m_063
+  - m_234
+  - m_166
+  - m_250
+  - m_209
+  - m_130
+  - m_099
+  - m_203
+robot_028:
+  robot_type: TWSH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_013
+  - m_133
+  - m_078
+  - m_027
+  - m_194
+  - m_231
+  - m_193
+  - m_083
+  - m_029

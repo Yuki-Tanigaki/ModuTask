@@ -31,14 +31,14 @@ class Simulator:
 
         # 各タスクを一斉に実行
         for _, task in self.tasks.items():
-            # if isinstance(task, Assembly):
-            total_assigned_performance = {attr: 0 for attr in PerformanceAttributes}
-            for robot in task.assigned_robot:
-                for attr, value in robot.type.performance.items():
-                    total_assigned_performance[attr] += value
             if task.update():
                 for robot in task.assigned_robot:
                     self.agents[robot.name].set_state_work(self.scenarios)  # タスクを実行したエージェントのみ
+            # else:
+            #     if not isinstance(task, TransportModule):
+            #         print(task.name)
+            #         print(task.required_performance)
+            #         print(task.assign_robot)
             task.release_robot()
         # 充電を実行
         for _, station in self.simulation_map.charge_stations.items():

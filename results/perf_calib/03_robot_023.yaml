@@ -1,0 +1,375 @@
+robot_000:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_005
+  - m_194
+  - m_245
+  - m_154
+  - m_080
+robot_001:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_180
+  - m_187
+  - m_135
+  - m_207
+  - m_027
+robot_002:
+  robot_type: Dragon
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_139
+  - m_256
+  - m_222
+  - m_121
+  - m_070
+robot_003:
+  robot_type: Dragon
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_144
+  - m_154
+  - m_265
+  - m_134
+  - m_060
+robot_004:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_116
+  - m_134
+  - m_010
+  - m_169
+  - m_063
+  - m_079
+  - m_203
+  - m_064
+  - m_064
+  - m_047
+  - m_035
+  - m_216
+  - m_216
+robot_005:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_229
+  - m_252
+  - m_106
+  - m_229
+  - m_066
+  - m_218
+  - m_169
+  - m_254
+  - m_266
+  - m_061
+  - m_061
+  - m_134
+  - m_169
+robot_006:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_072
+  - m_221
+  - m_168
+robot_007:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_004
+  - m_141
+  - m_066
+  - m_266
+  - m_236
+  - m_180
+  - m_016
+  - m_265
+  - m_265
+  - m_061
+  - m_061
+  - m_010
+  - m_248
+robot_008:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_266
+  - m_267
+  - m_226
+  - m_227
+  - m_046
+  - m_090
+  - m_096
+  - m_212
+  - m_011
+  - m_169
+  - m_248
+  - m_134
+  - m_169
+robot_009:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_015
+  - m_061
+  - m_070
+  - m_152
+  - m_202
+  - m_162
+  - m_050
+  - m_039
+  - m_237
+  - m_221
+  - m_104
+  - m_225
+  - m_147
+robot_010:
+  robot_type: QWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_113
+  - m_018
+  - m_093
+  - m_035
+  - m_163
+  - m_155
+  - m_207
+  - m_218
+  - m_259
+  - m_037
+  - m_100
+  - m_048
+  - m_221
+robot_011:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_010
+  - m_078
+  - m_153
+  - m_081
+  - m_206
+  - m_064
+  - m_241
+  - m_206
+  - m_185
+  - m_265
+  - m_199
+  - m_011
+  - m_011
+robot_012:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_003
+  - m_141
+  - m_106
+  - m_009
+  - m_141
+  - m_154
+  - m_172
+  - m_144
+  - m_134
+  - m_134
+  - m_134
+  - m_169
+  - m_248
+robot_013:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_089
+  - m_035
+  - m_033
+  - m_161
+  - m_035
+  - m_161
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_035
+  - m_033
+robot_014:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_066
+  - m_266
+  - m_267
+  - m_009
+  - m_155
+  - m_061
+  - m_011
+  - m_134
+  - m_134
+  - m_169
+  - m_248
+  - m_068
+  - m_109
+robot_015:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_206
+  - m_076
+  - m_105
+  - m_141
+  - m_144
+  - m_148
+  - m_202
+  - m_061
+  - m_134
+  - m_169
+  - m_248
+  - m_194
+  - m_130
+robot_016:
+  robot_type: Minimal
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_180
+  - m_212
+  - m_048
+robot_017:
+  robot_type: QWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_009
+  - m_238
+  - m_066
+  - m_180
+  - m_180
+  - m_241
+  - m_189
+  - m_208
+  - m_009
+  - m_004
+  - m_169
+  - m_248
+  - m_212
+robot_018:
+  robot_type: TWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_206
+  - m_009
+  - m_227
+  - m_144
+  - m_066
+  - m_267
+  - m_212
+  - m_169
+  - m_169
+  - m_248
+  - m_099
+robot_019:
+  robot_type: TWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_040
+  - m_128
+  - m_169
+  - m_164
+  - m_268
+  - m_258
+  - m_154
+  - m_009
+  - m_260
+  - m_266
+  - m_134
+robot_020:
+  robot_type: QWSH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_027
+  - m_136
+  - m_026
+  - m_034
+  - m_213
+  - m_228
+  - m_235
+  - m_149
+  - m_154
+  - m_249
+  - m_194
+robot_021:
+  robot_type: TWDH
+  coordinate:
+  - 1.0
+  - 1.0
+  component:
+  - m_001
+  - m_079
+  - m_056
+  - m_116
+  - m_032
+  - m_190
+  - m_184
+  - m_265
+  - m_234
+  - m_205
+  - m_267
+robot_022:
+  robot_type: TWDH
+  coordinate:
+  - 2.0
+  - 2.0
+  component:
+  - m_008
+  - m_048
+  - m_110
+  - m_063
+  - m_086
+  - m_146
+  - m_161
+  - m_248
+  - m_225
+  - m_211
+  - m_077
