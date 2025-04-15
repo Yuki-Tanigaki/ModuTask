@@ -100,7 +100,7 @@ m_012:
   - 6.0
   - 8.0
   battery: 5
-  operating_time: 0.0
+  operating_time: 10.0
   state: *id002
 m_013:
   module_type: Limb
@@ -121,10 +121,10 @@ m_014:
 m_015:
   module_type: Limb
   coordinate:
-  - 0.0
-  - 0.0
+  - 6.0
+  - 8.0
   battery: 5
-  operating_time: 5.0
+  operating_time: 15.0
   state: *id002
 m_016:
   module_type: Limb
@@ -137,18 +137,18 @@ m_016:
 m_017:
   module_type: Limb
   coordinate:
-  - 0.0
-  - 0.0
-  battery: 5
-  operating_time: 10.0
+  - 4.2
+  - 5.6
+  battery: 0.0
+  operating_time: 16.0
   state: *id002
 m_018:
   module_type: Limb
   coordinate:
   - 0.0
-  - 0.0
+  - 1.0
   battery: 5
-  operating_time: 10.0
+  operating_time: 26.0
   state: *id002
 m_019:
   module_type: Limb
@@ -169,10 +169,10 @@ m_020:
 m_021:
   module_type: Limb
   coordinate:
-  - 0.0
-  - 0.0
+  - 6.0
+  - 8.0
   battery: 5
-  operating_time: 0.0
+  operating_time: 10.0
   state: *id002
 m_022:
   module_type: Limb
@@ -217,10 +217,10 @@ m_026:
 m_027:
   module_type: Limb
   coordinate:
-  - 6.0
-  - 8.0
+  - 0.0
+  - 5.0
   battery: 5
-  operating_time: 5.0
+  operating_time: 20.0
   state: *id002
 m_028:
   module_type: Limb
@@ -289,10 +289,10 @@ m_035:
 m_036:
   module_type: Limb
   coordinate:
-  - 0.0
+  - -5.0
   - 0.0
   battery: 5
-  operating_time: 10.0
+  operating_time: 12.0
   state: *id002
 m_037:
   module_type: Limb
@@ -305,18 +305,18 @@ m_037:
 m_038:
   module_type: Limb
   coordinate:
-  - 0.0
+  - -5.0
   - 0.0
   battery: 5
-  operating_time: 0.0
+  operating_time: 2.0
   state: *id002
 m_039:
   module_type: Limb
   coordinate:
-  - 0.0
-  - 0.0
-  battery: 5
-  operating_time: 0.0
+  - 4.2
+  - 5.6
+  battery: 4
+  operating_time: 6.0
   state: *id002
 m_040:
   module_type: Limb
@@ -425,10 +425,10 @@ m_052:
 m_053:
   module_type: Limb
   coordinate:
-  - 6.0
-  - 8.0
+  - 0.0
+  - 5.0
   battery: 5
-  operating_time: 0.0
+  operating_time: 15.0
   state: *id002
 m_054:
   module_type: Limb
@@ -524,7 +524,7 @@ m_065:
   - 6.0
   - 8.0
   battery: 5
-  operating_time: 5.0
+  operating_time: 15.0
   state: *id002
 m_066:
   module_type: Limb
@@ -772,7 +772,7 @@ m_096:
   - 6.0
   - 8.0
   battery: 1
-  operating_time: 5.0
+  operating_time: 15.0
   state: *id002
 m_097:
   module_type: EndE
@@ -785,18 +785,18 @@ m_097:
 m_098:
   module_type: EndE
   coordinate:
-  - 6.0
-  - 8.0
+  - 0.0
+  - 5.0
   battery: 1
-  operating_time: 0.0
+  operating_time: 15.0
   state: *id002
 m_099:
   module_type: EndE
   coordinate:
-  - 0.0
-  - 0.0
+  - 6.0
+  - 8.0
   battery: 1
-  operating_time: 10.0
+  operating_time: 20.0
   state: *id002
 m_100:
   module_type: EndE
@@ -849,10 +849,10 @@ m_105:
 m_106:
   module_type: EndE
   coordinate:
-  - 0.0
-  - 0.0
+  - 4.2
+  - 5.6
   battery: 1
-  operating_time: 5.0
+  operating_time: 11.0
   state: *id002
 m_107:
   module_type: EndE
@@ -881,10 +881,10 @@ m_109:
 m_110:
   module_type: EndE
   coordinate:
-  - 0.0
+  - -5.0
   - 0.0
   battery: 1
-  operating_time: 0.0
+  operating_time: 2.0
   state: *id002
 m_111:
   module_type: EndE
@@ -962,10 +962,10 @@ m_120:
   module_type: EndE
   coordinate:
   - 0.0
-  - 0.0
-  battery: 1
-  operating_time: 10.0
-  state: *id002
+  - 1.0
+  battery: 0
+  operating_time: 26.0
+  state: *id001
 m_121:
   module_type: EndE
   coordinate:
@@ -1065,10 +1065,10 @@ m_132:
 m_133:
   module_type: Wheel
   coordinate:
+  - -5.0
   - 0.0
-  - 0.0
-  battery: 15
-  operating_time: 5.0
+  battery: 13
+  operating_time: 7.0
   state: *id002
 m_134:
   module_type: Wheel
@@ -1081,10 +1081,10 @@ m_134:
 m_135:
   module_type: Wheel
   coordinate:
-  - 0.0
-  - 0.0
-  battery: 15
-  operating_time: 5.0
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 15.0
   state: *id002
 m_136:
   module_type: Wheel
@@ -1097,10 +1097,10 @@ m_136:
 m_137:
   module_type: Wheel
   coordinate:
-  - 0.0
-  - 5.0
-  battery: 15
-  operating_time: 5.0
+  - 6.0
+  - 8.0
+  battery: 5
+  operating_time: 15.0
   state: *id002
 m_138:
   module_type: Wheel
@@ -1132,24 +1132,24 @@ m_141:
   - 6.0
   - 8.0
   battery: 15
-  operating_time: 5.0
-  state: *id002
+  operating_time: 15.0
+  state: *id001
 m_142:
   module_type: Wheel
   coordinate:
   - 0.0
-  - 5.0
-  battery: 15
-  operating_time: 10.0
+  - 1.0
+  battery: 0.0
+  operating_time: 26.0
   state: *id002
 m_143:
   module_type: Wheel
   coordinate:
-  - 0.0
-  - 0.0
+  - 6.0
+  - 8.0
   battery: 15
-  operating_time: 10.0
-  state: *id002
+  operating_time: 20.0
+  state: *id001
 m_144:
   module_type: Wheel
   coordinate:
@@ -1233,10 +1233,10 @@ m_153:
 m_154:
   module_type: Wheel
   coordinate:
-  - 0.0
-  - 0.0
+  - 4.2
+  - 5.6
   battery: 15
-  operating_time: 5.0
+  operating_time: 11.0
   state: *id002
 m_155:
   module_type: Wheel
@@ -1289,11 +1289,11 @@ m_160:
 m_161:
   module_type: Wheel
   coordinate:
-  - 0.0
-  - 0.0
+  - 4.2
+  - 5.6
   battery: 15
-  operating_time: 5.0
-  state: *id002
+  operating_time: 11.0
+  state: *id001
 m_162:
   module_type: Wheel
   coordinate:
@@ -1313,10 +1313,10 @@ m_163:
 m_164:
   module_type: Wheel
   coordinate:
-  - 0.0
+  - -5.0
   - 0.0
   battery: 15
-  operating_time: 10.0
+  operating_time: 12.0
   state: *id002
 m_165:
   module_type: Wheel
@@ -1369,18 +1369,18 @@ m_170:
 m_171:
   module_type: Wheel
   coordinate:
-  - 6.0
-  - 8.0
+  - 0.0
+  - 5.0
   battery: 15
-  operating_time: 10.0
+  operating_time: 25.0
   state: *id002
 m_172:
   module_type: Wheel
   coordinate:
-  - 6.0
-  - 8.0
-  battery: 15
-  operating_time: 0.0
+  - 0.0
+  - 5.0
+  battery: 0
+  operating_time: 15.0
   state: *id002
 m_173:
   module_type: Wheel
