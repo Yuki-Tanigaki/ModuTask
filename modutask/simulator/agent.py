@@ -73,19 +73,19 @@ class RobotAgent:
 
     def is_on_site(self) -> bool:
         if self.assigned_task is None:
-            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+            raise_with_log(RuntimeError, f"No task assigned: {self.robot.name}.")
         return is_within_range(self.assigned_task.coordinate, self.robot.coordinate)
 
     def travel(self, scenarios: Optional[list[BaseRiskScenario]]):
         if self.assigned_task is None:
-            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+            raise_with_log(RuntimeError, f"No task assigned: {self.robot.name}.")
         self.state = AgentState.MOVE
         self.robot.travel(self.assigned_task.coordinate)
         self.robot.operate(scenarios=scenarios)
     
     def ready(self):
         if self.assigned_task is None:
-            raise_with_log(RuntimeError, f"No task assigned: {self.name}.")
+            raise_with_log(RuntimeError, f"No task assigned: {self.robot.name}.")
         self.assigned_task.assign_robot(self.robot)
         if isinstance(self.assigned_task, Charge):
             # 充電タスクならエージェントの状態を充電に変更

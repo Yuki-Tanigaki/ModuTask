@@ -23,6 +23,8 @@ class Simulator:
             agent.decide_recharge(self.simulation_map.charge_stations)
             # タスクの割り当て
             agent.update_task(self.tasks)
+            if agent.assigned_task is None:  # 全タスク終了
+                continue
             # 移動が必要なエージェントは移動
             if agent.is_on_site():
                 agent.ready()
@@ -31,6 +33,15 @@ class Simulator:
 
         # 各タスクを一斉に実行
         for _, task in self.tasks.items():
+            # if isinstance(task, Manufacture):
+            #     print(task.name)
+            #     print(task.required_performance)
+            #     print(len(task.assigned_robot))
+            #     total_assigned_performance = {attr: 0 for attr in PerformanceAttributes}
+            #     for robot in task.assigned_robot:
+            #         for attr, value in robot.type.performance.items():
+            #             total_assigned_performance[attr] += value
+            #     print(total_assigned_performance)
             if task.update():
                 for robot in task.assigned_robot:
                     self.agents[robot.name].set_state_work(self.scenarios)  # タスクを実行したエージェントのみ

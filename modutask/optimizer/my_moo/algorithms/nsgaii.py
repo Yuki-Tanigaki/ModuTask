@@ -13,9 +13,11 @@ def fast_non_dominated_sort(individuals: list[Individual]) -> list[list[Individu
     rank = {}
 
     seen = []
+    duplicates = []  # 重複していた個体を記録しておく
     for p in individuals:
         # 重複チェック
         if any(p == q for q in seen):
+            duplicates.append(p)
             p.fitness['rank'] = float('inf')  # 最悪ランクを付与
             continue
 
@@ -50,6 +52,12 @@ def fast_non_dominated_sort(individuals: list[Individual]) -> list[list[Individu
         if next_front:
             fronts.append(next_front)
         i += 1
+    
+    if duplicates:
+        # 最後のフロントとして追加
+        for d in duplicates:
+            d.fitness['rank'] = float('inf')
+        fronts.append(duplicates)
 
     return fronts
 

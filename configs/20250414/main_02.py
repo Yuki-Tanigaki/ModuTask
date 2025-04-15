@@ -43,7 +43,39 @@ def maximal_operating_time(modules: dict[str, Module]) -> float:
     operating_times = np.array([module.operating_time for module in modules.values()])
     return float(max(operating_times))
 
-def objective(order: list[list[str]], modules: dict[str, Module], robots: dict[str, Robot], tasks: dict[str, BaseTask], combined_tasks: dict[str, BaseTask],
+def generate_assembly_task(robots: dict[str, Robot]) -> dict[str, BaseTask]:
+    """ モジュール不足のロボット用の組み立てタスクの追加 """
+    additional_tasks = {}
+    for robot_name, robot in robots.items():
+        task_dependency = []
+        for module in robot.missing_components():
+            required_performance = {}
+            required_performance[PerformanceAttributes.TRANSPORT] = 1.0
+            origin_coordinate = module.coordinate
+            destination_coordinate = robot.coordinate
+            transport_resistance = 1.0
+            v = np.array(destination_coordinate) - np.array(origin_coordinate)
+            total = transport_resistance * np.linalg.norm(v)
+            transport = TransportModule(
+                name=f'transport_{robot_name}_{module.name}', 
+                coordinate=module.coordinate, 
+                required_performance=required_performance,
+                origin_coordinate=origin_coordinate,
+                destination_coordinate=destination_coordinate,
+                transport_resistance=transport_resistance,
+                total_workload=total,
+                completed_workload=0,
+                target_module=module,
+                )
+            additional_tasks[f'transport_{robot_name}_{module.name}'] = transport
+            task_dependency.append(transport)
+        if len(robot.missing_components()) != 0:
+            assembly = Assembly(name=f'assembly_{robot_name}', robot=robot)
+            assembly.initialize_task_dependency(task_dependency=task_dependency)
+            additional_tasks[f'assembly_{robot_name}'] = assembly
+    return additional_tasks
+
+def objective(order: list[list[str]], modules: dict[str, Module], robots: dict[str, Robot], tasks: dict[str, BaseTask], additional_tasks: dict[str, BaseTask],
               risk_scenarios: dict[str, BaseRiskScenario], simulation_map: SimulationMap, max_step: int, training_scenarios) -> list[float]:
     # 残タスク総量　min
     # 残タスク分散　min
@@ -56,36 +88,51 @@ def objective(order: list[list[str]], modules: dict[str, Module], robots: dict[s
         local_modules = clone_module(modules=modules)
         local_robots = clone_robots(robots=robots, modules=local_modules)
         local_tasks = clone_tasks(tasks=tasks, modules=local_modules, robots=local_robots)
-        local_combined_tasks = clone_tasks(tasks=combined_tasks, modules=local_modules, robots=local_robots)
+        local_additional_tasks = clone_tasks(tasks=additional_tasks, modules=local_modules, robots=local_robots)
         local_scenarios = clone_risk_scenarios(risk_scenarios=risk_scenarios)
         local_map = clone_simulation_map(simulation_map=simulation_map)
         task_priorities = {}
         for i, robot_name in enumerate(robots):
             task_priorities[robot_name] = order[i]
         # permutation_of_tasks(task_priorities=task_priorities, tasks=local_combined_tasks, robots=local_robots)
+        local_merged_task = local_tasks | local_additional_tasks
         simulator = Simulator(
-            tasks=local_combined_tasks, 
+            tasks=local_merged_task, 
             robots=local_robots, 
             task_priorities=task_priorities, 
             scenarios=[local_scenarios[scenario_name] for scenario_name in scenario_names],
             simulation_map=local_map,
             )
+        count = max_step * (max_step + 1) // 2 * len(local_robots)
         for current_step in range(max_step):
             simulator.run_simulation()
-            # print()
+            for agent in simulator.agents.values():
+                if agent.robot.state == RobotState.ACTIVE:
+                    count += -1 * (max_step - current_step)
+            # print(current_step)
             # states = [robot.state for robot in local_robots.values()]
             # print(dict(Counter(states)))
             # print(local_combined_tasks)
-        f1.append(float(sum(task.total_workload - task.completed_workload for task in tasks.values())))
+            # print(current_step)
+            # states = [(task.__class__, task.is_completed()) for task in local_combined_tasks.values()]
+            # print(dict(Counter(states)))
+
+        # f1.append(float(sum(task.total_workload - task.completed_workload for task in local_tasks.values())) * 1000 + 
+        #           float(sum(task.total_workload - task.completed_workload for task in local_combined_tasks.values())) )
+        active_ratio = float(count/(max_step * (max_step + 1) // 2 * len(local_robots)))
+        # states = [(task.__class__, task.is_completed()) for task in local_tasks.values()]
+        # print(dict(Counter(states)))
+        f1.append(float(sum(task.total_workload - task.completed_workload for task in local_tasks.values())) + active_ratio)
         f2.append(float(variance_remaining_workload(tasks=local_tasks)))
         f3.append(float(maximal_operating_time(modules=local_modules)))
-    del local_modules, local_robots, local_tasks, local_combined_tasks, local_scenarios, local_map, simulator
+    del local_modules, local_robots, local_tasks, local_additional_tasks, local_scenarios, local_map, simulator
     gc.collect()
+    # print(sum(f1) / len(f1))
     return [sum(f1) / len(f1), 
             sum(f2) / len(f2),
             sum(f3) / len(f3)]
 
-def varidate_results(order: list[list[str]], modules: dict[str, Module], robots: dict[str, Robot], tasks: dict[str, BaseTask], combined_tasks: dict[str, BaseTask],
+def varidate_results(order: list[list[str]], modules: dict[str, Module], robots: dict[str, Robot], tasks: dict[str, BaseTask], additional_tasks: dict[str, BaseTask],
               risk_scenarios: dict[str, BaseRiskScenario], simulation_map: SimulationMap, max_step: int, varidate_scenarios):
     # 残タスク総量　min
     # 残タスク分散　min
@@ -93,22 +140,28 @@ def varidate_results(order: list[list[str]], modules: dict[str, Module], robots:
     local_modules = clone_module(modules=modules)
     local_robots = clone_robots(robots=robots, modules=local_modules)
     local_tasks = clone_tasks(tasks=tasks, modules=local_modules, robots=local_robots)
-    local_combined_tasks = clone_tasks(tasks=combined_tasks, modules=local_modules, robots=local_robots)
+    local_additional_tasks = clone_tasks(tasks=additional_tasks, modules=local_modules, robots=local_robots)
     local_scenarios = clone_risk_scenarios(risk_scenarios=risk_scenarios)
     local_map = clone_simulation_map(simulation_map=simulation_map)
     task_priorities = {}
     for i, robot_name in enumerate(robots):
         task_priorities[robot_name] = order[i]
+    local_merged_task = local_tasks | local_additional_tasks
     simulator = Simulator(
-        tasks=local_combined_tasks, 
+        tasks=local_merged_task, 
         robots=local_robots, 
         task_priorities=task_priorities, 
         scenarios=[local_scenarios[scenario_name] for scenario_name in varidate_scenarios],
         simulation_map=local_map,
         )
+    count = max_step * (max_step + 1) // 2 * len(local_robots)
     for current_step in range(max_step):
         simulator.run_simulation()
-    f1 = float(sum(task.total_workload - task.completed_workload for task in tasks.values()))
+        for agent in simulator.agents.values():
+            if agent.robot.state == RobotState.ACTIVE:
+                count += -1 * (max_step - current_step)
+    active_ratio = float(count/(max_step * (max_step + 1) // 2 * len(local_robots)))
+    f1 = float(sum(task.total_workload - task.completed_workload for task in local_tasks.values())) + active_ratio
     f2 = float(variance_remaining_workload(tasks=local_tasks))
     f3 = float(maximal_operating_time(modules=local_modules))
     return f1, f2, f3, local_modules, local_tasks
@@ -142,7 +195,7 @@ def main():
         tasks = load_tasks(file_path=prop["load"]["task"])
         tasks = load_task_dependency(file_path=prop["load"]['task_dependency'], tasks=tasks)
         has_duplicate_module(robots=robots)
-        combined_tasks = add_assembly_task(tasks=tasks, robots=robots)
+        additional_tasks = generate_assembly_task(robots=robots)
         simulation_map = load_simulation_map(file_path=prop["load"]['map'])
         risk_scenarios = load_risk_scenarios(file_path=prop["load"]['risk_scenario'])
 
@@ -156,7 +209,7 @@ def main():
                 order, 
                 modules=modules, 
                 robots=robots,
-                combined_tasks=combined_tasks,
+                additional_tasks=additional_tasks,
                 tasks=tasks,
                 risk_scenarios=risk_scenarios, 
                 simulation_map=simulation_map,
@@ -164,9 +217,9 @@ def main():
                 training_scenarios=training_scenarios
                 )
             return resutls
-
-        items = sorted([item for item in combined_tasks.keys() if not str(item).startswith('assembly_')])
-        # items = sorted(combined_tasks.keys())
+        
+        merged_task = tasks | additional_tasks
+        items = sorted([item for item in merged_task.keys() if not str(item).startswith('assembly_')])
         encoding = MultiPermutationVariable(items=items, n_multi=len(robots))
 
         algo = NSGAII(
@@ -186,7 +239,7 @@ def main():
                 ind.genome, 
                 modules=modules, 
                 robots=robots,
-                combined_tasks=combined_tasks,
+                additional_tasks=additional_tasks,
                 tasks=tasks,
                 risk_scenarios=risk_scenarios, 
                 simulation_map=simulation_map,

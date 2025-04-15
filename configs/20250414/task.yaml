@@ -4,7 +4,7 @@ t_000:
   - 0.0
   - 0.0
   required_performance: !PerformanceAttributes
-    TRANSPORT: 8.0
+    TRANSPORT: 2.0
     MANUFACTURE: 0.0
     MOBILITY: 0.0
   origin_coordinate:
@@ -22,7 +22,7 @@ t_001:
   - 0.0
   - 0.0
   required_performance: !PerformanceAttributes
-    TRANSPORT: 8.0
+    TRANSPORT: 2.0
     MANUFACTURE: 0.0
     MOBILITY: 0.0
   origin_coordinate:
@@ -40,7 +40,7 @@ t_002:
   - 0.0
   - 0.0
   required_performance: !PerformanceAttributes
-    TRANSPORT: 8.0
+    TRANSPORT: 4.0
     MANUFACTURE: 0.0
     MOBILITY: 0.0
   origin_coordinate:
@@ -58,7 +58,7 @@ t_003:
   - 0.0
   - 0.0
   required_performance: !PerformanceAttributes
-    TRANSPORT: 8.0
+    TRANSPORT: 4.0
     MANUFACTURE: 0.0
     MOBILITY: 0.0
   origin_coordinate:
@@ -95,7 +95,7 @@ t_005:
   - 8.0
   required_performance: !PerformanceAttributes
     TRANSPORT: 0.0
-    MANUFACTURE: 5.0
+    MANUFACTURE: 1.0
     MOBILITY: 0.0
   total_workload: 10.0
   completed_workload: 0.0
@@ -106,7 +106,7 @@ t_006:
   - 5.0
   required_performance: !PerformanceAttributes
     TRANSPORT: 0.0
-    MANUFACTURE: 5.0
+    MANUFACTURE: 2.0
     MOBILITY: 0.0
   total_workload: 10.0
   completed_workload: 0.0
@@ -117,7 +117,7 @@ t_007:
   - 5.0
   required_performance: !PerformanceAttributes
     TRANSPORT: 0.0
-    MANUFACTURE: 5.0
+    MANUFACTURE: 3.0
     MOBILITY: 0.0
   total_workload: 10.0
   completed_workload: 0.0
@@ -128,7 +128,7 @@ t_008:
   - 0.0
   required_performance: !PerformanceAttributes
     TRANSPORT: 0.0
-    MANUFACTURE: 5.0
+    MANUFACTURE: 4.0
     MOBILITY: 0.0
   total_workload: 10.0
   completed_workload: 0.0
