@@ -8,11 +8,11 @@ load:
   risk_scenario: ./configs/20250414/risk_scenario.yaml
   task_priority: ./configs/20250414/task_priority.yaml
 results:
-  robot: ./results/20250414/phase1/robot_{index:03}.yaml
-  task: ./results/20250414/phase1/task.yaml
-  module: ./results/20250414/phase1/module.yaml
-  configuration: ./results/20250414/phase1/configuration.csv
-  scheduling: ./results/20250414/phase1/scheduling.csv
+  robot: ./results/20250414/phase_{phase_index}/robot_{index:03}.yaml
+  task: ./results/20250414/phase_{phase_index}/task.yaml
+  module: ./results/20250414/phase_{phase_index}/module.yaml
+  configuration: ./results/20250414/phase_{phase_index}/configuration.csv
+  scheduling: ./results/20250414/phase_{phase_index}/scheduling.csv
 # figures:
 #   pareto_front: ./figures/perf_calib/01_pareto_front.png
 #   kmeans: ./figures/perf_calib/01_kmeans.png

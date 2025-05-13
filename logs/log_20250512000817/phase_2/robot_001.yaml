@@ -1,0 +1,53 @@
+robot_000:
+  robot_type: Minimal
+  coordinate:
+  - 6.0
+  - 8.0
+  component:
+  - m_098
+  - m_174
+  - m_040
+robot_001:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_133
+  - m_115
+  - m_090
+robot_002:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_099
+  - m_143
+  - m_018
+robot_003:
+  robot_type: TWDH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_000
+  - m_039
+  - m_059
+  - m_064
+  - m_068
+  - m_086
+  - m_105
+  - m_123
+  - m_144
+  - m_164
+  - m_141
+robot_004:
+  robot_type: Minimal
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_120
+  - m_137
+  - m_087

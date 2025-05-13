@@ -1,0 +1,100 @@
+robot_000:
+  robot_type: QWDH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_086
+  - m_039
+  - m_099
+  - m_110
+  - m_135
+  - m_143
+  - m_053
+  - m_043
+  - m_029
+  - m_137
+  - m_155
+  - m_036
+  - m_003
+robot_001:
+  robot_type: QWSH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_008
+  - m_012
+  - m_040
+  - m_022
+  - m_027
+  - m_019
+  - m_100
+  - m_174
+  - m_172
+  - m_171
+  - m_167
+robot_002:
+  robot_type: QWSH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_056
+  - m_087
+  - m_078
+  - m_120
+  - m_133
+  - m_164
+  - m_145
+  - m_177
+  - m_018
+  - m_011
+  - m_015
+robot_003:
+  robot_type: Dragon
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_038
+  - m_106
+  - m_154
+  - m_161
+  - m_021
+robot_004:
+  robot_type: QWSH
+  coordinate:
+  - 0.0
+  - 0.0
+  component:
+  - m_009
+  - m_042
+  - m_052
+  - m_058
+  - m_090
+  - m_117
+  - m_142
+  - m_162
+  - m_173
+  - m_141
+  - m_017
+robot_005:
+  robot_type: QWDH
+  coordinate:
+  - -5.0
+  - 0.0
+  component:
+  - m_047
+  - m_048
+  - m_049
+  - m_059
+  - m_064
+  - m_068
+  - m_105
+  - m_115
+  - m_144
+  - m_152
+  - m_153
+  - m_157
+  - m_000
